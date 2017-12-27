@@ -308,7 +308,7 @@ public class SelfHistoryController {
             List<String> images = image;
             for (String path : images) {
                 if (!path.equals(""))
-                    imageArray.add("http://nju.erivermap.com/web_upload/"+path);
+                    imageArray.add("http://www.ufengtech.xyz/web_upload/"+path);
             }
         }
         return imageArray;
