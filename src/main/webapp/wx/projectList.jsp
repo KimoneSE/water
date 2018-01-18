@@ -9,8 +9,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+//    String path = request.getContextPath();
+    String basePath = "http://www.ufengtech.xyz:80/water/";
+    String appid = "wx680e86c4068403dc";
+    String host = "www.ufengtech.xyz";
 %>
 <html>
 <head>
@@ -89,7 +91,7 @@
     $(".apply_project").click(function () {
        var index=$(".apply_project").index(this);
        var projectId=$(".projectId").eq(index).val();
-       window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2014311796d1a614&redirect_uri=http%3a%2f%2fnju.erivermap.com%2fwater%2finit%2fwx&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+       window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=<%=appid%>&redirect_uri=http%3a%2f%2f<%=host%>%2fwater%2finit%2fwx&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
     });
 </script>
 </html>

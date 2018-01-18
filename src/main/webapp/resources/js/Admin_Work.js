@@ -245,10 +245,10 @@ function  setinitinfo(id) {
             obj.find(".carousel-inner").each(function () {
                 $(this).empty();
                 $(this).append("<div class='item active'>" +
-                    "<img src='http://47.93.34.10/web_upload/" + temp.image[0] + "'></div>");
+                    "<img src='http://www.ufengtech.xyz/web_upload/" + temp.image[0] + "'></div>");
                 for (var i = 1; i < temp.image.length; i++) {
                     $(this).append("<div class='item'>" +
-                        "<img src='http://47.93.34.10/web_upload/" + temp.image[i] + "'></div>");
+                        "<img src='http://www.ufengtech.xyz/web_upload/" + temp.image[i] + "'></div>");
                 }
             })
             obj.find("a[class='time']").html(timeFormatter(temp.applyDate));

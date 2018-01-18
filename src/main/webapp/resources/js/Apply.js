@@ -34,6 +34,7 @@ $("#applyUpload").click(function () {
     projectID = $("#projectID").val();
     var imgUrl = "";
     imgUrl = $("#url").val();
+    var sampleNum = $("#sampleNum").val();
 
     if (projectID == "") {
         alert("请选择项目名称");
@@ -58,7 +59,8 @@ $("#applyUpload").click(function () {
                 "name": name,
                 "waterAddress": waterAddress,
                 "idUser": idUser,
-                "projectID": projectID
+                "projectID": projectID,
+                "sampleNum": sampleNum
             },
             success: function (data) {
                 if (data) {

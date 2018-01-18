@@ -2,6 +2,7 @@ package com.water.dao.Impl;
 
 import com.water.dao.UserDao;
 import com.water.entity.User;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -98,5 +99,16 @@ public class UserDaoImpl implements UserDao{
         Session session = getCurrentSession();
         session.flush();
         session.close();
+    }
+
+    @Override
+    public User findUserByNumber(String number) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from `User` where number="+number);
+        if(query.list()==null||query.list().size() == 0){
+            return null;
+        }else{
+            return (User)query.list().get(0);
+        }
     }
 }

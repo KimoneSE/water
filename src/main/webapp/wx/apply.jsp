@@ -3,8 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <%
-    String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+//    String path = request.getContextPath();
+    String basePath = "http://www.ufengtech.xyz:80/water/";
 %>
 <%  ArrayList<Project> arrayList=(ArrayList)request.getAttribute("projectArray"); %>
 <!DOCTYPE html>
@@ -152,6 +152,17 @@
     </div>
 </div>
 
+<div class="weui-cells weui-cells_vcode">
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">样品数量</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" id="sampleNum" name="sampleNum" pattern="[0-9]*" placeholder="请输入样品数量"/>
+        </div>
+    </div>
+</div>
+
 <div class="weui-cells weui-cells_vcode" id="chooseAddress" href="javascript:;">
     <div class="weui-cell">
         <div class="weui-cell__hd">
@@ -282,7 +293,7 @@
                 //文本框的父级元素
                 var input = document.getElementsByClassName(obj2)[0];
                 //遍历获取到得图片文件
-                var imgUrl = "http://47.93.34.10/web_upload/"+$("#img_userID").val()+"_"+applyDateStr+".jpg";
+                var imgUrl = "http://www.ufengtech.xyz/web_upload/"+$("#img_userID").val()+"_"+applyDateStr+".jpg";
                 var img = document.createElement("img");
                 img.setAttribute("src", imgUrl);
                 var imgAdd = document.createElement("div");

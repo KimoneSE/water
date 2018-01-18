@@ -8,8 +8,10 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class LoginProcessor {
-    private final String appid="wx2014311796d1a614";
-    private final String appSecret="5259ea60a8084e00eb12d78d03fcd28d";
+    private final String appid="wx680e86c4068403dc";
+    private final String appSecret="2ed84e8f2e698384dca90d59f3c862f6";
+//    private final String appid="wx2014311796d1a614";
+//    private final String appSecret="5259ea60a8084e00eb12d78d03fcd28d";
 
     public String getOpenId(String code) throws IOException {
 

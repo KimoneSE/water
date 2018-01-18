@@ -170,6 +170,7 @@ public class wechatApplyController {
         System.out.println(idProject);
         Project project = projectService.findProjectByID(idProject);
         apply.setProject(project);
+        apply.setSampleNum(Integer.parseInt(request.getParameter("sampleNum")));
 //        System.out.println(apply.getNumber());
 //        System.out.println(apply.getAddress());
 //        System.out.println("apply:"+apply.getApplyDate());

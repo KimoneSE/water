@@ -20,6 +20,7 @@ public class Apply {
     private User user;                    //所属用户 多对一单向外键
     private String response;              //拒绝申请的回复
     private Project project;              //所属项目 多对一单向外键
+    private Integer sampleNum;            //样品数量
 
     @Id
     @GeneratedValue
@@ -147,6 +148,15 @@ public class Apply {
 
     public void setProject(Project project){
         this.project = project;
+    }
+
+
+    public Integer getSampleNum() {
+        return sampleNum;
+    }
+
+    public void setSampleNum(Integer sampleNum) {
+        this.sampleNum = sampleNum;
     }
 
 /*

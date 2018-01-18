@@ -11,6 +11,7 @@ public class Project {
     private Integer state;          //项目状态
     private String report;          //项目报告pdf的名称
     private Date date;          //日期
+    private Integer isPrivate;  //项目是否公开
 
     @Id
     @GeneratedValue
@@ -72,5 +73,13 @@ public class Project {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Integer getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(Integer isPrivate) {
+        this.isPrivate = isPrivate;
     }
 }
