@@ -265,8 +265,10 @@ function  setinitinfo(id) {
                     $(this).html(temp.latitude + "°");
                 if (index === 5)
                     $(this).html(temp.waterAddress);
+                if (index === 6)
+                    $(this).html(temp.sampleNum);
                 if (temp.state === 2) {
-                    if (index === 6) {
+                    if (index === 7) {
                         if (temp.response === "")
                             $(this).html("无");
                         else

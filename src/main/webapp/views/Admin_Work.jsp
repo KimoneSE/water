@@ -151,6 +151,10 @@
                                             <span>水域地址：</span>
                                             <span name="name" style="color:#555;">--</span>
                                         </p>
+                                        <p>
+                                            <span>样品数量：</span>
+                                            <span name="name" style="color:#555;">--</span>
+                                        </p>
                                     </div>
                                     <div id="myCarousel" class="carousel slide">
                                         <!-- 轮播（Carousel）指标 -->
@@ -224,6 +228,10 @@
                                             <span>水域地址：</span>
                                             <span name='name' style="color:#555;">--</span>
                                         </p>
+                                        <p>
+                                            <span>样品数量：</span>
+                                            <span name='name' style="color:#555;">--</span>
+                                        </p>
                                     </div>
 
                                     <div id="myCarousel2" class="carousel slide">
@@ -293,6 +301,10 @@
                                         <p>
                                             <span>水域地址：</span>
                                             <span name='name' style="color:#555;">--</span>
+                                        </p>
+                                        <p>
+                                            <span>样品数量：</span>
+                                            <span name="name" style="color:#555;">--</span>
                                         </p>
                                         <p>
                                             <span>拒绝原因：</span>
