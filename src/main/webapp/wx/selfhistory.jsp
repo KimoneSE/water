@@ -5,7 +5,8 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
-    String url = request.getScheme()+"://"+ request.getServerName()+request.getRequestURI();
+    String url = (String)session.getAttribute("selfHistoryURL");
+//    String url = "http://www.ufengtech.xyz/water/user/joaz40w6i3l-FRm0d_e7LuqtPoElA/history";
     if(request.getQueryString() != null) {
         url += "?" + request.getQueryString();
     }
@@ -20,7 +21,6 @@
     <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
     <script src="<%=basePath%>resources/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-
     <style>
         #sampleList{
             background-color: #1c94c4;
@@ -283,11 +283,11 @@
         var isChecked = 0;
         onConcreteApply(index, isChecked);
     });
-    $('.checked_message').click(function () {
-        var index = $('.checked_message').index(this);
-        var isChecked = 1;
-        onConcreteApply(index, isChecked);
-    });
+//    $('.checked_message').click(function () {
+//        var index = $('.checked_message').index(this);
+//        var isChecked = 1;
+//        onConcreteApply(index, isChecked);
+//    });
     $('.upload_pass').click(function () {
         var index = $('.upload_pass').index(this);
         onUpload(index);

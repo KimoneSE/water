@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class SelfHistoryController {
      * @param response
      */
     @RequestMapping("/wx/history")
-    public void wxAccessToHistory(HttpServletRequest request, HttpServletResponse response){
+    public void wxAccessToHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session){
         String code=request.getParameter("code");
         Integer type=Integer.parseInt(request.getParameter("type"));
         LoginProcessor loginProcessor=new LoginProcessor();
@@ -71,6 +72,8 @@ public class SelfHistoryController {
             }else{
                 url="../j"+openID+"/history?type="+type;
             }
+            String selfHistoryURL = "http://www.ufengtech.xyz/water/user/j"+openID+"/history";
+            session.setAttribute("selfHistoryURL",selfHistoryURL);
             try {
                 response.sendRedirect(url);
             } catch (IOException e) {
@@ -86,7 +89,7 @@ public class SelfHistoryController {
      * @return
      */
     @RequestMapping("/j{userID}/history")
-    public ModelAndView getSelfHistory(@PathVariable String userID,HttpServletRequest request) {
+    public ModelAndView getSelfHistory(@PathVariable String userID, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("../wx/selfhistory");
         int type=Integer.parseInt(request.getParameter("type"));
         modelAndView.addObject("type",type);
