@@ -1,6 +1,7 @@
 package com.water.service.Impl;
 
 import com.water.dao.ApplyDao;
+import com.water.dao.SampleDao;
 import com.water.dao.UploadDao;
 import com.water.entity.Apply;
 import com.water.service.ApplyService;
@@ -17,6 +18,9 @@ public class ApplyServiceImpl implements ApplyService {
     private ApplyDao applyDao;
 
     @Autowired
+    private SampleDao sampleDao;
+
+    @Autowired
     private UploadDao uploadDao;
 
     @Override
@@ -24,6 +28,7 @@ public class ApplyServiceImpl implements ApplyService {
         if (applyDao.get(id) == null)
             return false;
         applyDao.delete(id);
+        sampleDao.deleteSampleByApplyID(id);
         return true;
     }
 
@@ -42,8 +47,7 @@ public class ApplyServiceImpl implements ApplyService {
         List<Apply> applyList=applyDao.findApplyById(userid);
         ArrayList<Apply> resultlist=new ArrayList<Apply>();
         if(state.equals("待审核")){
-            for (Apply temp:applyList
-                 ) {
+            for (Apply temp:applyList) {
                 if(temp.getState()==0){
                     resultlist.add(temp);
                 }
@@ -51,9 +55,9 @@ public class ApplyServiceImpl implements ApplyService {
 
         }
         else if(state.equals("已审核")){
-            for (Apply temp:applyList
-                    ) {
-                if((temp.getState()==1||temp.getState()==2)&&uploadDao.findSampleById(temp.getIdApply())==null){
+            for (Apply temp:applyList) {
+//                (temp.getState()==1||temp.getState()==2)&&uploadDao.findSampleById(temp.getIdApply())==null
+                if(temp.getState()==1){
                     resultlist.add(temp);
                 }
             }
@@ -88,6 +92,11 @@ public class ApplyServiceImpl implements ApplyService {
             return  true;
         }
 
+    }
+
+    @Override
+    public Apply getApplyByID(long id) {
+        return applyDao.getApplyByID(id);
     }
 
     @Override

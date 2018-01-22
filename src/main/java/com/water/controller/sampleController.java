@@ -151,7 +151,7 @@ public class sampleController {
         ArrayList<Sample> samples = uploadService.findAll();
         ArrayList<String> sampleIDs = new ArrayList<String>();
         for(Sample temp:samples){
-            sampleIDs.add(String.valueOf(temp.getIdSample()+""));
+            sampleIDs.add(String.valueOf(temp.getSampleID()+""));
         }
         log.info("test1");
         log.info("test2");

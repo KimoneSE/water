@@ -40,8 +40,7 @@ public class UploadServiceImpl implements UploadService {
     public ArrayList<Sample> alreadySample(String userid) {
         ArrayList<Sample> resultlist = new ArrayList<Sample>();
         List<Apply> list = applyDao.findApplyById(userid);
-        for (Apply temp : list
-                ) {
+        for (Apply temp : list) {
             Sample sample=uploadDao.findSampleById(temp.getIdApply());
             if (sample!=null){
                 resultlist.add(sample);
@@ -128,20 +127,22 @@ public class UploadServiceImpl implements UploadService {
     @Override
     public void addTxt(Sample sample) {
         try {
+            long applyID = sample.getApplyID();
+            Apply apply = applyDao.getApplyByID(applyID);
             // FileOutputStream file1 = new FileOutputStream("F:\\拙劣工程师\\water\\src\\main\\webapp\\resources\\txt\\new.txt");
-            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getIdSample() + ".txt");
+            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSampleID() + ".txt");
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(file1, "utf-8");
-            String id = "样本编号： " + sample.getIdSample() + "\r\n";
-            String name = "申请人姓名： " + sample.getApply().getName() + "\r\n";
-            String applyid = "申请编号：  " + sample.getApply().getIdApply() + "\r\n";
-            String applytime = "申请时间： " + sample.getApply().getApplyDate() + "\r\n";
+            String id = "样本编号： " + sample.getSampleID() + "\r\n";
+            String name = "申请人姓名： " + apply.getName() + "\r\n";
+            String applyid = "申请编号：  " + apply.getIdApply() + "\r\n";
+            String applytime = "申请时间： " + apply.getApplyDate() + "\r\n";
             String sampletime = "采样时间： " + sample.getSampleDate() + "\r\n";
             String remark = "备注： " + sample.getRemark() + "\r\n";
             String volume = "体积： " + sample.getVolume() + "\r\n";
-            String phone = "联系方式： " + sample.getApply().getNumber() + "\r\n";
-            String address = "水域地址： " + sample.getApply().getWaterAddress() + "\r\n";
-            String lon = "经度： " + sample.getApply().getLongitude() + "\r\n";
-            String lan = "纬度： " + sample.getApply().getLatitude() + "\r\n";
+            String phone = "联系方式： " + apply.getNumber() + "\r\n";
+            String address = "水域地址： " + apply.getWaterAddress() + "\r\n";
+            String lon = "经度： " + apply.getLongitude() + "\r\n";
+            String lan = "纬度： " + apply.getLatitude() + "\r\n";
             oStreamWriter.write(id);
             oStreamWriter.write(name);
             oStreamWriter.write(applyid);

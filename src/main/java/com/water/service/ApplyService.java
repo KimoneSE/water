@@ -68,4 +68,11 @@ public interface ApplyService {
      * @return
      */
     public boolean updateState(Long idApply,Integer state,String responce );
+
+    /**
+     * 根据applyid找到apply
+     * @param id
+     * @return
+     */
+    public Apply getApplyByID(long id);
 }

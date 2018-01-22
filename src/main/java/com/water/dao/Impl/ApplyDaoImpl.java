@@ -203,4 +203,11 @@ public class ApplyDaoImpl implements ApplyDao {
         }
     }
 
+    @Override
+    public Apply getApplyByID(long id) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Apply where idApply="+id);
+        return (Apply) query.list().get(0);
+    }
+
 }

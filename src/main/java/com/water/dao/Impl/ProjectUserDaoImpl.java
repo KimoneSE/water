@@ -15,9 +15,15 @@ public class ProjectUserDaoImpl implements ProjectUserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    private Session getCurrentSession() {
+        return this.sessionFactory.openSession();
+    }
+
     @Override
     public void add(ProjectUser projectUser) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getCurrentSession();
         session.save(projectUser);
+        session.flush();
+        session.close();
     }
 }

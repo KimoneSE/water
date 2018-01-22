@@ -30,4 +30,11 @@ public interface ApplyDao extends  DaoUtil<Apply,Long>{
      * @return
      */
     public Apply getApplyByLocation(double longi,double lati);
+
+    /**
+     * 根据applyid找到apply
+     * @param id
+     * @return
+     */
+    public Apply getApplyByID(long id);
 }

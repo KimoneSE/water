@@ -1,7 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.water.util.JsSignUtil" %>
+<%@ page import="java.util.Map" %>
 <%
-//    String path = request.getContextPath();
-    String basePath = "http://www.ufengtech.xyz:80/water/";
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String url = request.getScheme()+"://"+ request.getServerName()+request.getRequestURI();
+    if(request.getQueryString() != null) {
+        url += "?" + request.getQueryString();
+    }
+    Map<String, String> ret = JsSignUtil.sign(url.split("#")[0]);
 %>
 <html lang="en">
 <head>
@@ -11,6 +19,15 @@
     <!-- 引入 WeUI -->
     <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
     <script src="<%=basePath%>resources/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <style>
+        #sampleList{
+            background-color: #1c94c4;
+            color: white;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <input type="hidden" id="userID" value="${userID}"/>
@@ -36,6 +53,7 @@
         <div id="unchecked_tab_panel" style="display: none;margin-bottom: 5%">
         </div>
         <div id="checked_tab_panel" style="display: none;margin-bottom: 5%">
+            <div class="weui_cell" id='sampleList'>样品列表</div>
         </div>
         <div id="sampling_tab_panel" style="display: none;;margin-bottom: 5%">
         </div>
@@ -159,28 +177,30 @@
     function loadChecked(goods) {
         var result = "<div class='checked_item' style='padding-left: 4%;padding-right:4%;padding-top: 2.6%;" +
             "color: grey;font-size: 15px;'>";
-        if (goods.state === 1) {
-            result += "<div class='checked_message' style='width: 90%;float: left'>";
-        } else if (goods.state === 2) {
-            result += "<div class='checked_message' style='width: 100%'>";
-        }
-        result += "<p>水域地址：<label style='color: black'>" + goods.waterAddress + "</label></p>" +
-            "<p>所属项目：<label style='color: black'>" + goods.project.name + "</label></p>";
-        if (goods.state === 1) {
-            result += "<p>审核状态：<img src='<%=basePath%>resources/img/pass.png' style='width: 15px'/>" +
-                "<label style='color: green'>已通过（材料已寄出）</label></p>";
-        } else if (goods.state === 2) {
-            result += "<p>审核状态：<img src='<%=basePath%>resources/img/reject.png' style='width: 15px'/>" +
-                "<label style='color: red'>已拒绝</label></p>";
-        }
-        result+="<p>审核反馈：<label style='color: black'>" + goods.response + "</label></div>";
-        if (goods.state === 1) {
-            result += "<div style='height:15%;float: right;padding-left: 2%;border-left: 1px;" +
-                "border-left-style: dashed;margin-bottom: 3%'>" +
-                "<br/>" +
-                "<img class='upload_pass' src='<%=basePath%>resources/img/upload.png' style='width:25px;position: relative;top:9%'/></div>";
-        }
-        result += "</div><hr style='width: 100%'>";
+        result += "<div class='checked_message' style='width: 100%'>";
+//        if (goods.state === 1) {
+//            result += "<div class='checked_message' style='width: 90%;float: left'>";
+//        } else if (goods.state === 2) {
+//            result += "<div class='checked_message' style='width: 100%'>";
+//        }
+        result += "<p>所属项目：<label style='color: black'>" + goods.project.name + "</label></p>" +
+            "<p>样品点位：<label style='color: black'>" + goods.waterAddress + "</label></p>";
+        result += '<a style="float: right; margin-right: 2%;"  id="scanQRCode">扫码上传信息</a>';
+        <%--if (goods.state === 1) {--%>
+            <%--result += "<p>审核状态：<img src='<%=basePath%>resources/img/pass.png' style='width: 15px'/>" +--%>
+                <%--"<label style='color: green'>已通过（材料已寄出）</label></p>";--%>
+        <%--} else if (goods.state === 2) {--%>
+            <%--result += "<p>审核状态：<img src='<%=basePath%>resources/img/reject.png' style='width: 15px'/>" +--%>
+                <%--"<label style='color: red'>已拒绝</label></p>";--%>
+        <%--}--%>
+        <%--result+="<p>审核反馈：<label style='color: black'>" + goods.response + "</label></div>";--%>
+        <%--if (goods.state === 1) {--%>
+            <%--result += "<div style='height:15%;float: right;padding-left: 2%;border-left: 1px;" +--%>
+                <%--"border-left-style: dashed;margin-bottom: 3%'>" +--%>
+                <%--"<br/>" +--%>
+                <%--"<img class='upload_pass' src='<%=basePath%>resources/img/upload.png' style='width:25px;position: relative;top:9%'/></div>";--%>
+        <%--}--%>
+        result += "</div></div><hr style='width: 100%'>";
         return result;
     }
 
@@ -209,6 +229,50 @@
     }
 
     var basePath="<%=basePath%>";
+
+    <%
+
+//        String url = request.getScheme()+"://"+ request.getServerName()+request.getRequestURI();
+//        if(request.getQueryString() != null) {
+//            url += "?" + request.getQueryString();
+//        }
+//        Map<String, String> ret = JsSignUtil.sign(url.split("#")[0]);
+    %>
+
+    wx.config({
+        debug: false,
+        appId: '<%=ret.get("appId")%>',
+        timestamp: '<%=ret.get("timestamp")%>',
+        nonceStr: '<%=ret.get("nonceStr")%>',
+        signature: '<%=ret.get("signature")%>',
+        jsApiList : [ 'checkJsApi', 'scanQRCode' ]
+    });
+
+    wx.error(function (res) {
+        alert('<%=ret%>');
+        alert("出错了：" + res.errMsg);
+    });
+
+    wx.ready(function () {
+        wx.checkJsApi({
+            jsApiList : ['scanQRCode'],
+            success : function (res) {
+            }
+        });
+
+        document.querySelector('#scanQRCode').onclick = function () {
+            wx.scanQRCode({
+                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    alert(result);
+                }
+            });
+        };
+
+    });
+
     var deleteIndex;
     $(".delete_unchecked").click(function () {
         deleteIndex = $(".delete_unchecked").index(this);

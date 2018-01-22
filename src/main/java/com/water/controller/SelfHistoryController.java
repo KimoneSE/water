@@ -6,10 +6,7 @@ import com.water.entity.Apply;
 import com.water.entity.Result;
 import com.water.entity.Sample;
 import com.water.entity.User;
-import com.water.service.ApplyService;
-import com.water.service.ResultService;
-import com.water.service.UploadService;
-import com.water.service.UserService;
+import com.water.service.*;
 import com.water.util.LoginProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +34,9 @@ public class SelfHistoryController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private SampleService sampleService;
 
     @Autowired
     UploadService uploadService;
@@ -138,7 +138,11 @@ public class SelfHistoryController {
         JSONArray jsonArray = new JSONArray();
         ArrayList<Apply> applyArrayList = applyService.findCheckedApply(userID, "已审核");
         for (Apply apply1 : applyArrayList) {
-            jsonArray.add(apply1);
+            long applyID = apply1.getIdApply();
+            int sampleNum = sampleService.countInvalidSample(applyID);
+            for(int i = 0; i < sampleNum; i++) {
+                jsonArray.add(apply1);
+            }
         }
         return jsonArray;
     }
@@ -152,17 +156,19 @@ public class SelfHistoryController {
     @ResponseBody
     public JSONArray getSamplingHistory(@PathVariable String userID) {
         JSONArray jsonArray = new JSONArray();
-        ArrayList<Sample> sampleArrayList = uploadService.alreadySample(userID);
+        List<Sample> sampleArrayList = sampleService.alreadySample(userID);
         for (Sample sample : sampleArrayList) {
             JSONObject object = new JSONObject();
-            object.put("waterAddress", sample.getApply().getWaterAddress());
-            object.put("longitude", sample.getApply().getLongitude());
-            object.put("latitude", sample.getApply().getLatitude());
-            object.put("project", sample.getApply().getProject().getName());
+            long applyID = sample.getApplyID();
+            Apply apply = applyService.getApplyByID(applyID);
+            object.put("waterAddress", apply.getWaterAddress());
+            object.put("longitude", apply.getLongitude());
+            object.put("latitude", apply.getLatitude());
+            object.put("project", apply.getProject().getName());
             object.put("volume", sample.getVolume());
             object.put("remark", sample.getRemark());
             object.put("sampleDate", sdf.format(sample.getSampleDate()));
-            object.put("sampleID", sample.getIdSample());
+            object.put("sampleID", sample.getSampleID());
             object.put("state", sample.getState());
             jsonArray.add(object);
         }
@@ -231,10 +237,10 @@ public class SelfHistoryController {
         modelAndView.addObject("userID", userID);
         ArrayList<Sample> sampleArrayList = uploadService.alreadySample(userID);
         Sample sample = sampleArrayList.get(index);
-        Apply apply = sample.getApply();
+        Apply apply = applyService.getApplyByID(sample.getApplyID());
         modelAndView.addObject("sampleDate", sample.getSampleDate());
         modelAndView.addObject("sampleVolume", sample.getVolume());
-        modelAndView.addObject("sampleID", sample.getIdSample());
+        modelAndView.addObject("sampleID", sample.getSampleID());
         modelAndView.addObject("sampleRemark", sample.getRemark());
         modelAndView.addObject("state", sample.getState());
         modelAndView.addObject("response",apply.getResponse());
@@ -261,7 +267,7 @@ public class SelfHistoryController {
         modelAndView.addObject("address", apply.getAddress());
         //实验结果
         if (sample.getState() == 2) {
-            Result result = resultService.findResultByID(sample.getIdSample());
+            Result result = resultService.findResultByID(sample.getSampleID());
             ArrayList<String> resultImage = imageArray(result.getImage());
             modelAndView.addObject("resultImage",resultImage);
             modelAndView.addObject("resultDescription",result.getDescription());

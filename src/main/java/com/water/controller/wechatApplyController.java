@@ -2,11 +2,13 @@ package com.water.controller;
 
 import com.water.entity.Apply;
 import com.water.entity.Project;
+import com.water.entity.Sample;
 import com.water.entity.User;
 import com.water.service.ApplyService;
 import com.water.service.Impl.ApplyServiceImpl;
 import com.water.service.Impl.UserServiceImpl;
 import com.water.service.ProjectService;
+import com.water.service.SampleService;
 import com.water.service.UserService;
 import com.water.util.LoginProcessor;
 import net.sf.json.JSONObject;
@@ -55,6 +57,9 @@ public class wechatApplyController {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    private SampleService sampleService;
 
     @RequestMapping("/init/wx")
     public void wxAccessToHistory(HttpServletRequest request, HttpServletResponse response){
@@ -170,18 +175,17 @@ public class wechatApplyController {
         System.out.println(idProject);
         Project project = projectService.findProjectByID(idProject);
         apply.setProject(project);
-        apply.setSampleNum(Integer.parseInt(request.getParameter("sampleNum")));
-//        System.out.println(apply.getNumber());
-//        System.out.println(apply.getAddress());
-//        System.out.println("apply:"+apply.getApplyDate());
-//        System.out.println(apply.getState());
-//        System.out.println(apply.getImage());
-//        System.out.println(apply.getName());
-//        System.out.println(apply.getWaterAddress());
-//        System.out.println(userId);f
-//        System.out.println(apply.getResponse());
-//        System.out.println(apply.getProject().getName());
+        int sampleNum = Integer.parseInt(request.getParameter("sampleNum"));
+        apply.setSampleNum(sampleNum);
         boolean f = applyService.addApply(apply);
+
+        for(int i = 0; i < sampleNum; i++) {
+            Sample sample = new Sample();
+            sample.setApplyID(apply.getIdApply());
+            sample.setState(-1);
+            sampleService.add(sample);
+        }
+
         log.error("!!!" + "上传是否成功？"+f+ "!!!");
 //        System.out.println(f);
         return f;

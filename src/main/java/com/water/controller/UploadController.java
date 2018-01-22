@@ -3,6 +3,7 @@ package com.water.controller;
 import com.water.entity.Apply;
 import com.water.entity.Sample;
 import com.water.service.ApplyService;
+import com.water.service.SampleService;
 import com.water.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,9 @@ public class UploadController {
 
     @Autowired
     ApplyService applyService;
+
+    @Autowired
+    private SampleService sampleService;
 
     @Autowired
     UploadService uploadService;
@@ -112,14 +116,16 @@ public class UploadController {
         String sample_remark = request.getParameter("sample_remark");
         Apply apply=applyService.searchApplication(Long.parseLong(applyID));
         //构造一个Sample对象
-        Sample sample=new Sample();
-        sample.setApply(apply);
+        Sample sample = sampleService.getInvalidSampleByApplyID(Long.parseLong(applyID));
+//        sample.setApply(apply);
         sample.setSampleDate(sample_date);
         sample.setVolume(sample_volume);
-        sample.setIdSample(sampleID);
+        sample.setSampleID(sampleID);
         sample.setRemark(sample_remark);
         sample.setState(0);
         //往数据库添加一个sample
+        //TODO
+        sampleService.update(sample);
         return uploadService.addUpload(sample);
 //        return true;
     }
