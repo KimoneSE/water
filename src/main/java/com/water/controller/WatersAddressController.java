@@ -21,8 +21,10 @@ public class WatersAddressController {
      * @return
      */
     @RequestMapping("")
-    public ModelAndView waterAddressPage(){
+    public ModelAndView waterAddressPage(HttpSession session){
         ModelAndView modelAndView=new ModelAndView("../wx/confirm_address");
+        String waterAddressURL = "http://www.ufengtech.xyz/water/address/waters";
+        session.setAttribute("waterAddressURL",waterAddressURL);
         return modelAndView;
     }
 

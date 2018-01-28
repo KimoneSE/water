@@ -93,7 +93,7 @@ public class wechatApplyController {
     }
 
     @RequestMapping("/init/j{userID}")
-    public ModelAndView uploadApply(@PathVariable String userID){
+    public ModelAndView uploadApply(@PathVariable String userID, HttpSession session){
         ModelAndView modelAndView = new ModelAndView("../wx/apply");
         String userName = "";
         String contact = "";
@@ -119,6 +119,8 @@ public class wechatApplyController {
         address = user.getAddress();
         modelAndView.addObject("address",address);
         modelAndView.addObject("projectArray",p);
+        String applyURL = "http://www.ufengtech.xyz/water/init/j"+userID;
+        session.setAttribute("applyURL",applyURL);
         return modelAndView;
     }
 

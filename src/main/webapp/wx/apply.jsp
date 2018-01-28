@@ -1,13 +1,22 @@
 <%@ page import="com.water.entity.Project" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map"%>
+<%@ page import="com.water.util.JsSignUtil"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
-%>
-<%  ArrayList<Project> arrayList=(ArrayList)request.getAttribute("projectArray"); %>
+    ArrayList<Project> arrayList=(ArrayList)request.getAttribute("projectArray");
+    String url = (String)session.getAttribute("applyURL");
+    //String url = request.getScheme() + "://" + request.getServerName() + request.getRequestURI();
+    // 注意这里的坑
+    if (request.getQueryString() != null) {
+        url = url + "?" + request.getQueryString();
+    }
+    // URL要取#号之前！！！
+    Map<String, String> ret = JsSignUtil.sign(url.split("#")[0]);%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +30,7 @@
     <script type="text/javascript" src="../resources/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-form.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 
     <style type="text/css">
         body{
@@ -92,7 +102,39 @@
 //            window.close();
             window.location.href="../wx/confirmReciptInfo.html?name="+name+"&contact="+contact+"&add="+add;
         }
+
         function load(){
+            wx.config({
+                debug: false,
+                appId: '<%=ret.get("appId")%>',
+                timestamp:'<%=ret.get("timestamp")%>',
+                nonceStr:'<%=ret.get("nonceStr")%>',
+                signature:'<%=ret.get("signature")%>',
+                jsApiList : [ 'checkJsApi', 'openLocation', 'getLocation' ]
+            });
+
+            wx.error(function(res) {
+                alert('<%=ret%>');
+                alert("出错了：" + res.errMsg);
+            });
+
+            wx.ready(function() {
+                wx.getLocation({
+                    type : 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    success : function(res) {
+                        var latitude = res.latitude;
+                        var longitude =res.longitude;
+                        var concrete_address = "经度"+longitude+" 纬度"+latitude;
+                        alert(concrete_address)
+                        $.cookie('concrete_address', concrete_address, {path: '/'});
+                        $("#river_place").val("经度"+longitude+" 纬度"+latitude);
+                    },
+                    fail : function(error) {
+                        AlertUtil.error("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
+                    }
+                });
+            });
+
             var url = window.location.href;
             var param = split(url);
             var name = document.getElementById("name");
@@ -139,17 +181,17 @@
     <a href="javascript:;" class="weui-btn weui-btn_default" id="chooseProject"><span id="projectName">选择项目</span></a>
 </div>
 
-<div class="weui-cells weui-cells_vcode" id="chooseRiver" onclick="onClickWaterAddr()" href="javascript:;">
+<div class="weui-cells weui-cells_vcode" id="chooseRiver" href="javascript:;">
     <div class="weui-cell">
         <div class="weui-cell__hd">
             <label class="weui-label">水域地址</label>
         </div>
         <div class="weui-cell__bd">
-            <label class="weui-input" id="river_place" name="river_place" value="">请选择水域地址</label>
+            <label class="weui-input" id="river_place" name="river_place" value="">请输入水域地址</label>
         </div>
-        <div class="weui-cell__ft" img>
-            <img src="../resources/img/rightArrow2.png" style="width:10px;margin-left:5px;margin-right: 5px;">
-        </div>
+        <%--<div class="weui-cell__ft" img>--%>
+            <%--<img src="../resources/img/rightArrow2.png" style="width:10px;margin-left:5px;margin-right: 5px;">--%>
+        <%--</div>--%>
     </div>
 </div>
 
