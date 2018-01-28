@@ -187,18 +187,20 @@ public class SelfHistoryController {
     @RequestMapping("/j{userID}/history/apply")
     @ResponseBody
     public ModelAndView selfHistoryApply(@PathVariable String userID, HttpServletRequest request) {
-        int index = Integer.parseInt(request.getParameter("index"));
-        int isChecked = Integer.parseInt(request.getParameter("isChecked"));
+//        int index = Integer.parseInt(request.getParameter("index"));
+//        int isChecked = Integer.parseInt(request.getParameter("isChecked"));
+        long applyID = Long.parseLong(request.getParameter("applyID"));
         ModelAndView modelAndView = new ModelAndView("../wx/selfhistory_apply");
         modelAndView.addObject("userID", userID);
-        modelAndView.addObject("index", index);
-        ArrayList<Apply> applyArrayList = null;
-        if (isChecked == 0) {
-            applyArrayList = applyService.findCheckedApply(userID, "待审核");
-        } else {
-            applyArrayList = applyService.findCheckedApply(userID, "已审核");
-        }
-        Apply apply = applyArrayList.get(index);
+//        modelAndView.addObject("index", index);
+//        ArrayList<Apply> applyArrayList = null;
+//        if (isChecked == 0) {
+//            applyArrayList = applyService.findCheckedApply(userID, "待审核");
+//        } else {
+//            applyArrayList = applyService.findCheckedApply(userID, "已审核");
+//        }
+        Apply apply = applyService.searchApplication(applyID);
+//                applyArrayList.get(index);
         modelAndView.addObject("project", apply.getProject().getName());
         modelAndView.addObject("waterAddress", apply.getWaterAddress());
         String latitude = String.valueOf(Math.abs(apply.getLatitude()));
@@ -287,10 +289,11 @@ public class SelfHistoryController {
     @RequestMapping("/j{userID}/history/apply/delete")
     @ResponseBody
     public boolean deleteApply(@PathVariable String userID, HttpServletRequest request) {
-        int index = Integer.parseInt(request.getParameter("index"));
-        ArrayList<Apply> applyArrayList = applyService.findCheckedApply(userID, "待审核");
-        long deleteID = applyArrayList.get(index).getIdApply();
-        return applyService.deleteApply(deleteID);
+//        int index = Integer.parseInt(request.getParameter("index"));
+        long applyID = Long.parseLong(request.getParameter("applyID"));
+//        ArrayList<Apply> applyArrayList = applyService.findCheckedApply(userID, "待审核");
+//        long deleteID = applyArrayList.get(index).getIdApply();
+        return applyService.deleteApply(applyID);
 //        return true;
     }
 

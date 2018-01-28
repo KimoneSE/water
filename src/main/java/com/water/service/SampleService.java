@@ -10,11 +10,17 @@ import java.util.List;
 public interface SampleService {
     public void add(Sample sample);
 
-    public void update(Sample sample);
+    public boolean update(Sample sample);
 
     public Sample getInvalidSampleByApplyID(long applyID);
 
     public List<Sample> alreadySample(String userID);
 
     public  int countInvalidSample(long applyID);
+
+    public Sample getSampleBySampleID(long sampleID);
+
+    public List<Sample> findAll();
+
+    public int judgeByID(long sampleID);
 }

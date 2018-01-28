@@ -8,16 +8,12 @@ $("#sample_time").on('input propertychange', function () {
 $("#sample_volume").on('input propertychange', function () {
     checkFullfill();
 });
-$("#sample_number").on('input propertychange', function () {
-    checkFullfill();
-});
 $("#sample_remark").on('input propertychange', function () {
     checkFullfill();
 });
 
 function checkFullfill() {
-    if($("#sample_time").val()===""||$("#sample_volume").val()===""||$("#sample_number").val()===""
-        ||$("#sample_remark").val()===""){
+    if($("#sample_time").val()===""||$("#sample_volume").val()===""||$("#sample_remark").val()===""){
         $("#upload_but").addClass("weui-btn_disabled");
         return;
     }
@@ -35,8 +31,9 @@ $("#upload_but").click(function () {
         url:"j+"+sampleID+"/confirm",
         type:'get',
         async:false,
-        data:{"sample_time":$("#sample_time").val(),"sample_volume":$("#sample_volume").val(),
-            "sample_number":$("#sample_number").val(),"sample_remark":$("#sample_remark").val()},
+        data:{"sample_time":$("#sample_time").val(), "sample_volume":$("#sample_volume").val(),
+            "temperature":$("#temperature").html(), "weather":$("#weather").html(),
+            "sample_number":$("#sample_number").html(), "sample_remark":$("#sample_remark").val()},
         success:function (data) {
             if(data){
                 // toast

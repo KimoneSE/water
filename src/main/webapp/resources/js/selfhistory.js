@@ -52,21 +52,21 @@ function confirmDelete() {
     });
 }
 
-function onUpload(index) {
+function onUpload(index,result) {
     $.ajax({
         url: "history/jumpToUpload",
         type: 'get',
         async: false,
         data: {"index": index},
         success: function (uploadID) {
-            window.location.href=basePath+"upload/j"+uploadID;
+            window.location.href=basePath+"upload/j"+uploadID+"?sampleID="+result;
         }
     });
 }
 
 var userID = $("#userID").val();
-function onConcreteApply(index, isChecked) {
-    window.location.href = "history/apply?index=" + index + "&isChecked=" + isChecked;
+function onConcreteApply(applyID) {
+    window.location.href = "history/apply?applyID=" + applyID;
 }
 
 function onConcreteSample(index) {

@@ -53,27 +53,50 @@
     </div>
 </div>
 <!--申请采样的信息-->
-<div class="weui-form-preview">
-    <div class="weui-form-preview__bd">
-        <p>
-            <label class="weui-form-preview__label">采样地点名称</label>
-            <span class="weui-form-preview__value">${waterAddress}</span>
-        </p>
-        <p>
-            <label class="weui-form-preview__label">采样位置</label>
-            <span class="weui-form-preview__value">${latitude}, ${longitude}</span>
-        </p>
-    </div>
-</div>
+<%--<div class="weui-form-preview">--%>
+    <%--<div class="weui-form-preview__bd">--%>
+        <%--<p>--%>
+            <%--<label class="weui-form-preview__label">采样地点名称</label>--%>
+            <%--<span class="weui-form-preview__value">${waterAddress}</span>--%>
+        <%--</p>--%>
+        <%--<p>--%>
+            <%--<label class="weui-form-preview__label">采样位置</label>--%>
+            <%--<span class="weui-form-preview__value">${latitude}, ${longitude}</span>--%>
+        <%--</p>--%>
+    <%--</div>--%>
+<%--</div>--%>
 <div class="fill-in-info">
     <form>
-        <div class="weui-cells__title">补充信息</div>
         <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">采样人</label></div>
+                <div class="weui-cell__bd weui-cell_primary">
+                    <label class="weui-label">${username}</label>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">样品编号</label></div>
+                <div class="weui-cell_primary">
+                    <label class="weui-label" id="sample_number">${sampleID}</label>
+                </div>
+            </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">采样时间</label></div>
                 <div class="weui-cell__bd">
                     <input id="sample_time" class="weui-input" type="datetime-local" required="true" value="${curTime}"
                            placeholder=""/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">采样地点</label></div>
+                <div class="weui_cell_primary">
+                    <label class="weui-label">${longitude}, ${latitude}</label>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">地点名称</label></div>
+                <div class=" weui_cell_primary">
+                    <label class="weui-label">${waterAddress}</label>
                 </div>
             </div>
             <div class="weui-cell">
@@ -86,11 +109,17 @@
                     <p>mL</p>
                 </div>
             </div>
+            <div class="weui-cells__title">现场天气</div>
             <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">采样编号</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">温度</label></div>
                 <div class="weui-cell__bd">
-                    <input id="sample_number" class="weui-input" type="number" pattern="[0-9]*" required="true"
-                           placeholder="见采样器编号"/>
+                    <label class="weui-label" id="temperature">${temperature}℃</label>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">天气</label></div>
+                <div class="weui-cell__bd">
+                    <label class="weui-label" id="weather">${weather}</label>
                 </div>
             </div>
         </div>

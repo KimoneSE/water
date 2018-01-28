@@ -99,7 +99,7 @@
                 <h1>SAMPLING INFO/</h1>
                 <p>采样信息</p>
             </div>
-            <div class=" list-switch" style="margin-right:20px; margin-top:10px;"><ul><li id="show-list" class=""></li><li id="show-info" class="active"></li></ul></div>
+            <%--<div class=" list-switch" style="margin-right:20px; margin-top:10px;"><ul><li id="show-list" class=""></li><li id="show-info" class="active"></li></ul></div>--%>
         </div>
     </div>
 </div>
@@ -370,7 +370,7 @@
 <script src="//cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/js/Admin_work_sample.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/Admin_Work_Samplelist.js"></script>
+<%--<script src="${pageContext.request.contextPath}/resources/js/Admin_Work_Samplelist.js"></script>--%>
 
 
 </body>

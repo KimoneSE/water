@@ -2,6 +2,8 @@ package com.water.dao;
 
 import com.water.entity.Sample;
 
+import java.util.List;
+
 /**
  * Created by Kimone.
  */
@@ -16,7 +18,7 @@ public interface SampleDao {
      * 更新sample对象
      * @param sample
      */
-    public void update(Sample sample);
+    public boolean update(Sample sample);
 
     /**
      * 根据applyID获取一个state为-1的sample对象
@@ -44,4 +46,13 @@ public interface SampleDao {
      * @param applyID
      */
     public void deleteSampleByApplyID(long applyID);
+
+    /**
+     * 根据样品编号查找样品
+     * @param sampleID
+     * @return
+     */
+    public Sample getSampleBySampleID(long sampleID);
+
+    public List<Sample> findAll();
 }

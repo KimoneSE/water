@@ -10,7 +10,9 @@ import com.water.entity.Sample;
 import com.water.service.ApplyService;
 import com.water.service.Impl.ApplyServiceImpl;
 import com.water.service.ResultService;
+import com.water.service.SampleService;
 import com.water.service.UploadService;
+import com.water.vo.SampleVO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,11 @@ public class sampleController {
     private ResultService resultService;
     @Autowired
     private UploadService uploadService;
+    @Autowired
+    private SampleService sampleService;
+    @Autowired
+    private ApplyService applyService;
+
     /**
      * @param request
      * @return 上传实验结果的图片
@@ -148,7 +155,7 @@ public class sampleController {
     @ResponseBody
     public void getSampleID(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        ArrayList<Sample> samples = uploadService.findAll();
+        List<Sample> samples = sampleService.findAll();
         ArrayList<String> sampleIDs = new ArrayList<String>();
         for(Sample temp:samples){
             sampleIDs.add(String.valueOf(temp.getSampleID()+""));
@@ -185,13 +192,32 @@ public class sampleController {
     public void getSample(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("id");
         Long id1 = Long.valueOf(id);
-        Sample sample = uploadService.searchSample(id1);
+        Sample sample = sampleService.getSampleBySampleID(id1);
         if(sample!=null){
-            uploadService.addTxt(sample);}
-        JSONObject object = JSONObject.fromObject(sample);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(object.toString());
+            Apply apply = applyService.searchApplication(sample.getApplyID());
+            SampleVO vo = convert2VO(sample,apply);
+            uploadService.addTxt(sample);
+            JSONObject object = JSONObject.fromObject(vo);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(object.toString());
+        }else {
+            JSONObject object = JSONObject.fromObject(null);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(object.toString());
+        }
+    }
 
+    private SampleVO convert2VO(Sample sample, Apply apply) {
+        SampleVO vo = new SampleVO();
+        vo.setRemark(sample.getRemark());
+        vo.setSampleDate(sample.getSampleDate());
+        vo.setSampleID(sample.getSampleID());
+        vo.setState(sample.getState());
+        vo.setTemperature(sample.getTemperature());
+        vo.setVolume(sample.getVolume());
+        vo.setWeather(sample.getWeather());
+        vo.setApply(apply);
+        return vo;
     }
     /**
      * @param request
@@ -203,7 +229,7 @@ public class sampleController {
     public void sampleResultTest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("id");
         Long id1 = Long.valueOf(id);
-        int res = uploadService.judgeByID(id1);
+        int res = sampleService.judgeByID(id1);
         response.getWriter().print(String.valueOf(res));
 
     }
@@ -217,11 +243,17 @@ public class sampleController {
     @RequestMapping("/getSampleList")
     public void getSampleList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        ArrayList<Sample> samples = uploadService.findAll();
+        List<Sample> samples = sampleService.findAll();
         log.error("asdk");
         if (samples.size() > 0)
             uploadService.addTxt(samples.get(0));
-        JSONArray array = JSONArray.fromObject(samples);
+        List<SampleVO> vos = new ArrayList<>();
+        for(Sample sample : samples) {
+            Apply apply = applyService.searchApplication(sample.getApplyID());
+            SampleVO vo = convert2VO(sample,apply);
+            vos.add(vo);
+        }
+        JSONArray array = JSONArray.fromObject(vos);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(array.toString());
     }

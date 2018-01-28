@@ -5,6 +5,7 @@ import com.water.entity.Sample;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,11 +32,20 @@ public class SampleDaoImpl implements SampleDao {
     }
 
     @Override
-    public void update(Sample sample) {
+    public boolean update(Sample sample) {
         Session session = getCurrentSession();
-        session.update(sample);
-        session.flush();
-        session.close();
+        Transaction tx = session.beginTransaction();
+        boolean flag = false;
+        try {
+            session.update(sample);
+            tx.commit();
+            flag = true;
+        } catch (Exception ex) {
+            tx.rollback();
+        } finally {
+            session.close();
+        }
+        return flag;
     }
 
     @Override
@@ -75,6 +85,28 @@ public class SampleDaoImpl implements SampleDao {
         Query query = session.createQuery("delete from Sample where applyID="+applyID);
         query.executeUpdate();
         session.close();
+    }
+
+    @Override
+    public Sample getSampleBySampleID(long sampleID) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Sample where sampleID="+sampleID);
+        List list = query.list();
+        session.close();
+        if(list.size()!=0){
+            Sample sample = (Sample)list.get(0);
+            return sample;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Sample> findAll() {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Sample ");
+        List<Sample> list = query.list();
+        session.close();
+        return list;
     }
 
 }

@@ -79,6 +79,17 @@
         <p class="weui-toast__content">已删除</p>
     </div>
 </div>
+<!--alert-->
+<div style="display: none;" id="alert">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></div>
+        <div class="weui-dialog__bd">该样本编号的样品已上传</div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" onclick="hideAlert()" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+        </div>
+    </div>
+</div>
 </body>
 <script src="<%=basePath%>resources/js/selfhistory.js"></script>
 <script>
@@ -177,15 +188,16 @@
     function loadChecked(goods) {
         var result = "<div class='checked_item' style='padding-left: 4%;padding-right:4%;padding-top: 2.6%;" +
             "color: grey;font-size: 15px;'>";
-        result += "<div class='checked_message' style='width: 100%'>";
+        var applyID = goods.idApply;
+        result += "<div class='checked_message' onclick='getCheckedDetail("+applyID+")' style='width: 100%'>";
 //        if (goods.state === 1) {
 //            result += "<div class='checked_message' style='width: 90%;float: left'>";
 //        } else if (goods.state === 2) {
 //            result += "<div class='checked_message' style='width: 100%'>";
 //        }
         result += "<p>所属项目：<label style='color: black'>" + goods.project.name + "</label></p>" +
-            "<p>样品点位：<label style='color: black'>" + goods.waterAddress + "</label></p>";
-        result += '<a style="float: right; margin-right: 2%;"  id="scanQRCode">扫码上传信息</a>';
+            "<p>样品点位：<label style='color: black'>" + goods.waterAddress + "</label></p></div>";
+        result += '<a style="float: right; margin-right: 2%;"  class="scanQRCode">扫码上传信息</a>';
         <%--if (goods.state === 1) {--%>
             <%--result += "<p>审核状态：<img src='<%=basePath%>resources/img/pass.png' style='width: 15px'/>" +--%>
                 <%--"<label style='color: green'>已通过（材料已寄出）</label></p>";--%>
@@ -200,7 +212,7 @@
                 <%--"<br/>" +--%>
                 <%--"<img class='upload_pass' src='<%=basePath%>resources/img/upload.png' style='width:25px;position: relative;top:9%'/></div>";--%>
         <%--}--%>
-        result += "</div></div><hr style='width: 100%'>";
+        result += "</div><hr style='width: 100%'>";
         return result;
     }
 
@@ -230,48 +242,63 @@
 
     var basePath="<%=basePath%>";
 
-    <%
-
-//        String url = request.getScheme()+"://"+ request.getServerName()+request.getRequestURI();
-//        if(request.getQueryString() != null) {
-//            url += "?" + request.getQueryString();
-//        }
-//        Map<String, String> ret = JsSignUtil.sign(url.split("#")[0]);
-    %>
-
-    wx.config({
-        debug: false,
-        appId: '<%=ret.get("appId")%>',
-        timestamp: '<%=ret.get("timestamp")%>',
-        nonceStr: '<%=ret.get("nonceStr")%>',
-        signature: '<%=ret.get("signature")%>',
-        jsApiList : [ 'checkJsApi', 'scanQRCode' ]
+    $('.scanQRCode').click(function () {
+        var index = $(".scanQRCode").index(this);
+        scan(index);
     });
 
-    wx.error(function (res) {
-        alert('<%=ret%>');
-        alert("出错了：" + res.errMsg);
-    });
-
-    wx.ready(function () {
-        wx.checkJsApi({
-            jsApiList : ['scanQRCode'],
-            success : function (res) {
-            }
+    function scan(index) {
+        wx.config({
+            debug: false,
+            appId: '<%=ret.get("appId")%>',
+            timestamp: '<%=ret.get("timestamp")%>',
+            nonceStr: '<%=ret.get("nonceStr")%>',
+            signature: '<%=ret.get("signature")%>',
+            jsApiList : [ 'checkJsApi', 'scanQRCode' ]
         });
 
-        document.querySelector('#scanQRCode').onclick = function () {
+        wx.error(function (res) {
+            alert('<%=ret%>');
+            alert("出错了：" + res.errMsg);
+        });
+
+        wx.ready(function () {
+            wx.checkJsApi({
+                jsApiList : ['scanQRCode'],
+                success : function (res) {
+                }
+            });
+
             wx.scanQRCode({
                 needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                 scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                 success: function (res) {
                     var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                    alert(result);
+                    $.ajax({
+                        url: "http://www.ufengtech.xyz/water/getSample",
+                        type: "post",
+                        async: false,
+                        data:{"id":result},
+                        success: function (data) {
+                            var obj = $.parseJSON(data);
+                            if(obj!==null){
+                                $("#alert").show();
+                            }
+                            else {
+                                onUpload(index,result);
+                            }
+                        }
+                    })
+
                 }
             });
-        };
 
-    });
+        });
+    }
+
+    function getCheckedDetail(applyID) {
+        onConcreteApply(applyID);
+    }
 
     var deleteIndex;
     $(".delete_unchecked").click(function () {
@@ -284,6 +311,7 @@
         onConcreteApply(index, isChecked);
     });
 //    $('.checked_message').click(function () {
+//
 //        var index = $('.checked_message').index(this);
 //        var isChecked = 1;
 //        onConcreteApply(index, isChecked);
@@ -297,5 +325,8 @@
         onConcreteSample(index);
     });
 
+    function hideAlert() {
+        $("#alert").hide();
+    }
 </script>
 </html>

@@ -40,6 +40,8 @@ $("#applyUpload").click(function () {
         alert("请选择项目名称");
     } else if (waterAddress == "" || waterAddress == "请选择水域地址") {
         alert("请选择水域地址");
+    } else if (sampleNum == ""){
+        alert("请输入样品数量");
     } else if ($("#file").val() == "") {
         alert("请上传河流图片");
     } else {

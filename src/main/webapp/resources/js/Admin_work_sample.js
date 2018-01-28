@@ -62,9 +62,9 @@ $(function () {
     });
     function  sampleScro(list) {
         $("#scro4").find("li").remove();
-        $("#scro4").append("<li class='active'><a onclick='sampleClick(this)'>"+list[0].idSample+"</a><span class='fa fa-angle-right'></span></li>")
+        $("#scro4").append("<li class='active'><a onclick='sampleClick(this)'>"+list[0].sampleID+"</a><span class='fa fa-angle-right'></span></li>")
         for(var i =1;i<list.length;i++){
-            $("#scro4").append("<li class=''><a onclick='sampleClick(this)'>"+list[i].idSample+"</a><span class='fa fa-angle-right'></span></li>")
+            $("#scro4").append("<li class=''><a onclick='sampleClick(this)'>"+list[i].sampleID+"</a><span class='fa fa-angle-right'></span></li>")
         }
     }
 
@@ -74,14 +74,14 @@ function  setSampleInfo(temp) {
         url: "./getSampleResult",
         type: "post",
         async: false,
-        data:{"idSample":temp.idSample},
+        data:{"idSample":temp.sampleID},
         success: function (data) {
             $("#sample-result").html(data);
             $("#reason").val(data);
 
         }
     });
-    $("#sample").html(temp.idSample);
+    $("#sample").html(temp.sampleID);
     $(".sample_time").html(timeFormatter1(temp.sampleDate));
     $("#content4").find("span[name='name']").each(function (index) {
         if(index===0)
@@ -121,8 +121,8 @@ function  setSampleInfo(temp) {
         }
 
 
-        $("#downlo1").attr("href","/samples/"+temp.idSample+".txt");
-        $("#downlo1").attr("download",temp.idSample+".txt");
+        $("#downlo1").attr("href","/samples/"+temp.sampleID+".txt");
+        $("#downlo1").attr("download",temp.sampleID+".txt");
 
     })
     $("#content4").find("ol").each(function () {

@@ -5,6 +5,8 @@ import com.water.entity.Sample;
 import com.water.service.ApplyService;
 import com.water.service.SampleService;
 import com.water.service.UploadService;
+import com.water.util.WeatherUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 上传采样信息页面的controller
@@ -28,6 +31,7 @@ import java.util.List;
 @RequestMapping("/upload")
 public class UploadController {
 
+    private Logger logger = Logger.getLogger(UploadController.class);
     @Autowired
     ApplyService applyService;
 
@@ -45,8 +49,11 @@ public class UploadController {
      * @return
      */
     @RequestMapping("/j{applyID}")
-    public ModelAndView uploadSamplePage(@PathVariable String applyID, HttpServletRequest request) {
+    public ModelAndView uploadSamplePage(@PathVariable String applyID, HttpServletRequest request) throws Exception {
         ModelAndView modelAndView = new ModelAndView("../wx/upload_sampling_info");
+        //设置采样编号
+        long sampleID = Long.parseLong(request.getParameter("sampleID"));
+        modelAndView.addObject("sampleID", sampleID);
         //设置当前时间
         Date date = new Date();
         String timeStr = sdf.format(date);
@@ -59,13 +66,13 @@ public class UploadController {
 //        apply.setWaterAddress("123");apply.setLongitude(12.0);
 //        apply.setLatitude(23.0);apply.setImage("/resources/img/delete.png");
         modelAndView.addObject("waterAddress", apply.getWaterAddress());
-        String latitude = String.valueOf(Math.abs(apply.getLatitude()));
+        String latitude = String.format("%.3f", Math.abs(apply.getLatitude()));
         if (apply.getLatitude() >= 0) {
             modelAndView.addObject("latitude", "北纬" + latitude + "度");
         } else {
             modelAndView.addObject("latitude", "南纬" + latitude + "度");
         }
-        String longitude = String.valueOf(Math.abs(apply.getLongitude()));
+        String longitude = String.format("%.3f",Math.abs(apply.getLongitude()));
         if (apply.getLongitude() >= 0) {
             modelAndView.addObject("longitude", "东经" + longitude + "度");
         } else {
@@ -88,6 +95,15 @@ public class UploadController {
 //        modelAndView.addObject("userID",userID);
         String userID=apply.getUser().getIdUser();
         modelAndView.addObject("userID",userID);
+        modelAndView.addObject("username", apply.getName());
+        //获取天气
+        String real_longitude = String.format("%.2f", apply.getLongitude());
+        String real_latitude = String.format("%.2f", apply.getLatitude());
+
+        Map<String, String> map  = WeatherUtil.getWeather("nanjing");
+        modelAndView.addObject("temperature", map.get("temperature"));
+        modelAndView.addObject("weather", map.get("weather"));
+
         return modelAndView;
     }
 
@@ -114,19 +130,19 @@ public class UploadController {
         Double sample_volume = Double.parseDouble(request.getParameter("sample_volume"));
         long sampleID = Long.parseLong(request.getParameter("sample_number"));
         String sample_remark = request.getParameter("sample_remark");
-        Apply apply=applyService.searchApplication(Long.parseLong(applyID));
+        String weather = request.getParameter("weather");
+        double temperature = Double.parseDouble(request.getParameter("temperature"));
+//        Apply apply=applyService.searchApplication(Long.parseLong(applyID));
         //构造一个Sample对象
         Sample sample = sampleService.getInvalidSampleByApplyID(Long.parseLong(applyID));
-//        sample.setApply(apply);
         sample.setSampleDate(sample_date);
         sample.setVolume(sample_volume);
         sample.setSampleID(sampleID);
         sample.setRemark(sample_remark);
         sample.setState(0);
-        //往数据库添加一个sample
-        //TODO
-        sampleService.update(sample);
-        return uploadService.addUpload(sample);
-//        return true;
+        sample.setTemperature(temperature);
+        sample.setWeather(weather);
+
+        return sampleService.update(sample);
     }
 }

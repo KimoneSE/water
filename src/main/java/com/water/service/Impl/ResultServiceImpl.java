@@ -2,6 +2,7 @@ package com.water.service.Impl;
 
 import com.water.dao.ApplyDao;
 import com.water.dao.ResultDao;
+import com.water.dao.SampleDao;
 import com.water.dao.UploadDao;
 import com.water.entity.Apply;
 import com.water.entity.Result;
@@ -24,6 +25,9 @@ public class ResultServiceImpl implements ResultService {
 
     @Autowired
     private ApplyDao applyDao;
+
+    @Autowired
+    private SampleDao sampleDao;
 
     @Override
     public boolean addResult(Result result) {
@@ -53,7 +57,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Result getResultbyLocation(double longitude, double latitude) {
         Apply apply=applyDao.getApplyByLocation(longitude,latitude);
-        Sample sample=uploadDao.findSampleById(apply.getIdApply());
+        Sample sample=sampleDao.getValidSampleByApplyID(apply.getIdApply());
         Result result=resultDao.get(sample.getSampleID());
         return result;
     }

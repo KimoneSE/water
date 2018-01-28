@@ -30,8 +30,8 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public void update(Sample sample) {
-        sampleDao.update(sample);
+    public boolean update(Sample sample) {
+        return sampleDao.update(sample);
     }
 
     @Override
@@ -55,5 +55,28 @@ public class SampleServiceImpl implements SampleService{
     @Override
     public int countInvalidSample(long applyID) {
         return sampleDao.countInvalidSample(applyID);
+    }
+
+    @Override
+    public Sample getSampleBySampleID(long sampleID) {
+        return sampleDao.getSampleBySampleID(sampleID);
+    }
+
+    @Override
+    public List<Sample> findAll() {
+        return sampleDao.findAll();
+    }
+
+    @Override
+    public int judgeByID(long sampleID) {
+        int state = -1;
+        Sample sample = sampleDao.getSampleBySampleID(sampleID);
+        if(sample==null) {
+            state = -1;
+        }
+        else {
+            state=sample.getState();
+        }
+        return state;
     }
 }

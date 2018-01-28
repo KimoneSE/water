@@ -123,7 +123,7 @@ function  setlist(data) {
         }
         $("#tbody").append("<tr>"+
             "<td style='width:80px;'><input id='checkbox"+i+"' name='checkbox1' type='checkbox'><label for='checkbox"+i+"'></label></td>"+
-           " <td name='sampleid' style='width:140px'>"+data[i].idSample+"</td>"+
+           " <td name='sampleid' style='width:140px'>"+data[i].sampleID+"</td>"+
             "<td style='width:140px;'>"+data[i].volume+"</td>"+
         "<td style='width:200px;'>"+data[i].apply.waterAddress+"</td>"+
             "<td style='width:180px;'>"+data[i].apply.project.name+"</td>"+
@@ -183,7 +183,7 @@ function clickbut() {
     $("#csv").click;
 }
 function  additem(temp) {
-    var str = temp.idSample+","+temp.volume+","+temp.apply.waterAddress+","+temp.idSample+","+timeFormatter1(temp.sampleDate)+","+temp.idSample+"\n";
+    var str = temp.sampleID+","+temp.volume+","+temp.apply.waterAddress+","+temp.sampleID+","+timeFormatter1(temp.sampleDate)+","+temp.sampleID+"\n";
     return str
 }
 

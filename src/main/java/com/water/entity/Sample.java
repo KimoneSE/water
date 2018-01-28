@@ -12,6 +12,8 @@ public class Sample {
     private String remark;      //备注
     private long applyID;        //申请编号 对应apply表的主键
     private Integer state;      //样本状态 包括处理中1 已上传实验结果2 未收取0 初始状态-1
+    private double temperature; //温度
+    private String weather;     //天气
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +71,22 @@ public class Sample {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     @Override

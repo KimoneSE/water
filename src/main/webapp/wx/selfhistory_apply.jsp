@@ -27,7 +27,7 @@
 </head>
 <body style="background-color: white">
 <input type="hidden" id="userID" value="${userID}"/>
-<input type="hidden" id="index" value="${index}"/>
+<%--<input type="hidden" id="index" value="${index}"/>--%>
 <input type="hidden" id="applyID" value="${applyID}"/>
 <div class="uploaded-imgs" style="margin-bottom: 5%">
     <div class="weui-cells__title">已传图片</div>
@@ -108,7 +108,7 @@
     <%if(state==0){%>
     <a onclick="deleteApply()" href="javascript:;" class="weui-btn weui-btn_warn">删除</a>
     <%}else if(state==1){%>
-    <a onclick="uploadSample()" href="javascript:;" class="weui-btn weui-btn_primary">上传采样信息</a>
+    <%--<a onclick="uploadSample()" href="javascript:;" class="weui-btn weui-btn_primary">上传采样信息</a>--%>
     <%}%>
 </div>
 <!--toast-->
@@ -123,12 +123,12 @@
 <script>
     var userID=$("#userID").val();
     function deleteApply() {
-        var index=$("#index").val();
+        var applyID=$("#applyID").val();
          $.ajax({
              url:"apply/delete",
              type:'get',
              async:false,
-             data:{"index":index},
+             data:{"applyID":applyID},
              success:function (data) {
                  if(data){
                      // toast
