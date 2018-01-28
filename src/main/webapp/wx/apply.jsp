@@ -125,9 +125,8 @@
                         var latitude = res.latitude;
                         var longitude =res.longitude;
                         var concrete_address = "经度"+longitude+" 纬度"+latitude;
-                        alert(concrete_address)
-                        $.cookie('concrete_address', concrete_address, {path: '/'});
-                        $("#river_place").val("经度"+longitude+" 纬度"+latitude);
+                        // $.cookie('concrete_address', concrete_address, {path: '/'});
+                        $("#river_place").html("经度"+longitude+"<br>纬度"+latitude);
                     },
                     fail : function(error) {
                         AlertUtil.error("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
@@ -148,9 +147,9 @@
             }
             var useCook1 = $.cookie('ret3');
             if (useCook1 == '1') {
-                $("#longitude").val($.cookie('longitude'));
-                $("#latitude").val($.cookie('latitude'));
-                $("#river_place").text($.cookie('concrete_address'));
+                // $("#longitude").val($.cookie('longitude'));
+                // $("#latitude").val($.cookie('latitude'));
+                // $("#river_place").text($.cookie('concrete_address'));
             }
             else if (param != null && param.length == 3) {
                 name.innerHTML = decodeURI(param[0]);

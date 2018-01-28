@@ -38,8 +38,8 @@ $("#applyUpload").click(function () {
 
     if (projectID == "") {
         alert("请选择项目名称");
-    } else if (waterAddress == "") {
-        alert("请选择水域地址");
+    } else if (waterAddress == "" || waterAddress == "请选择水域地址") {
+        alert("请打开定位");
     } else if (sampleNum == ""){
         alert("请输入样品数量");
     } else if ($("#file").val() == "") {
