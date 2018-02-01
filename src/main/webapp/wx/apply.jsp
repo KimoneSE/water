@@ -31,6 +31,7 @@
     <script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-form.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=X6CxGSyvVtNop7RGgaVAGtyWzM4xpYiG"></script>
 
     <style type="text/css">
         body{
@@ -124,9 +125,23 @@
                     success : function(res) {
                         var latitude = res.latitude;
                         var longitude =res.longitude;
-                        var concrete_address = "经度"+longitude+" 纬度"+latitude;
+                        var concrete_address
+                        // $("#river_place").html("经度"+longitude+"<br>纬度"+latitude);
+
+                        var point = new BMap.Point(longitude, latitude);
+                        var gc = new BMap.Geocoder();
+                        gc.getLocation(point, function(rs){
+                            var addComp = rs.addressComponents;
+                            concrete_address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            // alert(concrete_address);
+                            $("#longitude").val(longitude);
+                            $("#latitude").val(latitude);
+                            $("#river_place").text(concrete_address);
+                        });
+                        // $.cookie('ret3', '1', {path: '/'});
+                        // $.cookie('longitude', longitude, {path: '/'});
+                        // $.cookie('latitude', latitude, {path: '/'});
                         // $.cookie('concrete_address', concrete_address, {path: '/'});
-                        $("#river_place").html("经度"+longitude+"<br>纬度"+latitude);
                     },
                     fail : function(error) {
                         AlertUtil.error("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
@@ -145,12 +160,12 @@
                 contact.innerHTML=$.cookie('tel');
                 add.innerHTML = $.cookie('add2');
             }
-            var useCook1 = $.cookie('ret3');
-            if (useCook1 == '1') {
-                // $("#longitude").val($.cookie('longitude'));
-                // $("#latitude").val($.cookie('latitude'));
-                // $("#river_place").text($.cookie('concrete_address'));
-            }
+            // var useCook1 = $.cookie('ret3');
+            // if (useCook1 == '1') {
+            //     $("#longitude").val($.cookie('longitude'));
+            //     $("#latitude").val($.cookie('latitude'));
+            //     $("#river_place").text($.cookie('concrete_address'));
+            // }
             else if (param != null && param.length == 3) {
                 name.innerHTML = decodeURI(param[0]);
                 contact.innerHTML = param[1];
