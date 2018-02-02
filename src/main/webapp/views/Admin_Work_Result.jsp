@@ -119,7 +119,7 @@
 
                 <div id="show-sample" class="col-xs-6 col-sm-5" style="display: block;">
                     <a class="pull-left label-pon">样本编号：</a>
-                    <input id="tags" class="ui-autocomplete-input" autocomplete="off">
+                    <input id="tags" type="number" class="ui-autocomplete-input" autocomplete="off">
 
                 </div>
 
@@ -258,16 +258,19 @@
             }
             else {
                 if($("#tags-project").val()==""){
-                    alert("项目名称未填写");
+                    alert("请填写项目名称");
                 }
                 else{
                     $.ajax({
                         url:"./uploadProjectResult",
                         type:"POST",
-                        data:{"project":$("#tags-project").val(),"projectname":projectname},
+                        data:{"project":$("#tags-project").val()},
                         success:function (data) {
-                            alert(data);
-                            $("#file-1").fileinput("upload");
+                            if(data!="success"){
+                                alert(data);
+                            }else {
+                                $("#file-1").fileinput("upload");
+                            }
                         }
                     })
                 }
@@ -288,12 +291,12 @@
         previewFileIcon: "",
         uploadExtraData: function (previewId, index) {
             var data={
-                "project" : projectname,
-            }
+                "filename" : projectname, "projectName":$("#tags-project").val()
+            };
             return data;
         },
     }).on("fileuploaded", function(event, data) {
-        if($("#tags").val()=="")
+        if($("#tags-project").val()=="")
         {
             alert("标号未填写上传失败");
         }

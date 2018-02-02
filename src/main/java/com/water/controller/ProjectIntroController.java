@@ -36,7 +36,7 @@ public class ProjectIntroController {
         for(int i=0;i<p.size();i++){
             projectNames.add(p.get(i).getName());
         }
-        Project firstProject = projectService.findProjectByName("一般申请");
+        Project firstProject = p.get(0);
         ModelAndView modelAndView = new ModelAndView("../public/projectIntro");
         if(firstProject != null){
             if(firstProject.getName() != null){

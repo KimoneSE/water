@@ -54,5 +54,8 @@ public interface SampleDao {
      */
     public Sample getSampleBySampleID(long sampleID);
 
+
+    public List<Sample> getSamplesByApplyID(long applyID);
+
     public List<Sample> findAll();
 }

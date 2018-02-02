@@ -71,6 +71,15 @@ public class SampleDaoImpl implements SampleDao {
     }
 
     @Override
+    public List<Sample> getSamplesByApplyID(long applyID) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Sample where applyID="+applyID+" and state!=-1");
+        List list = query.list();
+        session.close();
+        return list;
+    }
+
+    @Override
     public int countInvalidSample(long applyID) {
         Session session = getCurrentSession();
         Query query = session.createQuery("select count(*) from Sample where applyID="+applyID+" and state=-1");
@@ -103,7 +112,7 @@ public class SampleDaoImpl implements SampleDao {
     @Override
     public List<Sample> findAll() {
         Session session = getCurrentSession();
-        Query query = session.createQuery("from Sample ");
+        Query query = session.createQuery("from Sample where state!=-1");
         List<Sample> list = query.list();
         session.close();
         return list;

@@ -40,8 +40,8 @@ public class sampleController {
     protected Logger log = Logger.getLogger(sampleController.class);
     @Autowired
     private ResultService resultService;
-    @Autowired
-    private UploadService uploadService;
+//    @Autowired
+//    private UploadService uploadService;
     @Autowired
     private SampleService sampleService;
     @Autowired
@@ -90,7 +90,7 @@ public class sampleController {
      //   result.setImage(nameList);
        boolean bool= resultService.addResult(result);
        if(bool){
-            boolean bool1 = uploadService.updateSample(Long.valueOf(idSample),2);
+           boolean bool1 = sampleService.updateSampleState(Long.valueOf(idSample),2);
        }
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print("success");
@@ -124,7 +124,7 @@ public class sampleController {
     public void sampleState(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idSample=request.getParameter("idSample");
         String state = request.getParameter("state");
-        boolean bool = uploadService.updateSample(Long.valueOf(idSample),Integer.valueOf(state));
+        boolean bool = sampleService.updateSampleState(Long.valueOf(idSample),Integer.valueOf(state));
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(bool);
     }
@@ -196,7 +196,7 @@ public class sampleController {
         if(sample!=null){
             Apply apply = applyService.searchApplication(sample.getApplyID());
             SampleVO vo = convert2VO(sample,apply);
-            uploadService.addTxt(sample);
+            sampleService.addTxt(sample);
             JSONObject object = JSONObject.fromObject(vo);
             response.setCharacterEncoding("UTF-8");
             response.getWriter().print(object.toString());
@@ -246,7 +246,7 @@ public class sampleController {
         List<Sample> samples = sampleService.findAll();
         log.error("asdk");
         if (samples.size() > 0)
-            uploadService.addTxt(samples.get(0));
+            sampleService.addTxt(samples.get(0));
         List<SampleVO> vos = new ArrayList<>();
         for(Sample sample : samples) {
             Apply apply = applyService.searchApplication(sample.getApplyID());

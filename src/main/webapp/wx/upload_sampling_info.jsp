@@ -89,13 +89,13 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">采样地点</label></div>
-                <div class="weui_cell_primary">
+                <div class="weui-cell_primary">
                     <label class="weui-label">${longitude}, ${latitude}</label>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">地点名称</label></div>
-                <div class=" weui_cell_primary">
+                <div class=" weui-cell_primary">
                     <label class="weui-label">${waterAddress}</label>
                 </div>
             </div>

@@ -23,4 +23,8 @@ public interface SampleService {
     public List<Sample> findAll();
 
     public int judgeByID(long sampleID);
+
+    public boolean updateSampleState(long idSample, int state);
+
+    public void addTxt(Sample sample);
 }

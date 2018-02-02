@@ -177,6 +177,14 @@
                                     <span name="name">--</span>
                                 </p>
                                 <p>
+                                    <span>温&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</span>
+                                    <span name="name">--</span>
+                                </p>
+                                <p>
+                                    <span>天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;气：</span>
+                                    <span name="name">--</span>
+                                </p>
+                                <p>
                                     <span>样本状态：</span>
                                     <span name="name" id="sample-state" style="color:#000;">待收取</span>
                                     <a id="confirm" href="#"onclick="confirmClik(this)" class="confirm btn-success" style="display:none;">确认收取</a>

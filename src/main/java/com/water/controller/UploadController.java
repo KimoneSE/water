@@ -131,7 +131,8 @@ public class UploadController {
         long sampleID = Long.parseLong(request.getParameter("sample_number"));
         String sample_remark = request.getParameter("sample_remark");
         String weather = request.getParameter("weather");
-        double temperature = Double.parseDouble(request.getParameter("temperature"));
+        String tmp = request.getParameter("temperature");
+        double temperature = Double.parseDouble(request.getParameter("temperature").substring(0,tmp.length()-1));
 //        Apply apply=applyService.searchApplication(Long.parseLong(applyID));
         //构造一个Sample对象
         Sample sample = sampleService.getInvalidSampleByApplyID(Long.parseLong(applyID));

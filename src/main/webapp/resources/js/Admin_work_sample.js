@@ -102,7 +102,11 @@ function  setSampleInfo(temp) {
             $(this).html(temp.apply.longitude+"°");
         if(index===8)
             $(this).html(temp.apply.latitude+"°");
-        if(index===9){
+        if(index===9)
+            $(this).html(temp.temperature+"℃");
+        if(index===10)
+            $(this).html(temp.weather);
+        if(index===11){
             if(temp.state===1) {
                 $(this).html("处理中");
                 $("#confirm").hide();

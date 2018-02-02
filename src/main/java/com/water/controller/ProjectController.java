@@ -141,14 +141,24 @@ public class ProjectController {
     @RequestMapping("/uploadProjectResult")
     public void uploadProjectResult(HttpServletRequest request, HttpServletResponse response) throws IOException {
             String project = request.getParameter("project");
-            String projectname = request.getParameter("projectname");
-            String filename =projectname+".pdf";
-            boolean bool = projectService.uploadProject(project,filename);
-            if(bool)
-            response.getWriter().print("上传成功");
-            else {
-                response.getWriter().print("上传失败");
+//            String projectname = request.getParameter("projectname");
+            Project p = projectService.findProjectByName(project);
+            if(p==null) {
+                response.getWriter().print("该项目不存在");
+            }else {
+                response.getWriter().print("success");
             }
+//            else{
+//                response.getWriter().print("");
+//                String filename =projectname+".pdf";
+//                boolean bool = projectService.uploadProject(project,filename);
+//                if(bool)
+//                    response.getWriter().print("上传成功");
+//                else {
+//                    response.getWriter().print("上传失败");
+//                }
+//            }
+
     }
     /**
      * @param request
@@ -158,15 +168,24 @@ public class ProjectController {
     @RequestMapping("/uploadProjectFile")
     @ResponseBody
     public JSONObject uploadProjectFile(@RequestParam("file") MultipartFile image, HttpServletRequest request) throws IOException {
-        String project =  request.getParameter("project");
+        String filename =  request.getParameter("filename");
+        String projectName = request.getParameter("projectName");
+
+
         File dir=new File("/home/web_upload/");
         MultipartFile file = image;
         if( !(file.getOriginalFilename().equals("")) ) {
-            file.transferTo(new File("/home/web_upload/"+project+".pdf"));
+            boolean bool = projectService.uploadProject(projectName,filename+".pdf");
+            if(bool){
+                file.transferTo(new File("/home/web_upload/"+filename+".pdf"));
+                String json = "{'state':'success'}";
+                JSONObject object = JSONObject.fromObject(json);
+                return object;
+            }
+
         }
-        String json = "{'state':'success'}";
-        JSONObject object = JSONObject.fromObject(json);
-        return object;
+
+        return null;
     }
 
     /**
