@@ -69,8 +69,8 @@ function onConcreteApply(applyID) {
     window.location.href = "history/apply?applyID=" + applyID;
 }
 
-function onConcreteSample(index) {
-    window.location.href = "history/sample?index=" + index;
+function onConcreteSample(sampleID) {
+    window.location.href = "history/sample?sampleID=" + sampleID;
 }
 
 function onAddApply() {

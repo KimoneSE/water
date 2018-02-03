@@ -217,8 +217,9 @@
     }
 
     function loadSampling(goods) {
-        result= "<div class='sampling_item'" +
-            "style='padding-left: 15px;padding-right:15px;padding-top: 10px;color: grey;font-size: 15px'>" +
+        var sampleID = goods.sampleID;
+        result= "<div class='sampling_item' " +
+            "style='padding-left: 15px;padding-right:15px;padding-top: 10px;color: grey;font-size: 15px' onclick='getSamplingDetail("+sampleID+")' >" +
             "<p>采样地点：<label style='color: black'>" + goods.waterAddress + "</label></p>" +
             "<p>所属项目：<label style='color: black'>" + goods.project + "</label></p>"+
             "<p>经纬度：<label style='color: black'>(" + goods.longitude + ", " + goods.latitude + ")</label>" +
@@ -300,6 +301,10 @@
         onConcreteApply(applyID);
     }
 
+    function getSamplingDetail(sampleID) {
+        window.location.href = "history/sample?sampleID=" + sampleID;
+    }
+
     var deleteIndex;
     $(".delete_unchecked").click(function () {
         deleteIndex = $(".delete_unchecked").index(this);
@@ -320,10 +325,10 @@
         var index = $('.upload_pass').index(this);
         onUpload(index);
     });
-    $('.sampling_item').click(function () {
-        var index = $('.sampling_item').index(this);
-        onConcreteSample(index);
-    });
+//    $('.sampling_item').click(function () {
+//        var index = $('.sampling_item').index(this);
+//        onConcreteSample(index);
+//    });
 
     function hideAlert() {
         $("#alert").hide();

@@ -224,7 +224,9 @@ public class SelfHistoryController {
         modelAndView.addObject("phoneNum", apply.getNumber());
         modelAndView.addObject("address", apply.getAddress());
         modelAndView.addObject("state", apply.getState());
-        modelAndView.addObject("response", apply.getResponse());
+        String response = apply.getResponse().equals("")?"无":apply.getResponse();
+        modelAndView.addObject("response", response);
+        modelAndView.addObject("sampleNum", apply.getSampleNum());
         return modelAndView;
     }
 
@@ -237,18 +239,23 @@ public class SelfHistoryController {
     @RequestMapping("/j{userID}/history/sample")
     @ResponseBody
     public ModelAndView selfHistorySample(@PathVariable String userID, HttpServletRequest request) {
-        int index = Integer.parseInt(request.getParameter("index"));
+//        int index = Integer.parseInt(request.getParameter("index"));
+        long sampleID = Long.parseLong(request.getParameter("sampleID"));
         ModelAndView modelAndView = new ModelAndView("../wx/selfhistory_sample");
         modelAndView.addObject("userID", userID);
-        ArrayList<Sample> sampleArrayList = uploadService.alreadySample(userID);
-        Sample sample = sampleArrayList.get(index);
+//        ArrayList<Sample> sampleArrayList = uploadService.alreadySample(userID);
+//        Sample sample = sampleArrayList.get(index);
+        Sample sample = sampleService.getSampleBySampleID(sampleID);
         Apply apply = applyService.getApplyByID(sample.getApplyID());
         modelAndView.addObject("sampleDate", sample.getSampleDate());
         modelAndView.addObject("sampleVolume", sample.getVolume());
         modelAndView.addObject("sampleID", sample.getSampleID());
         modelAndView.addObject("sampleRemark", sample.getRemark());
         modelAndView.addObject("state", sample.getState());
-        modelAndView.addObject("response",apply.getResponse());
+        modelAndView.addObject("temperature", sample.getTemperature());
+        modelAndView.addObject("weather", sample.getWeather());
+        String response = apply.getResponse().equals("")?"无":apply.getResponse();
+        modelAndView.addObject("response",response);
         modelAndView.addObject("waterAddress", apply.getWaterAddress());
         modelAndView.addObject("project", apply.getProject().getName());
         String latitude = String.valueOf(Math.abs(apply.getLatitude()));

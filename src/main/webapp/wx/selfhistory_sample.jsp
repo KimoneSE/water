@@ -133,6 +133,14 @@
             <em class="weui-form-preview__value">${sampleDate}</em>
         </p>
         <p>
+            <label class="weui-form-preview__label">温度</label>
+            <em class="weui-form-preview__value">${temperature}℃</em>
+        </p>
+        <p>
+            <label class="weui-form-preview__label">天气</label>
+            <em class="weui-form-preview__value">${weather}</em>
+        </p>
+        <p>
             <label class="weui-form-preview__label">采样体积</label>
             <em class="weui-form-preview__value">${sampleVolume}</em>
         </p>
