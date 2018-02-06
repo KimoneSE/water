@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster">
     <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="../resources/css/styles.css">
-    <link rel="stylesheet" href="../resources/css/test.css">
     <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/test.css">
