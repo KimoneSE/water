@@ -121,27 +121,52 @@
 
             wx.ready(function() {
                 wx.getLocation({
-                    type : 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    type : 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                     success : function(res) {
                         var latitude = res.latitude;
                         var longitude =res.longitude;
                         var concrete_address
+                        var bd_latitude
+                        var bd_longitude
                         // $("#river_place").html("经度"+longitude+"<br>纬度"+latitude);
-
-                        var point = new BMap.Point(longitude, latitude);
-                        var gc = new BMap.Geocoder();
-                        gc.getLocation(point, function(rs){
-                            var addComp = rs.addressComponents;
-                            concrete_address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-                            // alert(concrete_address);
-                            $("#longitude").val(longitude);
-                            $("#latitude").val(latitude);
-                            $("#river_place").text(concrete_address);
+                        var url = "http://api.map.baidu.com/geoconv/v1/?coords="+longitude+","+latitude+"&from=1&to=5&ak=5Ogc23UsF0nGuRqTeN0yeYk7eXRp66eg";
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            async: false,
+                            // headers: {'Access-Control-Allow-Origin': '*'},
+                            dataType: 'jsonp',
+                            crossDomain: true,
+                            success: function (data) {
+                                // alert(data.result[0].y+"," +
+                                //     data.result[0].x);
+                                bd_latitude = data.result[0].y;
+                                bd_longitude = data.result[0].x;
+                                // alert(bd_longitude+"," +
+                                //     bd_latitude);
+                                var point = new BMap.Point(bd_longitude, bd_latitude);
+                                var gc = new BMap.Geocoder();
+                                gc.getLocation(point, function(rs){
+                                    var addComp = rs.addressComponents;
+                                    concrete_address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                                    // alert(concrete_address);
+                                    $("#longitude").val(bd_longitude);
+                                    $("#latitude").val(bd_latitude);
+                                    $("#river_place").text(concrete_address);
+                                });
+                                // $.cookie('ret3', '1', {path: '/'});
+                                // $.cookie('longitude', longitude, {path: '/'});
+                                // $.cookie('latitude', latitude, {path: '/'});
+                                // $.cookie('concrete_address', concrete_address, {path: '/'});
+                            },
+                            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                                alert(XMLHttpRequest.responseText);
+                                alert(XMLHttpRequest.status);
+                                alert(XMLHttpRequest.readyState);
+                                alert(textStatus); // parser error;
+                            }
                         });
-                        // $.cookie('ret3', '1', {path: '/'});
-                        // $.cookie('longitude', longitude, {path: '/'});
-                        // $.cookie('latitude', latitude, {path: '/'});
-                        // $.cookie('concrete_address', concrete_address, {path: '/'});
+
                     },
                     fail : function(error) {
                         AlertUtil.error("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
