@@ -84,7 +84,7 @@ public class UploadController {
             List<String> images = apply.getImage();
             for (String image : images) {
                 if(!image.equals(""))
-                    imageArray.add("http://www.ufengtech.xyz/web_upload/"+image);
+                    imageArray.add("http://nju.erivermap.com/web_upload/"+image);
             }
         }
         modelAndView.addObject("imageArray",imageArray);

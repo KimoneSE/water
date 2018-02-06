@@ -375,7 +375,7 @@
                 //文本框的父级元素
                 var input = document.getElementsByClassName(obj2)[0];
                 //遍历获取到得图片文件
-                var imgUrl = "http://www.ufengtech.xyz/web_upload/"+$("#img_userID").val()+"_"+applyDateStr+".jpg";
+                var imgUrl = "http://nju.erivermap.com/web_upload/"+$("#img_userID").val()+"_"+applyDateStr+".jpg";
                 var img = document.createElement("img");
                 img.setAttribute("src", imgUrl);
                 var imgAdd = document.createElement("div");

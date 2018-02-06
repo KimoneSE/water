@@ -239,6 +239,7 @@
                                     data: {"idSample": $("#tags").val(), "description": $("#text").val()},
                                     success: function (data) {
                                         alert(data);
+                                        window.location.href="toAdmin_Sample_Result.do";
                                     }
                                 })
                             }
@@ -270,6 +271,7 @@
                                 alert(data);
                             }else {
                                 $("#file-1").fileinput("upload");
+//                                window.location.href="toAdmin_Sample_Result.do";
                             }
                         }
                     })
