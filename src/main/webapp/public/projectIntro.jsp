@@ -175,7 +175,7 @@
             alert("暂未上传实验报告");
         }else{
             var d = $("#projectReport").text();
-            $("#repostHref").prop("href","http://nju.erivermap.com/web_upload/" + d);
+            $("#repostHref").prop("href","http://www.ufengtech.xyz/web_upload/" + d);
         }
     })
 

@@ -138,10 +138,10 @@ function  setSampleInfo(temp) {
     $("#content4").find(".carousel-inner").each(function () {
         $(this).empty();
         $(this).append("<div class='item active'>"+
-            "<img src='http://nju.erivermap.com/web_upload/"+temp.apply.image[0]+"'></div>");
+            "<img src='http://www.ufengtech.xyz/web_upload/"+temp.apply.image[0]+"'></div>");
         for(var i=1;i<temp.apply.image.length;i++){
             $(this).append("<div class='item'>"+
-                "<img src='http://nju.erivermap.com/web_upload/"+temp.apply.image[i]+"'></div>");
+                "<img src='http://www.ufengtech.xyz/web_upload/"+temp.apply.image[i]+"'></div>");
         }
     })
 }

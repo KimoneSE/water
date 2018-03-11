@@ -119,7 +119,7 @@ public class wechatApplyController {
         address = user.getAddress();
         modelAndView.addObject("address",address);
         modelAndView.addObject("projectArray",p);
-        String applyURL = "http://nju.erivermap.com/water/init/j"+userID;
+        String applyURL = "http://www.ufengtech.xyz/water/init/j"+userID;
         session.setAttribute("applyURL",applyURL);
         return modelAndView;
     }

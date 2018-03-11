@@ -23,7 +23,7 @@ public class WatersAddressController {
     @RequestMapping("")
     public ModelAndView waterAddressPage(HttpSession session){
         ModelAndView modelAndView=new ModelAndView("../wx/confirm_address");
-        String waterAddressURL = "http://nju.erivermap.com/water/address/waters";
+        String waterAddressURL = "http://www.ufengtech.xyz/water/address/waters";
         session.setAttribute("waterAddressURL",waterAddressURL);
         return modelAndView;
     }

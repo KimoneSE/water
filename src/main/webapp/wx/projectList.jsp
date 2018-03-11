@@ -12,8 +12,8 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
-    String appid = "wx2014311796d1a614";
-    String host = "nju.erivermap.com";
+    String appid = "wx680e86c4068403dc";
+    String host = "www.ufengtech.xyz";
 %>
 <html>
 <head>

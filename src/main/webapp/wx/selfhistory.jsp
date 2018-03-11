@@ -6,7 +6,7 @@
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
     String url = (String)session.getAttribute("selfHistoryURL");
-//    String url = "http://nju.erivermap.com/water/user/joaz40w6i3l-FRm0d_e7LuqtPoElA/history";
+//    String url = "http://www.ufengtech.xyz/water/user/joaz40w6i3l-FRm0d_e7LuqtPoElA/history";
     if(request.getQueryString() != null) {
         url += "?" + request.getQueryString();
     }
@@ -276,7 +276,7 @@
                 success: function (res) {
                     var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
                     $.ajax({
-                        url: "http://nju.erivermap.com/water/getSample",
+                        url: "http://www.ufengtech.xyz/water/getSample",
                         type: "post",
                         async: false,
                         data:{"id":result},

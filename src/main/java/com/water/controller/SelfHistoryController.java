@@ -72,7 +72,7 @@ public class SelfHistoryController {
             }else{
                 url="../j"+openID+"/history?type="+type;
             }
-            String selfHistoryURL = "http://nju.erivermap.com/water/user/j"+openID+"/history";
+            String selfHistoryURL = "http://www.ufengtech.xyz/water/user/j"+openID+"/history";
             session.setAttribute("selfHistoryURL",selfHistoryURL);
             try {
                 response.sendRedirect(url);
@@ -327,7 +327,7 @@ public class SelfHistoryController {
             List<String> images = image;
             for (String path : images) {
                 if (!path.equals(""))
-                    imageArray.add("http://nju.erivermap.com/web_upload/"+path);
+                    imageArray.add("http://www.ufengtech.xyz/web_upload/"+path);
             }
         }
         return imageArray;
