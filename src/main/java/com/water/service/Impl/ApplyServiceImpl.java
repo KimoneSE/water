@@ -28,7 +28,7 @@ public class ApplyServiceImpl implements ApplyService {
         if (applyDao.get(id) == null)
             return false;
         applyDao.delete(id);
-        sampleDao.deleteSampleByApplyID(id);
+//        sampleDao.deleteSampleByApplyID(id);
         return true;
     }
 

@@ -3,6 +3,7 @@ package com.water.controller;
 import com.water.entity.Apply;
 import com.water.entity.Sample;
 import com.water.service.ApplyService;
+import com.water.service.SampleService;
 import com.water.service.UploadService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ApplyController {
 
     @Autowired
     private ApplyService applyService;
+    @Autowired
+    private SampleService sampleService;
 
     /**
      * @param request
@@ -80,6 +83,18 @@ public class ApplyController {
         int state1 = Integer.parseInt(state);
         long id1 = Integer.valueOf(id);
         boolean bool = applyService.updateState(id1, state1,reason);
+
+        Apply apply = applyService.searchApplication(id1);
+        int sampleNum = apply.getSampleNum();
+
+        //构造样品对象
+        for(int i = 0; i < sampleNum; i++) {
+            Sample sample = new Sample();
+            sample.setApplyID(apply.getIdApply());
+            sample.setState(-1);
+            sampleService.add(sample);
+        }
+
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print("处理成功");
     }

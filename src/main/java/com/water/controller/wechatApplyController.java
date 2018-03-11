@@ -181,12 +181,6 @@ public class wechatApplyController {
         apply.setSampleNum(sampleNum);
         boolean f = applyService.addApply(apply);
 
-        for(int i = 0; i < sampleNum; i++) {
-            Sample sample = new Sample();
-            sample.setApplyID(apply.getIdApply());
-            sample.setState(-1);
-            sampleService.add(sample);
-        }
 
         log.error("!!!" + "上传是否成功？"+f+ "!!!");
 //        System.out.println(f);

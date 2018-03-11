@@ -132,6 +132,8 @@ public class UploadController {
         String sample_remark = request.getParameter("sample_remark");
         String weather = request.getParameter("weather");
         String tmp = request.getParameter("temperature");
+        String ammoniaN_c = request.getParameter("ammoniaN_c");
+        String phosphate_c = request.getParameter("phosphate_c");
         double temperature = Double.parseDouble(request.getParameter("temperature").substring(0,tmp.length()-1));
 //        Apply apply=applyService.searchApplication(Long.parseLong(applyID));
         //构造一个Sample对象
@@ -143,7 +145,8 @@ public class UploadController {
         sample.setState(0);
         sample.setTemperature(temperature);
         sample.setWeather(weather);
-
+        sample.setAmmoniaN_c(ammoniaN_c);
+        sample.setPhosphate_c(phosphate_c);
         return sampleService.update(sample);
     }
 }
