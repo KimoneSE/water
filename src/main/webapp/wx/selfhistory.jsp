@@ -166,10 +166,11 @@
     });
 
     function loadUnchecked(goods) {
+        var applyID = goods.idApply;
         return "<div class='unchecked_item'" +
             "style='padding-left: 4%;padding-right:4%;padding-top: 2.6%;padding-bottom: 2.6%;" +
             "color: grey;font-size: 15px;'>" +
-            "<div class='unchecked_message' style='width: 90%;float: left'>" +
+            "<div class='unchecked_message' onclick='getUnCheckedDetail("+applyID+")'style='width: 90%;float: left'>" +
             "<p>水域地址：<label style='color: black'>" + goods.waterAddress + "</label></p>" +
             "<p>所属项目：<label style='color: black'>" + goods.project.name + "</label></p>" +
             "<p>姓名： <label style='color: black'>" + goods.name + "</label>" +
@@ -305,16 +306,20 @@
         window.location.href = "history/sample?sampleID=" + sampleID;
     }
 
+    function getUncheckedDetail(applyID) {
+        onConcreteApply(applyID);
+    }
+
     var deleteIndex;
     $(".delete_unchecked").click(function () {
         deleteIndex = $(".delete_unchecked").index(this);
         $("#dialog").show();
     });
-    $(".unchecked_message").click(function () {
-        var index = $(".unchecked_message").index(this);
-        var isChecked = 0;
-        onConcreteApply(index, isChecked);
-    });
+//    $(".unchecked_message").click(function () {
+//        var index = $(".unchecked_message").index(this);
+//        var isChecked = 0;
+//        onConcreteApply(index, isChecked);
+//    });
 //    $('.checked_message').click(function () {
 //
 //        var index = $('.checked_message').index(this);
