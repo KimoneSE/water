@@ -186,7 +186,7 @@
     <%}%>
 
     <% if(parameter == null) {
-        parameter = "一般申请";%>
+        parameter = projectNames.get(0);%>
         var parameter = '<%=parameter%>'.toString()+"";
     <%}else{%>
         var parameter = decodeURI('<%=parameter%>');
@@ -209,7 +209,7 @@
                 $("#projectReport").empty();
                 var d = '<%=projectList.get(i).getReport()%>';
                 var d1 = d.substr(0,d.length-2);
-                $("#projectReport").text(d1);
+                $("#projectReport").text(d);
                 $("#projectState").val('<%=projectList.get(i).getState()%>');
             }
             <%}%>
