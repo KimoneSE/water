@@ -167,10 +167,10 @@
 
     function loadUnchecked(goods) {
         var applyID = goods.idApply;
-        return "<div class='unchecked_item'" +
+        var result = "<div class='unchecked_item'" +
             "style='padding-left: 4%;padding-right:4%;padding-top: 2.6%;padding-bottom: 2.6%;" +
             "color: grey;font-size: 15px;'>" +
-            "<div class='unchecked_message' onclick='getUnCheckedDetail("+applyID+")'style='width: 90%;float: left'>" +
+            "<div class='unchecked_message' onclick='getUncheckedDetail("+applyID+")' style='width: 90%;float: left'>" +
             "<p>水域地址：<label style='color: black'>" + goods.waterAddress + "</label></p>" +
             "<p>所属项目：<label style='color: black'>" + goods.project.name + "</label></p>" +
             "<p>姓名： <label style='color: black'>" + goods.name + "</label>" +
@@ -184,6 +184,7 @@
             "</div>" +
             "</div>" +
             "<hr style='width: 100%'>";
+        return result;
     }
 
     function loadChecked(goods) {
