@@ -5,7 +5,8 @@
   Time: 17:10
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,41 +37,12 @@
     <link rel="shortcut icon" href="../resources/img/favicon.ico">
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KMeS1wUAPKRLXZVwClhw8pODhqxxP0bz"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../resources/js/user_main.js"></script>
 </head>
 <body>
 <!-- Top menu -->
-<nav class="navbar" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="User_Main.html"><i
-                        class="fa fa-2x fa-tasks"></i><br>首页</a></li>
+<jsp:include page="navigation.jsp"></jsp:include>
 
-                <li><a href="engagement.html"><i
-                        class="fa fa-2x fa-handshake-o"></i><br>公众参与</a>
-                </li>
-
-                <li><a href="../projectIntro/init"><i
-                        class="fa fa-2x fa-list-alt"></i><br>信息发布</a>
-                </li>
-                <li><a href="introduction.html"><i
-                        class="fa fa-2x fa-file-text-o"></i><br>项目介绍</a>
-                </li>
-                <li class="active"><a href="sampleMap.jsp"><i
-                        class="fa fa-2x fa-map-marker "></i><br>样本地图</a>
-                </li>
-
-            </ul>
-
-
-
-        </div>
-    </div>
-</nav>
 <div id="map" style="height: 700px"></div>
 <!-- 模态框（Modal） -->
 <div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -104,6 +76,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
 <script type="text/javascript">
+    chooseActive("#sampleMap");
     var poi = new Array();
     $.ajax({
         url:"../getSampleList",

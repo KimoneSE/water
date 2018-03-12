@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,42 +35,7 @@
 <body>
 
 <!-- Top menu -->
-<nav class="navbar" role="navigation">
-
-
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="../index.jsp"><i
-                        class="fa fa-2x fa-tasks"></i><br>首页</a></li>
-
-                <li class="active"><a href="engagement.html"><i
-                        class="fa fa-2x fa-handshake-o"></i><br>公众参与</a>
-                </li>
-
-                <li><a href="../projectIntro/init"><i
-                        class="fa fa-2x fa-list-alt"></i><br>信息发布</a>
-                </li>
-                <li><a href="introduction.html"><i
-                        class="fa fa-2x fa-file-text-o"></i><br>项目介绍</a>
-                </li>
-                <li><a href="sampleMap.jsp"><i
-                        class="fa fa-2x fa-map-marker "></i><br>样本地图</a>
-                </li>
-
-            </ul>
-
-
-
-        </div>
-    </div>
-
-
-</nav>
+<jsp:include page="navigation.jsp"></jsp:include>
 
 <!-- Page Title -->
 <div class="page-title-container">
@@ -127,7 +94,9 @@
 <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
 <script src="//cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
-
+<script src="../resources/js/user_main.js"></script>
 </body>
-
+<script type="text/javascript">
+    chooseActive("#engagement");
+</script>
 </html>

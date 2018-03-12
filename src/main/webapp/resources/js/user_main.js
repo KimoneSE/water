@@ -19,7 +19,7 @@ function load() {
                 var body=document.getElementById("proContent");
                 var time=document.getElementById("proDate");
 
-                name=data.name;
+                var name=data.name;
                 var content=getText(data.description).substring(0,301)+'...';
                 var year=parseInt(data.date['year'])+1900;
                 var month=parseInt(data.date['month'])+1;
@@ -50,4 +50,12 @@ function getText(str){
     str=str.replace(/&nbsp;/ig,'');//去掉&nbsp;
     str=str.replace(/\s/g,''); //将空格去掉
     return str;
+}
+
+function chooseActive(elementid){
+    $(elementid).addClass("active");
+    $('#selectNav').children().click(function () {
+        $(this).parent().children().removeClass('active');
+        $(this).addClass('active');
+    });
 }

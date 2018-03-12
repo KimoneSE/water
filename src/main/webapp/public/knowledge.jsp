@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>eRivermap-项目介绍</title>
+    <title>eRivermap-科普知识</title>
 
     <!-- CSS -->
 
@@ -33,42 +35,7 @@
 <body>
 
 <!-- Top menu -->
-<nav class="navbar" role="navigation">
-
-
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="../index.jsp"><i
-                        class="fa fa-2x fa-tasks"></i><br>首页</a></li>
-
-                <li><a href="engagement.html"><i
-                        class="fa fa-2x fa-handshake-o"></i><br>公众参与</a>
-                </li>
-
-                <li><a href="../projectIntro/init"><i
-                        class="fa fa-2x fa-list-alt"></i><br>信息发布</a>
-                </li>
-                <li class="active"><a href="introduction.html"><i
-                        class="fa fa-2x fa-file-text-o"></i><br>项目介绍</a>
-                </li>
-                <li><a href="sampleMap.jsp"><i
-                        class="fa fa-2x fa-map-marker "></i><br>样本地图</a>
-                </li>
-
-            </ul>
-
-
-
-        </div>
-    </div>
-
-
-</nav>
+<jsp:include page="navigation.jsp"></jsp:include>
 
 <!-- Page Title -->
 <div class="page-title-container">
@@ -77,8 +44,8 @@
         <div class="row">
             <div class="col-sm-7 wow fadeIn">
                 <i class="fa fa-file-text-o"></i>
-                <h1><span>PROJECT</span>&nbsp;&nbsp;&nbsp;<span>INTRODUCTION</span>/</h1>
-                <p>项目介绍</p>
+                <h1><span>KNOWLEDGE</span>&nbsp;&nbsp;&nbsp;<span>POPULARIZATION</span>/</h1>
+                <p>科普知识</p>
             </div>
         </div>
     </div>
@@ -95,49 +62,20 @@
                     <div class="table-content" style="display: block;">
                         <br/>
                         <ul id="scro1" class="scroll indicator-group-title">
-                            <li class='active'><a onclick='tabClick(this)'>总体项目简介</a>
-                                <span class='fa fa-angle-right'></span></li>
-                            <li class=''><a class="open" onclick='knowledgeTabToggle(this)'>科普知识
+                            <%--<li class=''><a class="open" onclick='knowledgeTabToggle(this)'>科普知识
                                 <label style="float: right"><img id="pull_toggle_img" src="../resources/img/pullUp.png" style="width: 15px"/></label></a>
-                            </li>
+                            </li>--%>
                             <div id="knowledge_content" style="display: block">
-                                <li class=''><a onclick='tabClick(this)'>&nbsp;&nbsp;&nbsp;河流生态的意义</a>
+                                <li class='active'><a onclick='tabClick(this)'>河流生态的意义</a>
                                     <span class='fa fa-angle-right'></span></li>
-                                <li class=''><a onclick='tabClick(this)'>&nbsp;&nbsp;&nbsp;生物多样性</a>
+                                <li class=''><a onclick='tabClick(this)'>生物多样性</a>
                                     <span class='fa fa-angle-right'></span></li>
-                                <li class=''><a onclick='tabClick(this)'>&nbsp;&nbsp;&nbsp;基因组学</a>
+                                <li class=''><a onclick='tabClick(this)'>基因组学</a>
                                     <span class='fa fa-angle-right'></span></li>
                             </div>
-                            <li class=''><a onclick='tabClick(this)'>团队介绍</a>
-                                <span class='fa fa-angle-right'></span></li>
                         </ul>
                         <div id="scrol_content">
-                            <div id="total_intro_panel" class="tab_panel indicator-group-content">
-                                <div class="left_title">
-                                    <i class="fa fa-paper-plane-o blue"></i>
-                                    <h1 class="number" style="font-size: 25px">总体项目简介</h1>
-                                    <a class="time">2017-7-30</a>
-                                </div>
-                                <div class="left_content" style="text-align: left">
-                                    <p> 本项目的目标</p>
-                                    <p>通过鼓励公众参与水环境监测的采样流程，利用宏基因条形码技术对来自全国各地的水环境进行生物多样性监测，进一步评价全国的水环境健康状况。</p>
-                                    <p> 项目成果展示</p>
-                                    <p>提供河流等湿地生态系统的生物多样性分布地图，建立河流生态健康评估报告。</p>
-                                    <p> 本项目的特点</p>
-                                    <p>1、 以水生生物多样性为检测指标</p>
-                                    <p>
-                                        目前，间接的物理化学指标是水环境监测的主要指标，而生物多样性指标没有被纳入监测体系。但事实上，生物多样性是保持生态系统稳定健康的关键因素。生物多样性有助于直接评估生态健康程度。</p>
-                                    <p>2、 运用宏基因条形码技术</p>
-                                    <p>宏基因条形码技术 (Metabarcoding)
-                                        是一种新型的生物多样性分析方法，具有敏感、快速、高通量的优点。运用此技术可以实现对水生生态系统生物多样性的快速监测。</p>
-                                    <p>3、 鼓励公众参与</p>
-                                    <p>鼓励公众参与水环境监测的采样环节，不仅可以增进人们对身边的水体健康的了解，也是实现全国水环境生物多样性监测的重要途径。</p>
-                                    <p> 项目框架</p>
-                                    <p>
-                                        本项目由南京大学环境学院、软件学院和环境协会合作完成：环境学院提供技术及器材支持；软件学院负责微信公众平台开发和网站设计；环境协会负责项目宣传、人员招募及系统的后期运行。</p>
-                                    <p>项目框架主要分为三个模块：微信公众平台主要提供采样信息收集的功能；网页是成果展示的主要渠道；实验室提供实验、数据分析等技术支持。</p>
-                                </div>
-                            </div>
+
                             <div id="river_mean_panel" style="display: none" class="tab_panel indicator-group-content">
                                 <div class="left_title">
                                     <i class="fa fa-paper-plane-o blue"></i>
@@ -180,29 +118,6 @@
                                         我们团队采用基因组学的方法对河流生态进行监测。DNA是生物的遗传物质，每个物种的DNA上都有独一无二的序列，据此可以对生物进行分类。我们使用滤膜截留水样中的细菌、藻类、浮游动物等，并提取它们的DNA进行分析，从而确定所采水样所在的河流有着怎样的群落结构，包括有哪些物种，每个物种的相对丰度，所处的营养级等等。分析过程包括提取、扩增、测序等步骤。</p>
                                 </div>
                             </div>
-                            <div id="team_intro_panel" style="display: none" class="tab_panel indicator-group-content">
-                                <div class="left_title">
-                                    <i class="fa fa-paper-plane-o blue"></i>
-                                    <h1 class="number" style="font-size: 25px">团队介绍</h1>
-                                    <a class="time">2017-7-30</a>
-                                </div>
-                                <div class="left_content" style="text-align: left">
-                                    <p><b>南京大学环境学院“生态毒理和环境健康”研究团队</b></p>
-                                    <br/>
-                                    <p>
-                                        南京大学环境学院“生态毒理和生态健康团队”以南京大学环境学院良好的科研基础为平台，在“十二五”期间建立了包含指示生物指标在内的多层次水生态健康综合评价指标体系。</p>
-                                    <br/>
-                                    <p><b>张效伟教授：负责人</b></p>
-                                    <br/>
-                                    <p><img src="../resources/img/professor_image.jpg" style="width: 150px"/></p>
-                                    <br/>
-                                    <p>
-                                        教授、博导，教育部“长江学者奖励计划”-青年学者。南京大学化学品环境安全研究中心主任，国家有机毒物污染控制与资源化工程技术研究中心副主任。主持完成“十二五”国家“863”计划课题，水专项子课题和国家自然科学优秀青年基金等；主要致力于水生生物多样性高通量监测与评估技术,
-                                        化学物质环境风险控制理论与技术研究.近五年发表论文被SCI收录61篇；其中包括在 Environ. Sci. Technol., Water Res 和
-                                        Environ. Int.上发表论文 21篇；全部文章被Web of Science他引1184次；H
-                                        因子为30。申请国家发明专利5项，获得1项授权美国专利。</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,17 +157,25 @@
 <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
 <script src="//cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+<script src="../resources/js/user_main.js"></script>
 <script>
-    function knowledgeTabToggle(data) {
-        $("#knowledge_content").slideToggle();
-        if($(data).hasClass("open")){
-            $("#pull_toggle_img").attr("src","../resources/img/pullDown.png");
-            $(data).removeClass("open");
-        }else{
-            $("#pull_toggle_img").attr("src","../resources/img/pullUp.png");
-            $(data).addClass("open");
-        }
+    chooseActive("#knowledge");
+
+    for(var i=0;i<$(".tab_panel").length;i++){
+        $(".tab_panel").hide();
     }
+    $("#river_mean_panel").show();
+
+    // function knowledgeTabToggle(data) {
+    //     $("#knowledge_content").slideToggle();
+    //     if($(data).hasClass("open")){
+    //         $("#pull_toggle_img").attr("src","../resources/img/pullDown.png");
+    //         $(data).removeClass("open");
+    //     }else{
+    //         $("#pull_toggle_img").attr("src","../resources/img/pullUp.png");
+    //         $(data).addClass("open");
+    //     }
+    // }
 
     function tabClick(data) {
         //修改tab样式
@@ -266,15 +189,11 @@
         }
         var index=$("#scro1 li").index($(data).parent());
         if(index==0) {
-            $("#total_intro_panel").show();
-        }else if(index==2) {
             $("#river_mean_panel").show();
-        }else if(index==3) {
+        }else if(index==1) {
             $("#biodiversity_panel").show();
-        }else if(index==4) {
+        }else if(index==2) {
             $("#genomics_panel").show();
-        }else if(index==5) {
-            $("#team_intro_panel").show();
         }
     }
 
