@@ -175,9 +175,11 @@ public class sampleController {
     @ResponseBody
     public void getSampleResult(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idSample=request.getParameter("idSample");
-        String result = resultService.findResultByID(Long.valueOf(idSample)).getDescription();
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(result);
+        if(resultService.findResultByID(Long.valueOf(idSample))!=null){
+            String result = resultService.findResultByID(Long.valueOf(idSample)).getDescription();
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(result);
+        }
     }
     /**
      * @param request
@@ -218,6 +220,7 @@ public class sampleController {
         vo.setApply(apply);
         String projectName = apply.getProject().getName();
         vo.setProjectName(projectName);
+        vo.setProjectID(apply.getProject().getIdProject());
         return vo;
     }
     /**
@@ -271,5 +274,18 @@ public class sampleController {
         JSONArray array = JSONArray.fromObject(samples);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(array.toString());
+    }
+
+    @RequestMapping("/exportExcel")
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        long projectID = Long.parseLong(request.getParameter("projectID"));
+        String filename = sampleService.writeXlsx(projectID);
+        System.out.println("******"+filename+"*******");
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(filename);
+        //        response.setCharacterEncoding("utf-8");
+//        response.setContentType("application/vnd.ms-excel");
+//        response.setHeader("Content-Disposition", "attachment; filename="+filename);
     }
 }

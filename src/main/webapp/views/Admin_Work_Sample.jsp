@@ -155,6 +155,7 @@
                                 <p>
                                     <span>所属项目：</span>
                                     <span name="name">--</span>
+                                    <span id="projectBlock"></span>
                                 </p>
                                 <p>
                                     <span>样本体积：</span>

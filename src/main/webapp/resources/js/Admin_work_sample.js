@@ -68,7 +68,8 @@ $(function () {
         }
     }
 
-})
+});
+
 function  setSampleInfo(temp) {
     $.ajax({
         url: "./getSampleResult",
@@ -81,6 +82,12 @@ function  setSampleInfo(temp) {
 
         }
     });
+
+    var pID = temp.projectID;
+    var btn = '<button id="download" class="button btn-info" onclick="download('+pID+')">导出该项目的所有样本信息</button>' +
+        '<a id="export" type="hidden" download="" href="" ></a>';
+    $("#projectBlock").empty();
+    $("#projectBlock").append(btn);
     $("#sample").html(temp.sampleID);
     $(".sample_time").html(timeFormatter1(temp.sampleDate));
     $("#content4").find("span[name='name']").each(function (index) {
@@ -152,6 +159,19 @@ function  setSampleInfo(temp) {
     })
 }
 
+function download(projectID) {
+    $.ajax({
+        url: "./exportExcel",
+        type: "post",
+        data:{"projectID":projectID},
+        success: function (data) {
+            var filename = data;
+            $("#export").attr("href","/projectSample/"+projectID+".xlsx");
+            $("#export").attr("download",filename+".xlsx");
+            document.getElementById("export").click();
+        }
+    })
+}
 
 function  sampleClick(type) {
     var id = type.innerHTML;

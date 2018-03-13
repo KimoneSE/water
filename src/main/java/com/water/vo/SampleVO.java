@@ -19,6 +19,7 @@ public class SampleVO {
     private String phosphate_c;  //磷酸盐浓度
     private Apply apply;
     private String projectName;  //项目名称
+    private long projectID;      //项目ID
 
     public long getSampleID() {
         return sampleID;
@@ -106,5 +107,13 @@ public class SampleVO {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public long getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(long projectID) {
+        this.projectID = projectID;
     }
 }

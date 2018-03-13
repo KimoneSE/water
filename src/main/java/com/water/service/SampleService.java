@@ -28,7 +28,7 @@ public interface SampleService {
 
     public void addTxt(Sample sample);
 
-    public void writeXslx(long projectID);
+    public String writeXlsx(long projectID);
 
     public List<Sample> getSamplesByProject(long projectID);
 }

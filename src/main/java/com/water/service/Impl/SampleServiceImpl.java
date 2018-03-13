@@ -1,6 +1,7 @@
 package com.water.service.Impl;
 
 import com.water.dao.ApplyDao;
+import com.water.dao.ProjectDao;
 import com.water.dao.ResultDao;
 import com.water.dao.SampleDao;
 import com.water.entity.Apply;
@@ -13,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +32,9 @@ public class SampleServiceImpl implements SampleService{
 
     @Autowired
     private ResultDao resultDao;
+
+    @Autowired
+    private ProjectDao projectDao;
 
     @Override
     public void add(Sample sample) {
@@ -172,10 +173,10 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public void writeXslx(long projectID) {
+    public String writeXlsx(long projectID) {
         List<Sample> samples = getSamplesByProject(projectID);
-        if(samples == null)
-            return;
+//        if(samples == null)
+//            return null;
         XSSFWorkbook wb = new XSSFWorkbook();
         XSSFSheet sheet = wb.createSheet("sampleInfo");
         XSSFRow firstRow = sheet.createRow(0);
@@ -197,11 +198,50 @@ public class SampleServiceImpl implements SampleService{
             row.createCell(3).setCellValue(apply.getName());
             row.createCell(4).setCellValue(apply.getNumber());
             row.createCell(5).setCellValue(sample.getApplyID());
-            row.createCell(6).setCellValue(apply.getApplyDate());
-            row.createCell(7).setCellValue(sample.getSampleDate());
+            row.createCell(6).setCellValue(apply.getApplyDate()+"");
+            row.createCell(7).setCellValue(sample.getSampleDate()+"");
             row.createCell(8).setCellValue(apply.getWaterAddress());
-            row.createCell(9).setCellValue(sample.getId());
+            row.createCell(9).setCellValue(apply.getLongitude()+"°");
+            row.createCell(10).setCellValue(apply.getLatitude()+"°");
+            row.createCell(11).setCellValue(sample.getVolume()+"ml");
+            row.createCell(12).setCellValue(sample.getAmmoniaN_c());
+            row.createCell(13).setCellValue(sample.getPhosphate_c());
+            row.createCell(14).setCellValue(sample.getTemperature()+"℃");
+            row.createCell(15).setCellValue(sample.getWeather());
+            String stateStr = "";
+            int state = sample.getState();
+            if(state == 1) {
+                stateStr = "处理中";
+            }else if(state == 2) {
+                stateStr = "已上传实验结果";
+            }else if(state == 0) {
+                stateStr = "待收取";
+            }
+            row.createCell(16).setCellValue(stateStr);
+            row.createCell(17).setCellValue(sample.getRemark());
         }
+
+        String str = projectID+"_"+projectDao.get(projectID).getName();
+
+        String path = "/home/tomcat/webapps/projectSample/"+projectID+".xlsx";
+        File file = new File(path);
+        File parent = file.getParentFile();
+        if(!parent.exists()) {
+            parent.mkdirs();
+        }
+
+        try {
+            file.createNewFile();
+            OutputStream os = new FileOutputStream(file);
+            wb.write(os);
+            os.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return str;
     }
 
     @Override
