@@ -43,6 +43,16 @@
 <!-- Top menu -->
 <jsp:include page="navigation.jsp"></jsp:include>
 
+<div class="table-content" style="display: block;">
+    <br/>
+    <ul id="scro1" style="overflow:auto;height:auto;" class="scroll indicator-group-title">
+        <li class=''><a class="open" onclick='listTabToggle(this)'>样品列表
+            <label style="float: right"><img id="pull_toggle_img" src="../resources/img/pullUp.png" style="width: 15px"/></label></a>
+        </li>
+        <div id="sampleList" style="display: block">
+        </div>
+    </ul>
+</div>
 <div id="map" style="height: 700px"></div>
 <!-- 模态框（Modal） -->
 <div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -195,6 +205,48 @@
     map.setMapStyle({
         styleJson:json1
     });
+
+    <% String projectId = (String)request.getAttribute("projectId");%>
+    $.ajax({
+        type:'POST',
+        url:"../getSamplesByProID",
+        data:{"projectID":<%=projectId%>},
+        success:function (data) {
+            // alert(data)
+            list = $.parseJSON(data)
+            // alert(list)
+            // alert(list.length)
+            if(list.length != 0){
+                for(i=0;i<list.length;i++) {
+                    var name = "<li class=''><a onclick='changeContent(this)'>&nbsp;&nbsp;&nbsp;"+list[i].sampleID+"</a> <span class='fa fa-angle-right'></span></li>";
+                    $("#sampleList").append(name);
+                }
+
+            }else{
+                var name = "<li class=''><a>&nbsp;&nbsp;&nbsp;暂无样品</a> <span class='fa fa-angle-right'></span></li>";
+                $("#sampleList").append(name);
+            }
+        }
+    })
+
+    function listTabToggle(data) {
+        $("#sampleList").slideToggle();
+        if($(data).hasClass("open")){
+            $("#pull_toggle_img").attr("src","../resources/img/pullDown.png");
+            $(data).removeClass("open");
+        }else{
+            $("#pull_toggle_img").attr("src","../resources/img/pullUp.png");
+            $(data).addClass("open");
+        }
+    }
+
+    function changeContent(data){
+        for(var i=0;i<$("#sampleList li").length;i++) {
+            $("#sampleList li").removeClass("active");
+        }
+        $(data).parent().addClass("active");
+
+    }
 </script>
 </body>
 </html>

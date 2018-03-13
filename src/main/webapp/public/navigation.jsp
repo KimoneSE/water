@@ -55,9 +55,9 @@
                 <li id="knowledge"><a href="../public/knowledge.jsp"><i
                         class="fa fa-2x fa-file-text-o"></i><br>科普知识</a>
                 </li>
-                <li id="sampleMap"><a href="../public/sampleMap.jsp"><i
-                        class="fa fa-2x fa-map-marker "></i><br>样本地图</a>
-                </li>
+                <%--<li id="sampleMap"><a href="../public/sampleMap.jsp"><i--%>
+                        <%--class="fa fa-2x fa-map-marker "></i><br>样本地图</a>--%>
+                <%--</li>--%>
 
             </ul>
 
