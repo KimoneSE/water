@@ -7,6 +7,8 @@ import com.water.entity.Apply;
 import com.water.entity.Result;
 import com.water.entity.Sample;
 import com.water.service.SampleService;
+import com.water.vo.SampleVO;
+import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,7 +121,8 @@ public class SampleServiceImpl implements SampleService{
             // FileOutputStream file1 = new FileOutputStream("F:\\拙劣工程师\\water\\src\\main\\webapp\\resources\\txt\\new.txt");
             FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSampleID() + ".txt");
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(file1, "utf-8");
-            String id = "样本编号： " + sample.getSampleID() + "\r\n";
+            String id = "样品编号：" + sample.getId() + "\r\n";
+            String sampleID = "样品瓶编号： " + sample.getSampleID() + "\r\n";
             String name = "申请人姓名： " + apply.getName() + "\r\n";
             String applyid = "申请编号：  " + apply.getIdApply() + "\r\n";
             String applytime = "申请时间： " + apply.getApplyDate() + "\r\n";
@@ -132,17 +135,24 @@ public class SampleServiceImpl implements SampleService{
             String lan = "纬度： " + apply.getLatitude() + "°\r\n";
             String temperature = "温度： " + sample.getTemperature() + "℃\r\n";
             String weather = "天气： " + sample.getWeather() + "\r\n";
+            String ammoniaN_c = "氨氮浓度" + sample.getAmmoniaN_c() + "\r\n";
+            String phosphate_c = "磷酸盐浓度" + sample.getPhosphate_c() + "\r\n";
+            String projectName = "所属项目" + apply.getProject().getName() + "\r\n";
             oStreamWriter.write(id);
+            oStreamWriter.write(sampleID);
             oStreamWriter.write(name);
             oStreamWriter.write(applyid);
-            oStreamWriter.write(phone);
             oStreamWriter.write(applytime);
             oStreamWriter.write(sampletime);
+            oStreamWriter.write(projectName);
             oStreamWriter.write(volume);
+            oStreamWriter.write(ammoniaN_c);
+            oStreamWriter.write(phosphate_c);
             oStreamWriter.write(address);
+            oStreamWriter.write(remark);
+            oStreamWriter.write(phone);
             oStreamWriter.write(lon);
             oStreamWriter.write(lan);
-            oStreamWriter.write(remark);
             oStreamWriter.write(temperature);
             oStreamWriter.write(weather);
             oStreamWriter.write(stateStr);
@@ -159,5 +169,50 @@ public class SampleServiceImpl implements SampleService{
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void writeXslx(long projectID) {
+        List<Sample> samples = getSamplesByProject(projectID);
+        if(samples == null)
+            return;
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet("sampleInfo");
+        XSSFRow firstRow = sheet.createRow(0);
+        String[] attributes = {"样品编号","样品瓶编号","所属项目","采样者姓名","联系方式","申请编号", "申请时间",
+                "采样时间", "水域地址","经度","纬度","样本体积","氨氮浓度","磷酸盐浓度","温度","天气","样本状态","备注"};
+        XSSFCell[] firstCells = new XSSFCell[attributes.length];
+        for(int i = 0; i < attributes.length; i++) {
+            firstCells[i] = firstRow.createCell(i);
+            firstCells[i].setCellValue(new XSSFRichTextString(attributes[i]));
+        }
+
+        for(int i = 0; i < samples.size(); i++) {
+            XSSFRow row = sheet.createRow(i+1);
+            Sample sample = samples.get(i);
+            Apply apply = applyDao.getApplyByID(sample.getApplyID());
+            row.createCell(0).setCellValue(sample.getId());
+            row.createCell(1).setCellValue(sample.getSampleID());
+            row.createCell(2).setCellValue(apply.getProject().getName());
+            row.createCell(3).setCellValue(apply.getName());
+            row.createCell(4).setCellValue(apply.getNumber());
+            row.createCell(5).setCellValue(sample.getApplyID());
+            row.createCell(6).setCellValue(apply.getApplyDate());
+            row.createCell(7).setCellValue(sample.getSampleDate());
+            row.createCell(8).setCellValue(apply.getWaterAddress());
+            row.createCell(9).setCellValue(sample.getId());
+        }
+    }
+
+    @Override
+    public List<Sample> getSamplesByProject(long projectID) {
+        List<Apply> applications = applyDao.getApplicationsByProID(projectID);
+        List<Sample> sampleList = new ArrayList<>();
+        for(Apply apply : applications) {
+            long applyID = apply.getIdApply();
+            List<Sample> samples = sampleDao.getSamplesByApplyID(applyID);
+            sampleList.addAll(samples);
+        }
+        return sampleList;
     }
 }

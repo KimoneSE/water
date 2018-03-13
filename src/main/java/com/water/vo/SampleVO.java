@@ -15,7 +15,10 @@ public class SampleVO {
     private Integer state;      //样本状态 包括处理中1 已上传实验结果2 未收取0 初始状态-1
     private double temperature; //温度
     private String weather;     //天气
+    private String ammoniaN_c;   //氨氮浓度
+    private String phosphate_c;  //磷酸盐浓度
     private Apply apply;
+    private String projectName;  //项目名称
 
     public long getSampleID() {
         return sampleID;
@@ -73,11 +76,35 @@ public class SampleVO {
         this.weather = weather;
     }
 
+    public String getAmmoniaN_c() {
+        return ammoniaN_c;
+    }
+
+    public void setAmmoniaN_c(String ammoniaN_c) {
+        this.ammoniaN_c = ammoniaN_c;
+    }
+
+    public String getPhosphate_c() {
+        return phosphate_c;
+    }
+
+    public void setPhosphate_c(String phosphate_c) {
+        this.phosphate_c = phosphate_c;
+    }
+
     public Apply getApply() {
         return apply;
     }
 
     public void setApply(Apply apply) {
         this.apply = apply;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

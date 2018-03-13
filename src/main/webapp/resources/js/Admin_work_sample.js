@@ -91,22 +91,28 @@ function  setSampleInfo(temp) {
         if(index===2)
             $(this).html(timeFormatter1(temp.apply.applyDate));
         if(index===3)
-            $(this).html(temp.volume+"mL");
+            $(this).html(temp.projectName);
         if(index===4)
-            $(this).html(temp.apply.waterAddress);
+            $(this).html(temp.volume+"mL");
         if(index===5)
-            $(this).html(temp.remark);
+            $(this).html(temp.ammoniaN_c);
         if(index===6)
-            $(this).html(temp.apply.number);
+            $(this).html(temp.phosphate_c);
         if(index===7)
-            $(this).html(temp.apply.longitude+"°");
+            $(this).html(temp.apply.waterAddress);
         if(index===8)
-            $(this).html(temp.apply.latitude+"°");
+            $(this).html(temp.remark);
         if(index===9)
-            $(this).html(temp.temperature+"℃");
+            $(this).html(temp.apply.number);
         if(index===10)
+            $(this).html(temp.apply.longitude+"°");
+        if(index===11)
+            $(this).html(temp.apply.latitude+"°");
+        if(index===12)
+            $(this).html(temp.temperature+"℃");
+        if(index===13)
             $(this).html(temp.weather);
-        if(index===11){
+        if(index===14){
             if(temp.state===1) {
                 $(this).html("处理中");
                 $("#confirm").hide();

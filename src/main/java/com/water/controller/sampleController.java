@@ -7,11 +7,8 @@ import com.sun.org.apache.regexp.internal.RE;
 import com.water.entity.Apply;
 import com.water.entity.Result;
 import com.water.entity.Sample;
-import com.water.service.ApplyService;
+import com.water.service.*;
 import com.water.service.Impl.ApplyServiceImpl;
-import com.water.service.ResultService;
-import com.water.service.SampleService;
-import com.water.service.UploadService;
 import com.water.vo.SampleVO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,7 +213,11 @@ public class sampleController {
         vo.setTemperature(sample.getTemperature());
         vo.setVolume(sample.getVolume());
         vo.setWeather(sample.getWeather());
+        vo.setAmmoniaN_c(sample.getAmmoniaN_c());
+        vo.setPhosphate_c(sample.getPhosphate_c());
         vo.setApply(apply);
+        String projectName = apply.getProject().getName();
+        vo.setProjectName(projectName);
         return vo;
     }
     /**
@@ -258,4 +259,17 @@ public class sampleController {
         response.getWriter().print(array.toString());
     }
 
+    /**
+     * 获取某个项目的所有样本信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getSamplesByProID")
+    public void getSamplesByProID(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long projectID = Long.parseLong(request.getParameter("projectID"));
+        List<Sample> samples = sampleService.getSamplesByProject(projectID);
+        JSONArray array = JSONArray.fromObject(samples);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(array.toString());
+    }
 }

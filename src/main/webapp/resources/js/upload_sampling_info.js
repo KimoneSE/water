@@ -33,8 +33,8 @@ $("#upload_but").click(function () {
         async:false,
         data:{"sample_time":$("#sample_time").val(), "sample_volume":$("#sample_volume").val(),
             "temperature":$("#temperature").html(), "weather":$("#weather").html(),
-            "sample_number":$("#sample_number").html(), "ammoniaN_c":$("#ammoniaN_c").html(),
-            "phosphate_c":$("#phosphate_c").html(), "sample_remark":$("#sample_remark").val()},
+            "sample_number":$("#sample_number").html(), "ammoniaN_c":$("#ammoniaN_c").val(),
+            "phosphate_c":$("#phosphate_c").val(), "sample_remark":$("#sample_remark").val()},
         success:function (data) {
             if(data){
                 // toast

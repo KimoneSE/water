@@ -153,7 +153,19 @@
                                     <span name="name">--</span>
                                 </p>
                                 <p>
+                                    <span>所属项目：</span>
+                                    <span name="name">--</span>
+                                </p>
+                                <p>
                                     <span>样本体积：</span>
+                                    <span name="name">--</span>
+                                </p>
+                                <p>
+                                    <span>氨氮浓度：</span>
+                                    <span name="name">--</span>
+                                </p>
+                                <p>
+                                    <span>磷酸盐浓度：</span>
                                     <span name="name">--</span>
                                 </p>
                                 <p>

@@ -210,4 +210,11 @@ public class ApplyDaoImpl implements ApplyDao {
         return (Apply) query.list().get(0);
     }
 
+    @Override
+    public List<Apply> getApplicationsByProID(long projectID) {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Apply where idProject="+projectID);
+        return query.list();
+    }
+
 }

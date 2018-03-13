@@ -112,19 +112,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">氨氮浓度</label></div>
                 <div class="weui-cell__bd">
-                    <input id="ammoniaN_c" class="weui-input" placeholder="氨氮浓度"/>
-                </div>
-                <div class="weui-cell__ft" style="color: black">
-                    <p>mL</p>
+                    <input id="ammoniaN_c" class="weui-input" />
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">磷酸盐浓度</label></div>
                 <div class="weui-cell__bd">
-                    <input id="phosphate_c" class="weui-input" placeholder="磷酸盐浓度"/>
-                </div>
-                <div class="weui-cell__ft" style="color: black">
-                    <p>mL</p>
+                    <input id="phosphate_c" class="weui-input"/>
                 </div>
             </div>
             <div class="weui-cells__title">现场天气</div>

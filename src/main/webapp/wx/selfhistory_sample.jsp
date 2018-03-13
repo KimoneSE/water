@@ -145,6 +145,14 @@
             <em class="weui-form-preview__value">${sampleVolume}</em>
         </p>
         <p>
+            <label class="weui-form-preview__label">氨氮浓度</label>
+            <em class="weui-form-preview__value">${ammoniaN_c}</em>
+        </p>
+        <p>
+            <label class="weui-form-preview__label">磷酸盐浓度</label>
+            <em class="weui-form-preview__value">${phosphate_c}</em>
+        </p>
+        <p>
             <label class="weui-form-preview__label">采样编号</label>
             <em class="weui-form-preview__value">${sampleID}</em>
         </p>

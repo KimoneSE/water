@@ -258,6 +258,16 @@ public class SelfHistoryController {
         modelAndView.addObject("response",response);
         modelAndView.addObject("waterAddress", apply.getWaterAddress());
         modelAndView.addObject("project", apply.getProject().getName());
+        String ammoniaN_c = "无";
+        String phosphate_c = "无";
+        if(!(sample.getAmmoniaN_c()==null || sample.getAmmoniaN_c().equals(""))) {
+            ammoniaN_c = sample.getAmmoniaN_c();
+        }
+        if(!(sample.getPhosphate_c()==null || sample.getPhosphate_c().equals(""))) {
+            phosphate_c = sample.getPhosphate_c();
+        }
+        modelAndView.addObject("ammoniaN_c",ammoniaN_c);
+        modelAndView.addObject("phosphate_c",phosphate_c);
         String latitude = String.valueOf(Math.abs(apply.getLatitude()));
         if (apply.getLatitude() >= 0) {
             modelAndView.addObject("latitude", "北纬" + latitude + "度");

@@ -37,4 +37,11 @@ public interface ApplyDao extends  DaoUtil<Apply,Long>{
      * @return
      */
     public Apply getApplyByID(long id);
+
+    /**
+     * 根据项目ID获取apply
+     * @param projectID
+     * @return
+     */
+    public List<Apply> getApplicationsByProID(long projectID);
 }

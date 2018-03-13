@@ -27,4 +27,8 @@ public interface SampleService {
     public boolean updateSampleState(long idSample, int state);
 
     public void addTxt(Sample sample);
+
+    public void writeXslx(long projectID);
+
+    public List<Sample> getSamplesByProject(long projectID);
 }
