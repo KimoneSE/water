@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,6 +72,7 @@ public class ProjectIntroController {
         String projectName = request.getParameter("projectName");
         Project p = projectService.findProjectByName(projectName);
         JSONObject jsonObject=new JSONObject();
+        jsonObject.put("projectId2",p.getIdProject());
         jsonObject.put("description2",p.getDescription());
         jsonObject.put("projectName2",p.getName());
         jsonObject.put("state2",p.getState());
@@ -81,5 +83,15 @@ public class ProjectIntroController {
             jsonObject.put("report2","");
         }
         return jsonObject;
+    }
+
+    @RequestMapping(value = "/getMap")
+    public ModelAndView initProjectMap(){
+//        System.out.println(projectId);
+        String projectId = request.getParameter("projectId");
+        ModelAndView modelAndView = new ModelAndView("../public/sampleMap");
+        modelAndView.addObject("projectId",projectId);
+
+        return modelAndView;
     }
 }

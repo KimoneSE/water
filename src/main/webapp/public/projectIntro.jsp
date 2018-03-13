@@ -114,9 +114,10 @@
                                     <div id="projectDescription">
 
                                     </div>
-
+                                    <p style="float: left"><a id="mapHref" class="media">查看样本地图</a></p>
                                     <p style="float: right"><a id="repostHref" class="media">查看项目报告</a></p>
                                     <input type="hidden" id="projectState">
+                                    <input type="hidden" id="projectId">
                                 </div>
                             </div>
                         </div>
@@ -236,6 +237,7 @@
                     $("#projectReport").empty();
                     $("#projectReport").text(data.report2);
                     $("#projectState").val(data.state2);
+                    $("#projectId").val(data.projectId2);
                 }else{
                     alert("fail");
                 }
@@ -273,5 +275,10 @@
         }
     })
 
+    $("#mapHref").click(function () {
+        var projectId = $("#projectId").val();
+        // alert(projectId)
+        window.location.href = "../projectIntro/getMap?projectId="+projectId;
+    })
 </script>
 </html>
