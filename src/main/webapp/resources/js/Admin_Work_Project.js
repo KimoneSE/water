@@ -141,13 +141,13 @@ function addOne(id,headline,markupStr) {
     head[id]=headline;
     content[id]=markupStr;
 
-    var list=document.getElementById("scro1");
+    var list=document.getElementById("projectList");
     var item=document.createElement("li");
     item.setAttribute("id",id);
     item.setAttribute("onclick","javascript:show("+id+");");
 
     var a=document.createElement("a");
-    a.innerHTML=headline;
+    a.innerHTML="&nbsp;&nbsp;&nbsp;"+headline;
     item.appendChild(a);
     var span=document.createElement("span");
     span.setAttribute("class","fa fa-angle-right");
@@ -207,4 +207,15 @@ function setactive(type,temp) {
         $(type.parentNode).addClass("active");
     }
 
+}
+
+function listTabToggle(data) {
+    $("#projectList").slideToggle();
+    if($(data).hasClass("open")){
+        $("#pull_toggle_img").attr("src","../resources/img/pullDown.png");
+        $(data).removeClass("open");
+    }else{
+        $("#pull_toggle_img").attr("src","../resources/img/pullUp.png");
+        $(data).addClass("open");
+    }
 }

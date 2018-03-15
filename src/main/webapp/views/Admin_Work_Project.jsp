@@ -175,6 +175,11 @@
                         <div id="content1" class="table-content" style="display: block;">
                             <ul id="scro1" class="scroll indicator-group-title" style="width:170px;height:560px;overflow:auto;">
                                 <li id="add" class="active" onclick=show("add")><a>新增项目</a><span class="fa fa-angle-right"></span></li>
+                                <li class=''><a class="open" onclick='listTabToggle(this)'>项目列表
+                                    <label style="float: right"><img id="pull_toggle_img" src="../resources/img/pullUp.png" style="width: 15px"/></label></a>
+                                </li>
+                                <div id="projectList" style="display: block">
+                                </div>
                             </ul>
                             <div class="indicator-group-content">
                                 <div style="padding-bottom:10px;">

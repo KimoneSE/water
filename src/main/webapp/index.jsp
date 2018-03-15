@@ -54,13 +54,13 @@
                     <div class="flexslider">
                         <ul class="slides">
                             <li>
-                                <a href="public/engagement.jsp"><img src="./resources/img/public.jpg"></a>
+                                <a href="<%=basePath%>public/engagement.jsp"><img src="./resources/img/public.jpg"></a>
                             </li>
                             <li>
-                                <a href="./projectIntro/init"><img src="./resources/img/info.jpg"></a>
+                                <a href="<%=basePath%>projectIntro/init"><img src="./resources/img/info.jpg"></a>
                             </li>
                             <li>
-                                <a href="public/knowledge.jsp"><img src="./resources/img/intro.jpg"></a>
+                                <a href="<%=basePath%>public/knowledge.jsp"><img src="./resources/img/intro.jpg"></a>
                             </li>
                         </ul>
                     </div>

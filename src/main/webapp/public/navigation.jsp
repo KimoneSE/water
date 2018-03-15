@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,14 +15,13 @@
 
     <!-- CSS -->
 
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster">
-    <link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="../resources/css/styles.css">
-    <link rel="stylesheet" href="../resources/css/test.css">
-    <link rel="stylesheet" href="../resources/css/engagement.css ">
-    <link rel="stylesheet" href="../resources/css/user_main.css">
+    <%--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster">--%>
+    <%--<link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">--%>
+    <%--<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">--%>
+    <%--<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.css" rel="stylesheet">--%>
+    <%--<link rel="stylesheet" href="../resources/css/styles.css">--%>
+    <%--<link rel="stylesheet" href="../resources/css/engagement.css ">--%>
+    <%--<link rel="stylesheet" href="../resources/css/andiaStyle.css">--%>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -39,20 +43,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="top-navbar-1">
             <ul class="nav navbar-nav navbar-right" id="selectNav">
-                <li id="index"><a href="../index.jsp"><i
+                <li id="index"><a href="<%=basePath%>index.jsp"><i
                         class="fa fa-2x fa-tasks"></i><br>首页</a></li>
 
-                <li id="engagement"><a href="../public/engagement.jsp"><i
+                <li id="engagement"><a href="<%=basePath%>public/engagement.jsp"><i
                         class="fa fa-2x fa-handshake-o"></i><br>公众参与</a>
                 </li>
 
-                <li id="projectIntro"><a href="../projectIntro/init"><i
+                <li id="projectIntro"><a href="<%=basePath%>projectIntro/init"><i
                         class="fa fa-2x fa-list-alt"></i><br>项目介绍</a>
                 </li>
-                <li id="teamIntro"><a href="../public/teamIntro.jsp"><i
+                <li id="teamIntro"><a href="<%=basePath%>public/teamIntro.jsp"><i
                         class="fa fa-2x fa-file-text-o"></i><br>团队介绍</a>
                 </li>
-                <li id="knowledge"><a href="../public/knowledge.jsp"><i
+                <li id="knowledge"><a href="<%=basePath%>public/knowledge.jsp"><i
                         class="fa fa-2x fa-file-text-o"></i><br>科普知识</a>
                 </li>
                 <%--<li id="sampleMap"><a href="../public/sampleMap.jsp"><i--%>
