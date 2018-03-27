@@ -44,6 +44,12 @@
 
     <script src="${pageContext.request.contextPath}/resources/js/Admin_Work_Project.js"></script>
 
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=X6CxGSyvVtNop7RGgaVAGtyWzM4xpYiG"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <%--<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>--%>
+    <%--<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />--%>
 </head>
 
 <body onload=load()>
@@ -52,7 +58,7 @@
         $('#summernote').summernote({
             placeholder:"请输入内容",
             lang: 'zh-CN', // default: 'en-US'
-            height: 400,
+            height: 200,
             focus:true,
             toolbar: [
                 ['style', ['style']],
@@ -176,9 +182,10 @@
                             <ul id="scro1" class="scroll indicator-group-title" style="width:170px;height:560px;overflow:auto;">
                                 <li id="add" class="active" onclick=show("add")><a>新增项目</a><span class="fa fa-angle-right"></span></li>
                                 <li class=''><a class="open" onclick='listTabToggle(this)'>项目列表
-                                    <label style="float: right"><img id="pull_toggle_img" src="../resources/img/pullUp.png" style="width: 15px"/></label></a>
+                                    <label style="float: right"><img id="pull_toggle_img" src="${pageContext.request.contextPath}/resources/img/pullUp.png" style="width: 15px"/></label></a>
                                 </li>
                                 <div id="projectList" style="display: block">
+
                                 </div>
                             </ul>
                             <div class="indicator-group-content">
@@ -193,6 +200,12 @@
                                 <div id="specialAlign">
                                     <div id="summernote"></div>
                                 </div>
+                                <div id="map" style="height: 400px">
+
+                                </div>
+                                <%--<div id="result">--%>
+                                    <%--<input type="button" value="清除覆盖物" onclick="clearOverlay()" style="float:left;"/>--%>
+                                <%--</div>--%>
                                 <div id="buttons">
                                     <button id="confirm" onclick="publish()" class="btn-info text-sign" style="padding:2px 7px 2px 7px;">提交</button>
                                     <button id="cancel" onclick="deleteAll()" class="btn-info text-sign" style="padding:2px 7px 2px 7px;">取消</button>

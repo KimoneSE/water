@@ -40,13 +40,21 @@ public class ProjectController {
     public long publishProject(HttpServletRequest request) throws IOException {
         String head=request.getParameter("headline");
         String body=request.getParameter("body");
-
+        Double lngMax=Double.parseDouble(request.getParameter("lngMax"));
+        Double lngMin=Double.parseDouble(request.getParameter("lngMin"));
+        Double latMax=Double.parseDouble(request.getParameter("latMax"));
+        Double latMin=Double.parseDouble(request.getParameter("latMin"));
         Date date=new Date();
+
         Project project=new Project();
         project.setName(head);
         project.setDescription(body);
         project.setState(0);
         project.setDate(date);
+        project.setLngMax(lngMax);
+        project.setLngMin(lngMin);
+        project.setLatMax(latMax);
+        project.setLatMin(latMin);
 
         long id=projectService.saveProject(project);
 
@@ -118,13 +126,21 @@ public class ProjectController {
         String head=request.getParameter("headline");
         String body=request.getParameter("body");
         System.out.println(body);
-
+        Double lngMax=Double.parseDouble(request.getParameter("lngMax"));
+        Double lngMin=Double.parseDouble(request.getParameter("lngMin"));
+        Double latMax=Double.parseDouble(request.getParameter("latMax"));
+        Double latMin=Double.parseDouble(request.getParameter("latMin"));
         Date date=new Date();
+
         Project project=new Project();
         project.setIdProject(id);
         project.setName(head);
         project.setDescription(body);
         project.setDate(date);
+        project.setLngMax(lngMax);
+        project.setLngMin(lngMin);
+        project.setLatMax(latMax);
+        project.setLatMin(latMin);
 
         boolean success=projectService.modifyProject(project);
 

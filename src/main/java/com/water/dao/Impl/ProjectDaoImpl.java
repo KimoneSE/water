@@ -62,18 +62,24 @@ public class ProjectDaoImpl implements ProjectDao {
         getCurrentSession().persist(entity);
     }
 
-    public boolean modifyProject(String projectName, String desc, Long id){
+    public boolean modifyProject(Project project){
         Session session = getCurrentSession();
         Transaction tx = session.beginTransaction();
         boolean flag = false;
         try {
-            String hql="update Project set name=:projectname , description=:body where idProject =:projectID";//使用命名参数，推荐使用，易读。
+            String hql="update Project set name=:projectname , description=:body , lngMax=:lngMax ," +
+                    "lngMin=:lngMin , latMax=:latMax , latMin=:latMin where idProject =:projectID";//使用命名参数，推荐使用，易读。
             Query query=session.createQuery(hql);
-            query.setString("projectname", projectName);
-            query.setString("body", desc);
-            query.setLong("projectID",id);
+            query.setString("projectname", project.getName());
+            query.setString("body", project.getDescription());
+            query.setLong("projectID",project.getIdProject());
+            query.setDouble("lngMax",project.getLngMax());
+            query.setDouble("lngMin",project.getLngMin());
+            query.setDouble("latMax",project.getLatMax());
+            query.setDouble("latMin",project.getLatMin());
             query.executeUpdate();
             tx.commit();
+            flag = true;
         } catch (Exception ex) {
             ex.printStackTrace();
             tx.rollback();

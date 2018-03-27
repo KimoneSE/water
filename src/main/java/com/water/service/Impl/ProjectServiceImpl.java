@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public boolean modifyProject(Project project){
-        return projectDao.modifyProject(project.getName(), project.getDescription(), project.getIdProject());
+        return projectDao.modifyProject(project);
     }
 
 }

@@ -1,8 +1,12 @@
 var head={};
 var content={};
+var map;
+var overlays={};
+var overlay;
 
 //加载界面使用
 function load(){
+    initMap();
     var url="./allProject";
     $.ajax({
         type:"Post",
@@ -14,12 +18,70 @@ function load(){
                 var id=objects[i].idProject;
                 var headline=objects[i].name;
                 var markupstr=objects[i].description;
+                var lngMax=objects[i].lngMax;
+                var lngMin=objects[i].lngMin;
+                var latMax=objects[i].latMax;
+                var latMin=objects[i].latMin;
+                overlays[id] = new BMap.Polygon([
+                    new BMap.Point(lngMin,latMin),
+                    new BMap.Point(lngMax,latMin),
+                    new BMap.Point(lngMax,latMax),
+                    new BMap.Point(lngMin,latMax)
+                ], {strokeColor:"#337AB7",
+                        fillColor:"#337AB7",
+                        strokeWeight:2,
+                        strokeOpacity:0.8,
+                        fillOpacity: 0.6,
+                        strokeStyle: 'solid'});  //创建矩形
+
                 addOne(id,headline,markupstr);
             }
         }
 
     })
+
 }
+
+function initMap(rectangle) {
+
+    map = new BMap.Map('map');
+    var poi = new BMap.Point(116.307852,40.057031);
+    map.centerAndZoom(poi, 16);
+    map.enableScrollWheelZoom();
+    overlay = rectangle;
+    map.addOverlay(rectangle);
+
+    var styleOptions = {
+        strokeColor:"#337AB7",    //边线颜色。
+        fillColor:"#337AB7",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 2,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+            drawingModes: [BMAP_DRAWING_RECTANGLE]
+        },
+        // circleOptions: styleOptions, //圆的样式
+        // polylineOptions: styleOptions, //线的样式
+        // polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });
+
+    //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+}
+
+var overlaycomplete = function(e){
+    map.removeOverlay(overlay);
+    overlay = e.overlay;
+};
 
 function publish(){
     var headline=document.getElementById("headline").value;
@@ -36,7 +98,15 @@ function publish(){
                 type:"POST",
                 url:url,
                 async:true,
-                data:{"id":id,"headline":headline,"body":markupStr},
+                data:{
+                    "id":id,
+                    "headline":headline,
+                    "body":markupStr,
+                    "lngMax":overlay.Nu.Ge,
+                    "lngMin":overlay.Nu.Le,
+                    "latMax":overlay.Nu.Fe,
+                    "latMin":overlay.Nu.Ke,
+                },
                 dataType:"json",
                 success:function (data) {
                     if(data==false){
@@ -45,6 +115,7 @@ function publish(){
                     else{
                         head[id]=headline;
                         content[id]=markupStr;
+                        overlays[id]=overlay;
                         alert("修改成功！");
                     }
                 }
@@ -56,7 +127,14 @@ function publish(){
                 type:"POST",
                 url:url,
                 async:true,
-                data:{"headline":headline,"body":markupStr},
+                data:{
+                    "headline":headline,
+                    "body":markupStr,
+                    "lngMax":overlay.Nu.Ge,
+                    "lngMin":overlay.Nu.Le,
+                    "latMax":overlay.Nu.Fe,
+                    "latMin":overlay.Nu.Ke,
+                },
                 dataType:"json",
                 success:function (data){
                     // head.push(headline);
@@ -66,7 +144,7 @@ function publish(){
                     }
                     else{
                         addOne(data,headline,markupStr);
-
+                        overlays[data]=overlay;
                         alert("发布成功！");
                         deleteAll();
                     }
@@ -84,6 +162,7 @@ function deleteAll(){
     document.getElementById("headline").value= null;
     $('#summernote').summernote('code', markupStr);
     $('#summernote').summernote('focus',true);
+    map.removeOverlay(overlay);
 }
 
 function show(id){
@@ -96,7 +175,7 @@ function show(id){
     if(id=="add"){
         document.getElementById("headline").value="";
         $('#summernote').summernote('code', "");
-
+        initMap();
         cancel.innerHTML = "取消";
         cancel.setAttribute("onclick", "javascript:deleteAll();");
     }
@@ -105,6 +184,19 @@ function show(id){
         document.getElementById("headline").value = head[id];
         $('#summernote').summernote('code', content[id]);
 
+        var rectangle = new BMap.Polygon([
+            new BMap.Point(overlays[id].Nu.Le,overlays[id].Nu.Ke),
+            new BMap.Point(overlays[id].Nu.Ge,overlays[id].Nu.Ke),
+            new BMap.Point(overlays[id].Nu.Ge,overlays[id].Nu.Fe),
+            new BMap.Point(overlays[id].Nu.Le,overlays[id].Nu.Fe)
+        ], {strokeColor:"#337AB7",
+            fillColor:"#337AB7",
+            strokeWeight:2,
+            strokeOpacity:0.8,
+            fillOpacity: 0.6,
+            strokeStyle: 'solid'});
+        initMap(rectangle);
+        // map.addOverlay(rectangle);
         cancel.innerHTML = "删除";
         cancel.setAttribute("onclick", "javascript:del(" + id + ");");
     }
@@ -129,6 +221,7 @@ function del(id){
 
                 delete head[id];
                 delete content[id];
+                delete overlays[id];
 
                 alert("删除成功！");
                 show("add");
@@ -212,10 +305,10 @@ function setactive(type,temp) {
 function listTabToggle(data) {
     $("#projectList").slideToggle();
     if($(data).hasClass("open")){
-        $("#pull_toggle_img").attr("src","../resources/img/pullDown.png");
+        $("#pull_toggle_img").attr("src","./resources/img/pullDown.png");
         $(data).removeClass("open");
     }else{
-        $("#pull_toggle_img").attr("src","../resources/img/pullUp.png");
+        $("#pull_toggle_img").attr("src","./resources/img/pullUp.png");
         $(data).addClass("open");
     }
 }
