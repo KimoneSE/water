@@ -16,10 +16,8 @@ public interface ProjectDao extends DaoUtil<Project,Long> {
 
     /**
      * 修改项目
-     * @param projectName
-     * @param desc
-     * @param id
+     * @param project
      * @return
      */
-    public boolean modifyProject(String projectName, String desc, Long id);
+    public boolean modifyProject(Project project);
 }

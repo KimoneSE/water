@@ -12,6 +12,10 @@ public class Project {
     private String report;          //项目报告pdf的名称
     private Date date;          //日期
     private Integer isPrivate;  //项目是否公开
+    private Double lngMax;             //经度范围最大值
+    private Double lngMin;             //经度范围最小值
+    private Double latMax;              //纬度范围最大值
+    private Double latMin;              //纬度范围最小值
 
     @Id
     @GeneratedValue
@@ -81,5 +85,37 @@ public class Project {
 
     public void setIsPrivate(Integer isPrivate) {
         this.isPrivate = isPrivate;
+    }
+
+    public Double getLngMax() {
+        return lngMax;
+    }
+
+    public void setLngMax(Double lngMax) {
+        this.lngMax = lngMax;
+    }
+
+    public Double getLngMin() {
+        return lngMin;
+    }
+
+    public void setLngMin(Double lngMin) {
+        this.lngMin = lngMin;
+    }
+
+    public Double getLatMax() {
+        return latMax;
+    }
+
+    public void setLatMax(Double latMax) {
+        this.latMax = latMax;
+    }
+
+    public Double getLatMin() {
+        return latMin;
+    }
+
+    public void setLatMin(Double latMin) {
+        this.latMin = latMin;
     }
 }
