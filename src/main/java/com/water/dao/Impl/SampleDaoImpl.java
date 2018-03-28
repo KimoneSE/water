@@ -97,7 +97,7 @@ public class SampleDaoImpl implements SampleDao {
     }
 
     @Override
-    public Sample getSampleBySampleID(long sampleID) {
+    public Sample getSampleBySampleID(String sampleID) {
         Session session = getCurrentSession();
         Query query = session.createQuery("from Sample where sampleID="+sampleID);
         List list = query.list();
@@ -116,6 +116,19 @@ public class SampleDaoImpl implements SampleDao {
         List<Sample> list = query.list();
         session.close();
         return list;
+    }
+
+    @Override
+    public String getMaxSampleID() {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from Sample order by sampleID desc");
+        List list = query.list();
+        if (list.size()!=0){
+            Sample sample = (Sample) list.get(0);
+            return sample.getSample_id();
+        }
+
+        return null;
     }
 
 }

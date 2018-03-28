@@ -8,7 +8,8 @@ import java.util.Date;
  * Created by Kimone.
  */
 public class SampleVO {
-    private long sampleID;      //样本编号
+    private String sampleID;      //样本编号
+    private long bottleID;    //样品瓶编号
     private Date sampleDate;    //采样时间
     private Double volume;      //样本体积
     private String remark;      //备注
@@ -21,12 +22,20 @@ public class SampleVO {
     private String projectName;  //项目名称
     private long projectID;      //项目ID
 
-    public long getSampleID() {
+    public String getSampleID() {
         return sampleID;
     }
 
-    public void setSampleID(long sampleID) {
+    public void setSampleID(String sampleID) {
         this.sampleID = sampleID;
+    }
+
+    public long getBottleID() {
+        return bottleID;
+    }
+
+    public void setBottleID(long bottleID) {
+        this.bottleID = bottleID;
     }
 
     public Date getSampleDate() {

@@ -52,8 +52,8 @@ public class UploadController {
     public ModelAndView uploadSamplePage(@PathVariable String applyID, HttpServletRequest request) throws Exception {
         ModelAndView modelAndView = new ModelAndView("../wx/upload_sampling_info");
         //设置采样编号
-        long sampleID = Long.parseLong(request.getParameter("sampleID"));
-        modelAndView.addObject("sampleID", sampleID);
+        long bottleID = Long.parseLong(request.getParameter("bottleID"));
+        modelAndView.addObject("bottleID", bottleID);
         //设置当前时间
         Date date = new Date();
         String timeStr = sdf.format(date);
@@ -100,7 +100,8 @@ public class UploadController {
         String real_longitude = String.format("%.2f", apply.getLongitude());
         String real_latitude = String.format("%.2f", apply.getLatitude());
 
-        Map<String, String> map  = WeatherUtil.getWeather("nanjing");
+        String loaction = real_latitude+":"+real_longitude;
+        Map<String, String> map  = WeatherUtil.getWeather(loaction);//TODO
         modelAndView.addObject("temperature", map.get("temperature"));
         modelAndView.addObject("weather", map.get("weather"));
 
@@ -128,7 +129,7 @@ public class UploadController {
             return false;
         }
         Double sample_volume = Double.parseDouble(request.getParameter("sample_volume"));
-        long sampleID = Long.parseLong(request.getParameter("sample_number"));
+        long bottleID = Long.parseLong(request.getParameter("bottleID"));
         String sample_remark = request.getParameter("sample_remark");
         String weather = request.getParameter("weather");
         String tmp = request.getParameter("temperature");
@@ -140,7 +141,7 @@ public class UploadController {
         Sample sample = sampleService.getInvalidSampleByApplyID(Long.parseLong(applyID));
         sample.setSampleDate(sample_date);
         sample.setVolume(sample_volume);
-        sample.setSampleID(sampleID);
+        sample.setBottleID(bottleID);
         sample.setRemark(sample_remark);
         sample.setState(0);
         sample.setTemperature(temperature);

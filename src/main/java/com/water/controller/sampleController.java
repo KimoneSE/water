@@ -82,12 +82,12 @@ public class sampleController {
         String text = request.getParameter("description");
         System.out.println(idSample);
         Result result  = new Result();
-        result.setIdResult(Integer.valueOf(idSample));
+        result.setIdResult(Long.parseLong(idSample));
         result.setDescription(text);
      //   result.setImage(nameList);
        boolean bool= resultService.addResult(result);
        if(bool){
-           boolean bool1 = sampleService.updateSampleState(Long.valueOf(idSample),2);
+           boolean bool1 = sampleService.updateSampleState(idSample,2);
        }
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print("success");
@@ -121,7 +121,7 @@ public class sampleController {
     public void sampleState(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idSample=request.getParameter("idSample");
         String state = request.getParameter("state");
-        boolean bool = sampleService.updateSampleState(Long.valueOf(idSample),Integer.valueOf(state));
+        boolean bool = sampleService.updateSampleState(idSample,Integer.valueOf(state));
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(bool);
     }
@@ -155,7 +155,7 @@ public class sampleController {
         List<Sample> samples = sampleService.findAll();
         ArrayList<String> sampleIDs = new ArrayList<String>();
         for(Sample temp:samples){
-            sampleIDs.add(String.valueOf(temp.getSampleID()+""));
+            sampleIDs.add(temp.getSample_id());
         }
         log.info("test1");
         log.info("test2");
@@ -190,8 +190,8 @@ public class sampleController {
     @RequestMapping("/getSample")
     public void getSample(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("id");
-        Long id1 = Long.valueOf(id);
-        Sample sample = sampleService.getSampleBySampleID(id1);
+//        Long id1 = Long.valueOf(id);
+        Sample sample = sampleService.getSampleBySampleID(id);
         if(sample!=null){
             Apply apply = applyService.searchApplication(sample.getApplyID());
             SampleVO vo = convert2VO(sample,apply);
@@ -210,7 +210,7 @@ public class sampleController {
         SampleVO vo = new SampleVO();
         vo.setRemark(sample.getRemark());
         vo.setSampleDate(sample.getSampleDate());
-        vo.setSampleID(sample.getSampleID());
+        vo.setSampleID(sample.getSample_id());
         vo.setState(sample.getState());
         vo.setTemperature(sample.getTemperature());
         vo.setVolume(sample.getVolume());
@@ -232,8 +232,8 @@ public class sampleController {
     @RequestMapping("/getSampleResultTest")
     public void sampleResultTest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("id");
-        Long id1 = Long.valueOf(id);
-        int res = sampleService.judgeByID(id1);
+//        Long id1 = Long.valueOf(id);
+        int res = sampleService.judgeByID(id);
         response.getWriter().print(String.valueOf(res));
 
     }

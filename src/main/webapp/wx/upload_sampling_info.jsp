@@ -75,9 +75,9 @@
                 </div>
             </div>
             <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">样品编号</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">样品瓶编号</label></div>
                 <div class="weui-cell_primary">
-                    <label class="weui-label" id="sample_number">${sampleID}</label>
+                    <label class="weui-label" id="sample_number">${bottleID}</label>
                 </div>
             </div>
             <div class="weui-cell">

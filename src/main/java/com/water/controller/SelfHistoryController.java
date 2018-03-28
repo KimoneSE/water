@@ -171,7 +171,8 @@ public class SelfHistoryController {
             object.put("volume", sample.getVolume());
             object.put("remark", sample.getRemark());
             object.put("sampleDate", sdf.format(sample.getSampleDate()));
-            object.put("sampleID", sample.getSampleID());
+            object.put("sampleID", sample.getSample_id());
+            object.put("bottleID", sample.getBottleID());
             object.put("state", sample.getState());
             jsonArray.add(object);
         }
@@ -240,7 +241,7 @@ public class SelfHistoryController {
     @ResponseBody
     public ModelAndView selfHistorySample(@PathVariable String userID, HttpServletRequest request) {
 //        int index = Integer.parseInt(request.getParameter("index"));
-        long sampleID = Long.parseLong(request.getParameter("sampleID"));
+        String sampleID = request.getParameter("sampleID");
         ModelAndView modelAndView = new ModelAndView("../wx/selfhistory_sample");
         modelAndView.addObject("userID", userID);
 //        ArrayList<Sample> sampleArrayList = uploadService.alreadySample(userID);
@@ -249,7 +250,8 @@ public class SelfHistoryController {
         Apply apply = applyService.getApplyByID(sample.getApplyID());
         modelAndView.addObject("sampleDate", sample.getSampleDate());
         modelAndView.addObject("sampleVolume", sample.getVolume());
-        modelAndView.addObject("sampleID", sample.getSampleID());
+        modelAndView.addObject("sampleID", sample.getSample_id());
+        modelAndView.addObject("bottleID", sample.getBottleID());
         modelAndView.addObject("sampleRemark", sample.getRemark());
         modelAndView.addObject("state", sample.getState());
         modelAndView.addObject("temperature", sample.getTemperature());
@@ -289,7 +291,7 @@ public class SelfHistoryController {
         modelAndView.addObject("address", apply.getAddress());
         //实验结果
         if (sample.getState() == 2) {
-            Result result = resultService.findResultByID(sample.getSampleID());
+            Result result = resultService.findResultByID(Long.parseLong(sample.getSample_id()));
             ArrayList<String> resultImage = imageArray(result.getImage());
             modelAndView.addObject("resultImage",resultImage);
             modelAndView.addObject("resultDescription",result.getDescription());
