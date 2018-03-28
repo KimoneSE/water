@@ -33,9 +33,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public long saveProject(Project project) {
-        projectDao.save(project);
-        return project.getIdProject();
+    public boolean saveProject(Project project) {
+        return projectDao.save(project);
     }
 
     @Override
@@ -80,4 +79,8 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDao.modifyProject(project);
     }
 
+    @Override
+    public Long findIdMax(){
+        return projectDao.findIdMax();
+    }
 }

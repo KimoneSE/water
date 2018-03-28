@@ -18,7 +18,7 @@ public class Project {
     private Double latMin;              //纬度范围最小值
 
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     @Column(name = "idProject", nullable = false)
     public long getIdProject() {
         return idProject;

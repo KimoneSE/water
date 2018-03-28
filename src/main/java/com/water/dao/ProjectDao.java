@@ -20,4 +20,12 @@ public interface ProjectDao extends DaoUtil<Project,Long> {
      * @return
      */
     public boolean modifyProject(Project project);
+
+
+    /**
+     * 查找项目编号最大值
+     * @param
+     * @return idProject
+     */
+    public Long findIdMax();
 }

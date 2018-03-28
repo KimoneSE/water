@@ -38,7 +38,7 @@ public interface ProjectService {
      * @param project
      * @return 是否发布成功
      */
-    public long saveProject(Project project);
+    public boolean saveProject(Project project);
 
     /**
      * 删除项目
@@ -74,4 +74,11 @@ public interface ProjectService {
      * @return
      */
     public boolean modifyProject(Project project);
+
+    /**
+     * 查找项目编号最大值
+     * @param
+     * @return
+     */
+    public Long findIdMax();
 }

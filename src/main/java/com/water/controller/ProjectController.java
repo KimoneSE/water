@@ -1,7 +1,6 @@
 package com.water.controller;
 
 import com.water.entity.Project;
-import com.water.entity.Sample;
 import com.water.service.ProjectService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,12 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.DataInput;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 //处理项目的增删改
@@ -45,8 +43,26 @@ public class ProjectController {
         Double latMax=Double.parseDouble(request.getParameter("latMax"));
         Double latMin=Double.parseDouble(request.getParameter("latMin"));
         Date date=new Date();
+        Calendar ca = Calendar.getInstance();
+        int curYear=ca.get(Calendar.YEAR);//当前年份
+        String curId;//当前要生成的项目编号
+        if (projectService.findIdMax()==null){//如果数据库里项目编号为空，没有最大值
+            curId=Integer.toString(curYear)+"0001";
+        }
+        else {
+            long idMax=projectService.findIdMax();//数据库里项目编号最大值
+            String yearMax=Long.toString(idMax).substring(0,4);//年份最大值
+            if (curYear>Integer.parseInt(yearMax)){//如果当前年份大于数据库年份最大值
+                curId=Integer.toString(curYear)+"0001";
+            }
+            else {
+                curId=Long.toString(idMax+1);
+            }
+        }
+        Long id=Long.parseLong(curId);
 
         Project project=new Project();
+        project.setIdProject(id);
         project.setName(head);
         project.setDescription(body);
         project.setState(0);
@@ -56,8 +72,10 @@ public class ProjectController {
         project.setLatMax(latMax);
         project.setLatMin(latMin);
 
-        long id=projectService.saveProject(project);
-
+        boolean success=projectService.saveProject(project);
+        if (!success){
+            return -1;
+        }
         return id;
     }
 
@@ -130,13 +148,13 @@ public class ProjectController {
         Double lngMin=Double.parseDouble(request.getParameter("lngMin"));
         Double latMax=Double.parseDouble(request.getParameter("latMax"));
         Double latMin=Double.parseDouble(request.getParameter("latMin"));
-        Date date=new Date();
+//        Date date=new Date();
 
         Project project=new Project();
         project.setIdProject(id);
         project.setName(head);
         project.setDescription(body);
-        project.setDate(date);
+//        project.setDate(date);
         project.setLngMax(lngMax);
         project.setLngMin(lngMin);
         project.setLatMax(latMax);

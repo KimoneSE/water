@@ -164,6 +164,30 @@ public class ProjectDaoImpl implements ProjectDao {
 
     }
 
+    public Long findIdMax(){
+        Session session = getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        List<Long> idList = new LinkedList<>();
+        try {
+
+            String hql = "select max(idProject) from Project";
+            Query query = session.createQuery(hql);
+            idList = query.list();
+
+        } catch (Exception ex) {
+            tx.rollback();
+        } finally {
+            session.close();
+        }
+        if(idList.size()==0){
+            return  null;
+        }
+        else {
+            return idList.get(0);
+        }
+
+    }
+
     public void flush() {
         Session session = getCurrentSession();
         session.flush();
