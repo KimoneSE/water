@@ -58,7 +58,7 @@ public class ResultServiceImpl implements ResultService {
     public Result getResultbyLocation(double longitude, double latitude) {
         Apply apply=applyDao.getApplyByLocation(longitude,latitude);
         Sample sample=sampleDao.getValidSampleByApplyID(apply.getIdApply());
-        Result result=resultDao.get(sample.getSampleID());
+        Result result=resultDao.get(Long.parseLong(sample.getSample_id()));
         return result;
     }
 

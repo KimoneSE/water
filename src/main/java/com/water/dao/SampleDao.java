@@ -52,10 +52,12 @@ public interface SampleDao {
      * @param sampleID
      * @return
      */
-    public Sample getSampleBySampleID(long sampleID);
+    public Sample getSampleBySampleID(String sampleID);
 
 
     public List<Sample> getSamplesByApplyID(long applyID);
 
     public List<Sample> findAll();
+
+    public String getMaxSampleID();
 }

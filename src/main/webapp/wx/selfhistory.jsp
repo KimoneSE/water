@@ -283,13 +283,14 @@
                         async: false,
                         data:{"id":result},
                         success: function (data) {
-                            var obj = $.parseJSON(data);
-                            if(obj!==null){
-                                $("#alert").show();
-                            }
-                            else {
-                                onUpload(index,result);
-                            }
+                            onUpload(index,result);
+//                            var obj = $.parseJSON(data);
+//                            if(obj!==null){
+//                                $("#alert").show();
+//                            }
+//                            else {
+//
+//                            }
                         }
                     })
 

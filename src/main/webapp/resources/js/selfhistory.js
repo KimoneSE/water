@@ -59,7 +59,7 @@ function onUpload(index,result) {
         async: false,
         data: {"index": index},
         success: function (uploadID) {
-            window.location.href=basePath+"upload/j"+uploadID+"?sampleID="+result;
+            window.location.href=basePath+"upload/j"+uploadID+"?bottleID="+result;
         }
     });
 }

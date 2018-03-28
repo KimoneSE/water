@@ -130,9 +130,9 @@ public class UploadServiceImpl implements UploadService {
             long applyID = sample.getApplyID();
             Apply apply = applyDao.getApplyByID(applyID);
             // FileOutputStream file1 = new FileOutputStream("F:\\拙劣工程师\\water\\src\\main\\webapp\\resources\\txt\\new.txt");
-            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSampleID() + ".txt");
+            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSample_id() + ".txt");
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(file1, "utf-8");
-            String id = "样本编号： " + sample.getSampleID() + "\r\n";
+            String id = "样本编号： " + sample.getSample_id() + "\r\n";
             String name = "申请人姓名： " + apply.getName() + "\r\n";
             String applyid = "申请编号：  " + apply.getIdApply() + "\r\n";
             String applytime = "申请时间： " + apply.getApplyDate() + "\r\n";

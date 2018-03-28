@@ -72,7 +72,7 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public Sample getSampleBySampleID(long sampleID) {
+    public Sample getSampleBySampleID(String sampleID) {
         return sampleDao.getSampleBySampleID(sampleID);
     }
 
@@ -82,7 +82,7 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public int judgeByID(long sampleID) {
+    public int judgeByID(String sampleID) {
         int state = -1;
         Sample sample = sampleDao.getSampleBySampleID(sampleID);
         if(sample==null) {
@@ -95,7 +95,7 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public boolean updateSampleState(long idSample, int state) {
+    public boolean updateSampleState(String idSample, int state) {
         Sample sample = sampleDao.getSampleBySampleID(idSample);
         if(sample==null){
             return false;
@@ -120,10 +120,10 @@ public class SampleServiceImpl implements SampleService{
             }
             stateStr += "\r\n";
             // FileOutputStream file1 = new FileOutputStream("F:\\拙劣工程师\\water\\src\\main\\webapp\\resources\\txt\\new.txt");
-            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSampleID() + ".txt");
+            FileOutputStream file1 = new FileOutputStream("/home/samples/" + sample.getSample_id() + ".txt");
             OutputStreamWriter oStreamWriter = new OutputStreamWriter(file1, "utf-8");
-            String id = "样品编号：" + sample.getId() + "\r\n";
-            String sampleID = "样品瓶编号： " + sample.getSampleID() + "\r\n";
+            String id = "样品编号：" + sample.getSample_id() + "\r\n";
+            String sampleID = "样品瓶编号： " + sample.getBottleID() + "\r\n";
             String name = "申请人姓名： " + apply.getName() + "\r\n";
             String applyid = "申请编号：  " + apply.getIdApply() + "\r\n";
             String applytime = "申请时间： " + apply.getApplyDate() + "\r\n";
@@ -158,7 +158,7 @@ public class SampleServiceImpl implements SampleService{
             oStreamWriter.write(weather);
             oStreamWriter.write(stateStr);
             if(state == 2) {
-                Result result = resultDao.get(sample.getSampleID());
+                Result result = resultDao.get(sample.getBottleID());//TODO
                 String resultStr = "实验结果： " + result.getDescription() + "\r\n";
                 oStreamWriter.write(resultStr);
             }
@@ -192,8 +192,8 @@ public class SampleServiceImpl implements SampleService{
             XSSFRow row = sheet.createRow(i+1);
             Sample sample = samples.get(i);
             Apply apply = applyDao.getApplyByID(sample.getApplyID());
-            row.createCell(0).setCellValue(sample.getId());
-            row.createCell(1).setCellValue(sample.getSampleID());
+            row.createCell(0).setCellValue(sample.getSample_id());
+            row.createCell(1).setCellValue(sample.getBottleID());
             row.createCell(2).setCellValue(apply.getProject().getName());
             row.createCell(3).setCellValue(apply.getName());
             row.createCell(4).setCellValue(apply.getNumber());
@@ -254,5 +254,10 @@ public class SampleServiceImpl implements SampleService{
             sampleList.addAll(samples);
         }
         return sampleList;
+    }
+
+    @Override
+    public String getMaxSampleID() {
+        return sampleDao.getMaxSampleID();
     }
 }

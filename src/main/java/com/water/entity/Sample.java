@@ -5,8 +5,9 @@ import java.util.Date;
 
 @Entity
 public class Sample {
-    private long id;            //样本编号
-    private long sampleID;      //样本瓶编号
+    private long id;
+    private String sample_id;    //样本编号
+    private long bottleID;      //样本瓶编号
     private Date sampleDate;    //采样时间
     private Double volume;      //样本体积
     private String remark;      //备注
@@ -27,12 +28,21 @@ public class Sample {
         this.id = id;
     }
 
-    public long getSampleID() {
-        return sampleID;
+    @Column(name = "sampleID")
+    public String getSample_id() {
+        return sample_id;
     }
 
-    public void setSampleID(long sampleID) {
-        this.sampleID = sampleID;
+    public void setSample_id(String sample_id) {
+        this.sample_id = sample_id;
+    }
+
+    public long getBottleID() {
+        return bottleID;
+    }
+
+    public void setBottleID(long bottleID) {
+        this.bottleID = bottleID;
     }
 
     public Date getSampleDate() {
@@ -114,7 +124,7 @@ public class Sample {
 
         Sample sample = (Sample) o;
 
-        if (sampleID != sample.sampleID) return false;
+        if (sample_id != sample.sample_id) return false;
         if (sampleDate != null ? !sampleDate.equals(sample.sampleDate) : sample.sampleDate != null) return false;
         if (volume != null ? !volume.equals(sample.volume) : sample.volume != null) return false;
         if (remark != null ? !remark.equals(sample.remark) : sample.remark != null) return false;
@@ -122,14 +132,14 @@ public class Sample {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (sampleID ^ (sampleID >>> 32));
-        result = 31 * result + (sampleDate != null ? sampleDate.hashCode() : 0);
-        result = 31 * result + (volume != null ? volume.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        return result;
-    }
+//    @Override
+//    public int hashCode() {
+//        int result = (int) (sample_id ^ (sample_id >>> 32));
+//        result = 31 * result + (sampleDate != null ? sampleDate.hashCode() : 0);
+//        result = 31 * result + (volume != null ? volume.hashCode() : 0);
+//        result = 31 * result + (remark != null ? remark.hashCode() : 0);
+//        result = 31 * result + (state != null ? state.hashCode() : 0);
+//        return result;
+//    }
 
 }

@@ -153,8 +153,12 @@
             <em class="weui-form-preview__value">${phosphate_c}</em>
         </p>
         <p>
-            <label class="weui-form-preview__label">采样编号</label>
+            <label class="weui-form-preview__label">样品编号</label>
             <em class="weui-form-preview__value">${sampleID}</em>
+        </p>
+        <p>
+            <label class="weui-form-preview__label">样品瓶编号</label>
+            <em class="weui-form-preview__value">${bottleID}</em>
         </p>
         <p>
             <label class="weui-form-preview__label">名字</label>

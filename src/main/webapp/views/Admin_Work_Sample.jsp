@@ -128,8 +128,8 @@
                     </div>
 
                     <ul id="scro4" class="scroll indicator-group-title" style="width:170px;height:560px;overflow:auto;">
-                        <li class="active"><a>--</a><span
-                                class="fa fa-angle-right"></span></li>
+                        <%--<li class="active"><a>--</a><span--%>
+                                <%--class="fa fa-angle-right"></span></li>--%>
                     </ul>
                     <div class=" indicator-group-content">
                         <div class="left_title">

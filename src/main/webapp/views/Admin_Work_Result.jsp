@@ -119,7 +119,7 @@
 
                 <div id="show-sample" class="col-xs-6 col-sm-5" style="display: block;">
                     <a class="pull-left label-pon">样本编号：</a>
-                    <input id="tags" type="number" class="ui-autocomplete-input" autocomplete="off">
+                    <input id="tags" class="ui-autocomplete-input" autocomplete="off">
 
                 </div>
 

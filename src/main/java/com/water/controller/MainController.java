@@ -208,4 +208,9 @@ public class MainController {
     public String toAdmin_Project() throws IOException {
         return "Admin_Work_Project";
     }
+
+    @RequestMapping("/toAdmin_News.do")
+    public String toAdmin_News() {
+        return "Admin_Work_News";
+    }
 }
