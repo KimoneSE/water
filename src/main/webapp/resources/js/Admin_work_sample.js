@@ -16,10 +16,10 @@ function topnavclick(type) {
 function listSamples(data,pid) {
     $("#"+pid).slideToggle();
     if($(data).hasClass("open")){
-        $("#pull_toggle_img"+pid).attr("src","../resources/img/pullDown.png");
+        $("#pull_toggle_img"+pid).attr("src","./resources/img/pullDown.png");
         $(data).removeClass("open");
     }else{
-        $("#pull_toggle_img"+pid).attr("src","../resources/img/pullUp.png");
+        $("#pull_toggle_img"+pid).attr("src","./resources/img/pullUp.png");
         $(data).addClass("open");
     }
 }
@@ -40,14 +40,14 @@ $(function () {
                         async:false,
                         data:{"projectID":pid},
                         success:function (res) {
-                            var samples=$.parseJSON(res);
+                            var samples=$.parseJSON(res).sampleList;
                             if(samples.length>0) {
                                 var tmp="<li class=''><a class='' onclick='listSamples(this,"+pid+")'>"+projectName+"<label style='float: right'>" +
-                                    "<img id='pull_toggle_img"+pid+"' src='../resources/img/pullDown.png' style='width: 15px'/></label></a></li>"+
+                                    "<img id='pull_toggle_img"+pid+"' src='./resources/img/pullDown.png' style='width: 15px'/></label></a></li>"+
                                     "<div id='"+pid+"' style='display: none'>";
                                 if(i===0) {
                                     tmp = "<li class=''><a class='open' onclick='listSamples(this,"+pid+")'>"+projectName+"<label style='float: right'>" +
-                                        "<img id='pull_toggle_img"+pid+"' src='../resources/img/pullUp.png' style='width: 15px'/></label></a></li>"+
+                                        "<img id='pull_toggle_img"+pid+"' src='./resources/img/pullUp.png' style='width: 15px'/></label></a></li>"+
                                         "<div id='"+pid+"' style='display: block'>";
                                 }
                                 for(var j = 0; j < samples.length; j++) {
