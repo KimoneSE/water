@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.water.entity.Project" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/7/31 0031
@@ -36,6 +36,7 @@
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="../resources/img/favicon.ico">
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KMeS1wUAPKRLXZVwClhw8pODhqxxP0bz"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../resources/js/user_main.js"></script>
 </head>
@@ -55,7 +56,7 @@
 </div>
 <div id="map" style="height: 700px"></div>
 <!-- 模态框（Modal） -->
-<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<%--<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,152 +83,215 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
-</div>
+</div>--%>
 <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
 <script type="text/javascript">
     chooseActive("#projectIntro");
-    var poi = new Array();
-    $.ajax({
-        url:"../getSampleList",
-        type:"post",
-        async:false,
-        success:function (data) {
-            var obj = $.parseJSON(data);
-            for(var i = 0;i<obj.length;i++){
+    // var poi = new Array();
+    // $.ajax({
+    //     url:"../getSampleList",
+    //     type:"post",
+    //     async:false,
+    //     success:function (data) {
+    //         var obj = $.parseJSON(data);
+    //         for(var i = 0;i<obj.length;i++){
+    //
+    //             if(obj[i].state=="2") {
+    //                 poi.push([obj[i].apply.longitude, obj[i].apply.latitude, 1]);
+    //             }
+    //         }
+    //     }
+    // })
+    // var map = new BMap.Map("map");// 创建Map实例
+    // map.centerAndZoom(new BMap.Point(116.404, 39.915), 4);     // 初始化地图,设置中心点坐标和地图级别
+    // map.enableScrollWheelZoom();// 判断当前浏览器是否支持绘制海量点
+    //     var markers = [];
+    //     var pt = null;
+    //     var points = [];  // 添加海量点数据
+    //     var options = {
+    //         size: BMAP_POINT_SIZE_BIG,
+    //         color: '#d340c3'
+    //     }
+    //     for (var i = 0; i <poi.length; i++) {
+    //        points.push(new BMap.Point(poi[i][0], poi[i][1]));
+    //         pt = new BMap.Point(poi[i][0], poi[i][1]);
+    //         markers.push(new BMap.Marker(pt,options));
+    //
+    //     }
+    //
+    //     var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+    //
+    //         for(var j = 0;j<markers.length;j++){
+    //         markers[j].addEventListener("click",attribute);
+    //         markers[j].ini
+    //         }
+    //
+    // function attribute(e){
+    //     var p = e.target;
+    //     $.ajax({
+    //             url:"../getSampleReport",
+    //             type:"post",
+    //             data:{"longtitude":p.getPosition().lng,"latitude":p.getPosition().lat},
+    //             success:function (data) {
+    //                 var obj1 = $.parseJSON(data);
+    //                 $("#myModalLabel").html( "样本编号："+obj1.idResult);
+    //                 $("#reason").html(obj1.description);
+    //                 $("#myModal").modal("show");
+    //             }
+    //     })
+    // }
 
-                if(obj[i].state=="2") {
-                    poi.push([obj[i].apply.longitude, obj[i].apply.latitude, 1]);
-                }
-            }
-        }
-    })
-    var map = new BMap.Map("map");// 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 4);     // 初始化地图,设置中心点坐标和地图级别
-    map.enableScrollWheelZoom();// 判断当前浏览器是否支持绘制海量点
-        var markers = [];
-        var pt = null;
-        var points = [];  // 添加海量点数据
-        var options = {
-            size: BMAP_POINT_SIZE_BIG,
-            color: '#d340c3'
-        }
-        for (var i = 0; i <poi.length; i++) {
-           points.push(new BMap.Point(poi[i][0], poi[i][1]));
-            pt = new BMap.Point(poi[i][0], poi[i][1]);
-            markers.push(new BMap.Marker(pt,options));
+    // var json1=[
+    //     {
+    //         "featureType": "road",
+    //         "elementType": "all",
+    //         "stylers": {
+    //             "visibility": "off"
+    //         }
+    //     },
+    //     {
+    //         "featureType": "manmade",
+    //         "elementType": "all",
+    //         "stylers": {
+    //             "visibility": "off"
+    //         }
+    //     },
+    //     {
+    //         "featureType": "building",
+    //         "elementType": "all",
+    //         "stylers": {
+    //             "visibility": "off"
+    //         }
+    //     },
+    //     {
+    //         "featureType": "label",
+    //         "elementType": "labels",
+    //         "stylers": {
+    //             "lightness": 60
+    //         }
+    //     },
+    //     {
+    //         "featureType": "label",
+    //         "elementType": "labels.icon",
+    //         "stylers": {
+    //             "visibility": "off"
+    //         }
+    //     },
+    //     {
+    //         "featureType": "water",
+    //         "elementType": "all",
+    //         "stylers": {
+    //             "lightness": -47
+    //         }
+    //     }
+    // ]
+    // map.setMapStyle({
+    //     styleJson:json1
+    // });
 
-        }
+    <% Project project = (Project) request.getAttribute("project");
+    String projectId = String.valueOf(project.getIdProject());
+    Double lngMax = project.getLngMax();
+    Double lngMin = project.getLngMin();
+    Double latMax = project.getLatMax();
+    Double latMin = project.getLatMin();%>
+    <%--<%Double lngMid = (lngMax+lngMin)/2;
+    Double latMid = (latMax+latMin)/2;%>--%>
 
-        var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+    var map;
+    var markers = [];
+    initSamples();
+    // initMap();
+    // drawPoints();
 
-//        var pointCollection = new BMap.PointCollection(points,options);  // 初始化PointCollection
-//        pointCollection.addEventListener('click', function (e) {
-//            alert(2);
-//            $.ajax({
-//                url:"/getSampleReport",
-//                type:"post",
-//                data:{"longtitude":e.point.lng,"latitude":e.point.lat},
-//                success:function (data) {
-//                    var obj1 = $.parseJSON(data);
-//                    alert(obj1.idResult);
-//                    $("#myModalLabel").html( "样本编号："+obj1.idResult);
-//                    $("#reason").html(obj1.description);
-//                    $("#myModal").modal("show");
-//                }
-//            })
-//        });
-//        map.addOverlay(pointCollection);  // 添加Overlay
-            for(var j = 0;j<markers.length;j++){
-            markers[j].addEventListener("click",attribute);
-            markers[j].ini
-            }
-
-    function attribute(e){
-        var p = e.target;
+    function initSamples() {
+        var poi = new Array();
         $.ajax({
-                url:"../getSampleReport",
-                type:"post",
-                data:{"longtitude":p.getPosition().lng,"latitude":p.getPosition().lat},
-                success:function (data) {
-                    var obj1 = $.parseJSON(data);
-                    $("#myModalLabel").html( "样本编号："+obj1.idResult);
-                    $("#reason").html(obj1.description);
-                    $("#myModal").modal("show");
+            type:'POST',
+            url:"../getSamplesByProID",
+            data:{"projectID":<%=projectId%>},
+            success:function (data) {
+                // alert(data)
+                result = $.parseJSON(data)
+                samples = result.sampleList
+                applies = result.applyList
+                // console.log(samples)
+                // console.log(applies)
+                // console.log(samples.length)
+                // console.log(applies.length)
+                if(samples.length != 0){
+                    for(i=0;i<samples.length;i++) {
+                        if(samples[i].state=="2"){
+                            var sampleId = samples[i].sample_id;
+                            var name = "<li class=''><a onclick='changeContent(this,"+sampleId+")'>&nbsp;&nbsp;&nbsp;"+sampleId+"</a> <span class='fa fa-angle-right'></span></li>";
+                            $("#sampleList").append(name);
+                            poi.push([applies[i].longitude, applies[i].latitude, sampleId]);
+                        }
+                    }
+
+                }else{
+                    var name = "<li class=''><a>&nbsp;&nbsp;&nbsp;暂无样品</a> <span class='fa fa-angle-right'></span></li>";
+                    $("#sampleList").append(name);
                 }
+                // for(i=0;i<applies.length;i++){
+                //     if(applies[i].state=="2") {
+                //         poi.push([applies[i].longitude, applies[i].latitude, 1]);
+                //     }
+                // }
+                // console.log(poi)
+                initMap(poi);
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.responseText);
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
         })
     }
 
-    var json1=[
-        {
-            "featureType": "road",
-            "elementType": "all",
-            "stylers": {
-                "visibility": "off"
-            }
-        },
-        {
-            "featureType": "manmade",
-            "elementType": "all",
-            "stylers": {
-                "visibility": "off"
-            }
-        },
-        {
-            "featureType": "building",
-            "elementType": "all",
-            "stylers": {
-                "visibility": "off"
-            }
-        },
-        {
-            "featureType": "label",
-            "elementType": "labels",
-            "stylers": {
-                "lightness": 60
-            }
-        },
-        {
-            "featureType": "label",
-            "elementType": "labels.icon",
-            "stylers": {
-                "visibility": "off"
-            }
-        },
-        {
-            "featureType": "water",
-            "elementType": "all",
-            "stylers": {
-                "lightness": -47
-            }
+    function initMap(poi) {
+        map = new BMap.Map("map");// 创建Map实例
+        var points = [];
+        // 初始化地图,设置中心点坐标和地图级别
+        for (var i = 0; i <poi.length; i++) {
+            points.push(new BMap.Point(poi[i][0], poi[i][1]));
         }
-    ]
-    map.setMapStyle({
-        styleJson:json1
-    });
-
-    <% String projectId = (String)request.getAttribute("projectId");%>
-    $.ajax({
-        type:'POST',
-        url:"../getSamplesByProID",
-        data:{"projectID":<%=projectId%>},
-        success:function (data) {
-            // alert(data)
-            list = $.parseJSON(data)
-            // alert(list)
-            // alert(list.length)
-            if(list.length != 0){
-                for(i=0;i<list.length;i++) {
-                    var name = "<li class=''><a onclick='changeContent(this)'>&nbsp;&nbsp;&nbsp;"+list[i].sampleID+"</a> <span class='fa fa-angle-right'></span></li>";
-                    $("#sampleList").append(name);
-                }
-
-            }else{
-                var name = "<li class=''><a>&nbsp;&nbsp;&nbsp;暂无样品</a> <span class='fa fa-angle-right'></span></li>";
-                $("#sampleList").append(name);
-            }
+        // console.log(points)
+        // setTimeout(function(){
+            setZoom(points);
+        // }, 3000)
+        // console.log("setZoom suc")
+        // 设置地图边界
+        var b = new BMap.Bounds(new BMap.Point(<%=lngMin%>, <%=latMin%>),new BMap.Point(<%=lngMax%>, <%=latMax%>));
+        try {
+            BMapLib.AreaRestriction.setBounds(map, b);
+            // console.log("setBounds suc")
+        } catch (e) {
+            alert(e);
         }
-    })
+        drawPoints(poi)
+    }
+
+    function drawPoints(poi) {
+        // 绘制聚合点
+        map.enableScrollWheelZoom();
+
+        var myIcon = new BMap.Icon("../resources/img/markers.png", new BMap.Size(23, 32));
+        for (var i = 0; i <poi.length; i++) {
+            pt = new BMap.Point(poi[i][0], poi[i][1]);
+            var marker = new BMap.Marker(pt,{icon:myIcon});
+            map.addOverlay(marker);
+            markers.push(marker);
+            markers[i].id = poi[i][2];
+            markers[i].setTitle("样品编号"+poi[i][2]);
+        }
+        // var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+        // for(var j = 0;j<markers.length;j++){
+        //     markers[j].addEventListener("click",attribute);
+        // }
+    }
 
     function listTabToggle(data) {
         $("#sampleList").slideToggle();
@@ -240,13 +304,64 @@
         }
     }
 
-    function changeContent(data){
+    function changeContent(data, sampleId){
         for(var i=0;i<$("#sampleList li").length;i++) {
             $("#sampleList li").removeClass("active");
         }
         $(data).parent().addClass("active");
-
+        setMarkerLabel(sampleId);
     }
+
+    function setMarkerLabel(sampleId) {
+        for(var j = 0;j<markers.length;j++){
+            map.removeOverlay(markers[j].getLabel())
+            markers[j].setAnimation(null)
+        }
+        $.ajax({
+            url:"../getSampleReport",
+            type:"post",
+            data:{"sampleId":sampleId},
+            success:function (data) {
+                var obj1 = $.parseJSON(data);
+                var label = new BMap.Label(obj1.description,{offset:new BMap.Size(30,-30)});
+                label.setStyle({
+                    color : "#337AB7",
+                    fontSize : "16px",
+                    height : "30px",
+                    lineHeight : "25px",
+                    maxWidth:"none",
+                    padding : "5px",
+                    backgroundColor : "#B9D3EE",
+                    fontFamily:"微软雅黑",
+                    border :"0",
+                    borderRadius: "8px",
+                    fontWeight :"normal"
+                });
+                for(var j = 0;j<markers.length;j++){
+                    if(markers[j].id == sampleId){
+                        // setTimeout(function(){
+                            map.setCenter(new BMap.Point(markers[j].point.lng,markers[j].point.lat));
+                        // }, 2000)
+                        markers[j].setLabel(label);
+                        markers[j].setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                    }
+                }
+
+            }
+        })
+    }
+
+    // 根据点的数组自动调整缩放级别
+    function setZoom (bPoints) {
+        // console.log(bPoints)
+        var view = map.getViewport(eval(bPoints));
+        var mapZoom = view.zoom;
+        var centerPoint = view.center;
+        // console.log(mapZoom)
+        // console.log(centerPoint)
+        map.centerAndZoom(centerPoint,mapZoom);
+    }
+
 </script>
 </body>
 </html>

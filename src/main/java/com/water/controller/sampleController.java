@@ -24,11 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -134,10 +131,9 @@ public class sampleController {
     @RequestMapping("/getSampleReport")
     @ResponseBody
     public void getSampleReport(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String longtitude=request.getParameter("longtitude");
-        String latitude= request.getParameter("latitude");
+        String sampleId=request.getParameter("sampleId");
 
-        Result result = resultService.getResultbyLocation(Double.valueOf(longtitude),Double.valueOf(latitude));
+        Result result = resultService.getResultbyId(sampleId);
         JSONObject jsonObject = JSONObject.fromObject(result);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(jsonObject.toString());
@@ -271,9 +267,20 @@ public class sampleController {
     public void getSamplesByProID(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long projectID = Long.parseLong(request.getParameter("projectID"));
         List<Sample> samples = sampleService.getSamplesByProject(projectID);
+        List<Apply> applies = new ArrayList<>();
+        for (Sample sample: samples){
+            Apply apply = applyService.searchApplication(sample.getApplyID());
+            applies.add(apply);
+        }
         JSONArray array = JSONArray.fromObject(samples);
+        JSONArray array2 = JSONArray.fromObject(applies);
+        JSONObject object =new JSONObject();
+        object.put("sampleList",array);
+        object.put("applyList",array2);
+//        String json = "{'sampleList':"+array.toString()+",'applyList':"+array2.toString()+"}";
+//        JSONObject object = JSONObject.fromObject(json);
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(array.toString());
+        response.getWriter().print(object.toString());
     }
 
     @RequestMapping("/exportExcel")

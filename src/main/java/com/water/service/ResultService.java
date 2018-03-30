@@ -30,9 +30,8 @@ public interface ResultService {
 
     /**
      * 通过经纬度确定样本返回实验结果
-     * @param longitude
-     * @param latitude
+     * @param sampleId
      * @return
      */
-    public Result getResultbyLocation(double longitude,double latitude);
+    public Result getResultbyId(String sampleId);
 }

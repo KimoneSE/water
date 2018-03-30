@@ -89,8 +89,9 @@ public class ProjectIntroController {
     public ModelAndView initProjectMap(){
 //        System.out.println(projectId);
         String projectId = request.getParameter("projectId");
+        Project p = projectService.findProjectByID(Long.parseLong(projectId));
         ModelAndView modelAndView = new ModelAndView("../public/sampleMap");
-        modelAndView.addObject("projectId",projectId);
+        modelAndView.addObject("project",p);
 
         return modelAndView;
     }
