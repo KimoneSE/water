@@ -11,6 +11,9 @@ function topnavclick(type) {
     if(type.name==="4"){
         window.location.href="toAdmin_Project.do"
     }
+    if(type.name==="5"){
+        window.location.href="toAdmin_News.do"
+    }
 }
 
 function listSamples(data,pid) {
@@ -116,7 +119,7 @@ $(function () {
                                 $("#"+pid).slideToggle();
                             }
                             $(img.parentNode.parentNode).addClass("open");
-                            $("#pull_toggle_img"+pid).attr("src","../resources/img/pullUp.png");
+                            $("#pull_toggle_img"+pid).attr("src","./resources/img/pullUp.png");
                         }
                     })
                 }

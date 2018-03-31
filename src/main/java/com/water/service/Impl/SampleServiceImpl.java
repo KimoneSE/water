@@ -136,9 +136,9 @@ public class SampleServiceImpl implements SampleService{
             String lan = "纬度： " + apply.getLatitude() + "°\r\n";
             String temperature = "温度： " + sample.getTemperature() + "℃\r\n";
             String weather = "天气： " + sample.getWeather() + "\r\n";
-            String ammoniaN_c = "氨氮浓度" + sample.getAmmoniaN_c() + "\r\n";
-            String phosphate_c = "磷酸盐浓度" + sample.getPhosphate_c() + "\r\n";
-            String projectName = "所属项目" + apply.getProject().getName() + "\r\n";
+            String ammoniaN_c = "氨氮浓度：" + sample.getAmmoniaN_c() + "\r\n";
+            String phosphate_c = "磷酸盐浓度：" + sample.getPhosphate_c() + "\r\n";
+            String projectName = "所属项目：" + apply.getProject().getName() + "\r\n";
             oStreamWriter.write(id);
             oStreamWriter.write(sampleID);
             oStreamWriter.write(name);
@@ -158,7 +158,7 @@ public class SampleServiceImpl implements SampleService{
             oStreamWriter.write(weather);
             oStreamWriter.write(stateStr);
             if(state == 2) {
-                Result result = resultDao.get(sample.getBottleID());//TODO
+                Result result = resultDao.get(Long.parseLong(sample.getSample_id()));
                 String resultStr = "实验结果： " + result.getDescription() + "\r\n";
                 oStreamWriter.write(resultStr);
             }

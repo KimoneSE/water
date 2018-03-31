@@ -173,6 +173,9 @@ function topnavclick(type) {
     if(type.name==="4"){
         window.location.href="toAdmin_Project.do"
     }
+    if(type.name==="5"){
+        window.location.href="toAdmin_News.do"
+    }
 }
 //导航点击事件的监听
 function  applyClick(type) {

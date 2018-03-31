@@ -27,6 +27,12 @@
             font-size:18px;
             padding-top:5px;
             color: #337AB7;
+            font-weight: normal;
+        }
+        .container-img{
+            margin-top: 34px;
+            width:1025px;
+            margin-left:50px;
         }
     </style>
 </head>
@@ -92,23 +98,52 @@
         <div class="intro-panel">
             <div class="row" style="padding-top:30px;padding-left:50px">
                 <div>
-                    <label class="pull-left mylabel">新闻标题：</label>
-                    <input id="newsTitle">
+                    <label class="pull-left mylabel ">新闻标题：</label>
+                    <input id="newsTitle" class="col-md-6 col-xs-6">
                 </div>
             </div>
 
-            <div>
-                <label class="mylabel">新闻封面：</label>
+            <div class="row" style="padding-top:30px;padding-left:50px">
+                <label class="pull-left mylabel">上传新闻封面：</label>
             </div>
-            <div class="row" style="width:400px;height: 500px">
+            <div class="container-img">
                 <div>
-                    <input id="file-cover" type="file">
+                    <input id="file-cover" type="file" name="file"  class="file" data-overwrite-initial="false" multiple data-min-file-count="1">
                 </div>
+                <input type="hidden" id="cover"/>
+                <%--<form  enctype="multipart/form-data" >--%>
+                    <%----%>
+                    <%--<hr>--%>
+                    <%--<br>--%>
+                <%--</form>--%>
+                <%--<div>--%>
+                    <%--<input id="file-cover" type="file">--%>
+                <%--</div>--%>
             </div>
 
-            <div class="row" style="height: 500px">
-                <input id="file-word" type="file">
+            <div class="row" style="padding-top:10px;padding-left:50px">
+                <label class="mylabel pull-left">上传新闻文件：</label>
             </div>
+            <div class="container-img">
+                <div>
+                    <input id="file-word" type="file" name="file" multiple class="file" data-show-upload="false">
+                </div>
+                <input type="hidden" id="word"/>
+                <%--<form  enctype="multipart/form-data" >--%>
+                    <%----%>
+                    <%--<hr>--%>
+                    <%--<br>--%>
+                <%--</form>--%>
+            </div>
+
+            <div style="margin-top: 30px;padding-bottom: 30px">
+                <button id="save" onclick="save()" type="button" class="btn btn-info ">保存</button>
+                <button id="reset" onclick="reset()" type="button" class="btn btn-default" style="margin-left:20px">重置</button>
+
+            </div>
+            <%--<div class="row" style="height: 500px">--%>
+                <%--<input id="file-word" type="file">--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -143,17 +178,83 @@
 <script src="https://cdn.bootcss.com/jquery-ui-bootstrap/0.5pre/assets/js/jquery-ui-1.10.0.custom.min.js"></script>
 
 <script>
+    var date = new Date();
+    var filename = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds();
+
+    function reset() {
+        window.location.href = "toAdmin_News.do";
+    }
+
+    function save() {
+        if($("#newsTitle").val()=="") {
+            alert("请填写新闻标题");
+        } else if($("#cover").val()==''){
+            alert("请上传封面");
+        } else if($("#word").val()==''){
+            alert("请上传文件");
+        }
+        else {
+            $("#file-cover").fileinput("upload");
+            $("#file-word").fileinput("upload");
+            $.ajax({
+                url:"./saveNews",
+                type:"post",
+                data:{"title":$("#newsTitle").val(),"cover":$("#cover").val(),"word":$("#word").val(),"filename":filename},
+                success: function (data) {
+                    alert("上传成功");
+                    reset();
+                }
+            })
+        }
+    }
+
     $("#file-cover").fileinput({
         language: 'zh',
-        uploadUrl: '',
-        allowedFileExtensions: ['jpg', 'png'],
+        uploadUrl: './uploadNewsImg',
+        allowedFileExtensions: ['jpg', 'png', 'jpeg'],
         maxFileSize: 10000,
         maxFileCount: 1,
         showUpload: false, //是否显示上传按钮
-        showCaption: false,//是否显示标题
+       // showCaption: false,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-    })
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        layoutTemplates :{
+            actionDelete:'', //去除上传预览的缩略图中的删除图标
+            actionUpload:'',//去除上传预览缩略图中的上传图片；
+            actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+        },
+        uploadExtraData: function () {
+            return {"filename" : filename};
+        }
+    }).on("filebatchselected", function(event, files) {
+        $("#cover").val(files[0].name)
+    }).on("filecleared",function(event, data, msg){
+        $("#cover").val("")
+    });
+
+    $("#file-word").fileinput({
+        language: 'zh',
+        uploadUrl: './uploadNewsFile',
+        allowedFileExtensions: ['doc', 'docx'],
+        maxFileSize: 10000,
+        maxFileCount: 1,
+        showUpload: false, //是否显示上传按钮
+        //showCaption: false,//是否显示标题
+        browseClass: "btn btn-primary", //按钮样式
+        previewFileIcon: "",
+        layoutTemplates :{
+            actionDelete:'', //去除上传预览的缩略图中的删除图标
+            actionUpload:'',//去除上传预览缩略图中的上传图片；
+            actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+        },
+        uploadExtraData: function () {
+            return {"filename" : filename};
+        }
+    }).on("filebatchselected", function(event, files) {
+        $("#word").val(files[0].name)
+    }).on("filecleared",function(event, data, msg){
+        $("#word").val("")
+    });
 </script>
 </body>
 </html>

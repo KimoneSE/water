@@ -64,6 +64,9 @@
                 <li><a href="#" onclick="topnavclick(this)" name="4"><i
                         class="fa fa-2x fa-newspaper-o"></i><br>项目发布</a>
                 </li>
+                <li><a href="#" onclick="topnavclick(this)" name="5"><i
+                        class="fa fa-2x fa-wpforms"></i><br>新闻管理</a>
+                </li>
 
 
                 <ul class="social-links">
