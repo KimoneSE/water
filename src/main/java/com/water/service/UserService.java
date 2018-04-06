@@ -2,6 +2,8 @@ package com.water.service;
 
 import com.water.entity.User;
 
+import java.util.List;
+
 /**
  * Created by asus1 on 2017/7/19.
  */
@@ -45,4 +47,5 @@ public interface UserService {
     public boolean deleteUser(String userId);
 
 
+    public List<User> findAll();
 }

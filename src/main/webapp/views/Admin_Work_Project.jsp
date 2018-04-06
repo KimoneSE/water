@@ -137,6 +137,9 @@
                 <li class="active"><a href="#" onclick="topnavclick(this)" name="4"><i
                         class="fa fa-2x fa-newspaper-o"></i><br>项目发布</a>
                 </li>
+                <li><a href="#" onclick="topnavclick(this)" name="5"><i
+                        class="fa fa-2x fa-wpforms"></i><br>新闻管理</a>
+                </li>
 
 
                 <ul class="social-links">
@@ -199,6 +202,35 @@
                                 </div>
                                 <div id="specialAlign">
                                     <div id="summernote"></div>
+                                </div>
+                                <div>
+                                    <form class="bs-example bs-example-form" role="form">
+                                        <div class="form-group">
+                                            <span class="pull-left" style="margin-left:5px">项目是否公开</span>
+                                            <label class="radio-inline" style="margin-left:-500px">
+                                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked>公开
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">私有
+                                            </label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="private" style="padding-bottom:10px;display: none">
+                                    <form class="bs-example bs-example-form" role="form">
+                                        <div class="input-group" style="padding-bottom:10px;">
+                                            <span class="input-group-addon">搜索用户</span>
+                                            <input id="phone" type="text" class="form-control" placeholder="请输入手机号"/>
+                                            <button type="button" id="addUser" class="btn btn-info" style="margin-left:-55px; z-index:999">添加</button>
+                                            <select multiple="multiple" id="sel" onchange="select()"
+                                                    style="width:772px; display:none">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea id="userAdded" class="form-control" rows="5" placeholder="已添加的用户" style="resize: vertical;"></textarea>
+                                        </div>
+                                    </form>
+
                                 </div>
                                 <div id="map" style="height: 400px">
 

@@ -3,14 +3,16 @@ var content={};
 var map;
 var overlays={};
 var overlay;
+var userNameList=[];
+var phoneNumberList=[];
 
 //加载界面使用
 function load(){
     initMap();
-    var url="./allProject";
+    var projectUrl="./allProject";
     $.ajax({
         type:"Post",
-        url:url,
+        url:projectUrl,
         async:true,
         success:function (data) {
             var objects=$.parseJSON(data);
@@ -37,9 +39,121 @@ function load(){
                 addOne(id,headline,markupstr);
             }
         }
-
     })
 
+    var userUrl="./user/getAll"
+    $.ajax({
+        type:"Post",
+        url:userUrl,
+        async:true,
+        success:function (data) {
+            result = $.parseJSON(data)
+            numbers = result.numbers
+            userNames = result.userNames
+            // console.log(numbers);
+            // console.log(numbers.length)
+            // console.log(userNames)
+            // console.log(userNames.length)
+            for(i=0;i<numbers.length;i++) {
+                if(numbers[i]!=""){
+                    phoneNumberList.push(numbers[i]);
+                    userNameList.push(userNames[i]);
+                }
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.responseText);
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    })
+
+    $('input[type=radio][name=optionsRadiosInline]').change(function () {
+        if (this.value == 'option2') {
+            $("#private").show();
+        }
+        else {
+            $("#private").hide();
+        }
+    })
+
+    $("#addUser").click(function () {
+        // console.log("startAdd")
+        var phone = document.getElementById("phone").value+'; ';
+        var content = document.getElementById("userAdded");
+        if (document.selection) {
+            console.log("1")
+            //IE support
+            content.focus();
+            sel = document.selection.createRange();
+            sel.text = phone;
+            sel.select();
+        }else if (content.selectionStart || content.selectionStart =='0') {
+            console.log("2")
+            //MOZILLA/NETSCAPE support
+            var startPos = content.selectionStart;
+            var endPos = content.selectionEnd;
+            var beforeValue = content.value.substring(0, startPos);
+            var afterValue = content.value.substring(endPos, content.value.length);
+
+            content.value = beforeValue + phone + afterValue;
+            content.selectionStart = startPos + phone.length;
+            content.selectionEnd = startPos + phone.length;
+            content.focus();
+        } else {
+            console.log("3")
+            content.value += phone;
+            content.focus();
+        }
+    })
+
+    $("#phone").bind('input propertychange',function(){
+        console.log("searchUser")
+        var arr = [];
+        var arr2 = [];
+        var reg = new RegExp($("#phone").val());
+        $("#sel").find("option").remove();
+        for(var i=0;i<phoneNumberList.length;i++){
+            //如果字符串中不包含目标字符会返回-1
+            if(phoneNumberList[i].match(reg)){
+                arr.push(phoneNumberList[i]);
+                arr2.push(userNameList[i]);
+            }
+        }
+        // console.log(arr);
+        for(var i=0;i<arr.length;i++){//循环每一个满足条件的记录
+            sel.options[i]=new Option(arr[i],i);
+            sel.options[i].innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+arr2[i];
+        }
+        if(arr.length>0){
+            sel.style.display='inline-block';
+        }else{
+            sel.style.display='none';
+        }
+        //当用户按下上下键时获取相应的值
+        if(event.keyCode==40){
+            sel.focus();
+        }
+    })
+}
+
+function select(){
+    //输入回车，获取输入框内容焦点
+    $("#sel").keypress(function(){
+        $("#phone").focus();
+        $("#sel").css("display","none");
+    });
+    //双击，获取输入框内容焦点
+    $("#sel").dblclick(function(){
+        $("#phone").focus();
+        $("#sel").css("display","none");
+    });
+    //将选中的下拉列表中的内容添加到输入框中
+    var selected = $("option:selected").html();
+    var end = selected.search(/&nbsp;/);
+    // console.log(selected.substring(0,end));
+    $("#phone").val(selected.substring(0,end));
 }
 
 function initMap(rectangle) {
@@ -262,6 +376,9 @@ function topnavclick(type) {
     if(type.name==="4"){
         window.location.href="toAdmin_Project.do"
     }
+    if(type.name==="5"){
+        window.location.href="toAdmin_News.do"
+    }
 }
 //导航点击事件的监听
 function  applyClick(type) {
@@ -312,3 +429,14 @@ function listTabToggle(data) {
         $(data).addClass("open");
     }
 }
+
+// function showPrivate() {
+    // var ishidden = $("#private").is(":hidden");
+    // if(ishidden){
+    //     $("#private").show();
+    // }
+    // else {
+    //     $("#private").hide();
+    // }
+// }
+

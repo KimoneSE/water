@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.*;
 import java.util.List;
 /**
  * Created by asus1 on 2017/7/19.
@@ -36,10 +37,6 @@ public class UserDaoImpl implements UserDao{
         User user = (User) session.get(User.class, id);
         session.close();
         return user;
-    }
-
-    public List<User> findAll() {
-        return null;
     }
 
     public void persist(User entity) {
@@ -110,5 +107,14 @@ public class UserDaoImpl implements UserDao{
         }else{
             return (User)query.list().get(0);
         }
+    }
+
+    @Override
+    public List<User> findAll() {
+        Session session = getCurrentSession();
+        Query query = session.createQuery("from User");
+        List<User> list = query.list();
+        session.close();
+        return list;
     }
 }

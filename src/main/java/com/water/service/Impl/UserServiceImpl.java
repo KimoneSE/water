@@ -6,6 +6,8 @@ import com.water.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * Created by asus1 on 2017/7/19.
@@ -50,5 +52,10 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(String userId) {
        return userDao.delete(userId);
 
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

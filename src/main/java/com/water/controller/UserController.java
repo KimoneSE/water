@@ -3,6 +3,9 @@ package com.water.controller;
 import com.water.entity.User;
 import com.water.service.UserService;
 import com.water.util.LoginProcessor;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 
 /**
@@ -26,6 +30,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    protected Logger log = Logger.getLogger(UserController.class);
     /**
      * 微信端个人资料按钮的响应，这是未知userID(openID)时填写个人资料界面的入口
      * @param request
@@ -105,4 +110,30 @@ public class UserController {
 //        }
 //        return result;
 //    }
+
+    /**
+     * @param request
+     * @param response
+     * @return 获得所有用户姓名和联系方式
+     * @throws Exception
+     */
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public void getAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        List<User> users = userService.findAll();
+        List<String> userNames = new ArrayList<>();
+        List<String> numbers = new ArrayList<>();
+        for(User temp:users){
+            userNames.add(temp.getName());
+            numbers.add(temp.getNumber());
+        }
+        JSONArray array = JSONArray.fromObject(userNames);
+        JSONArray array2 = JSONArray.fromObject(numbers);
+        JSONObject object =new JSONObject();
+        object.put("userNames",array);
+        object.put("numbers",array2);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(object.toString());
+    }
 }
