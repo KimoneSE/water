@@ -6,6 +6,8 @@ import com.water.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Kimone.
  */
@@ -21,5 +23,20 @@ public class NewsServiceImpl implements NewsService {
         news.setCover(cover);
         news.setNewsDoc(newsDoc);
         newsDao.add(news);
+    }
+
+    @Override
+    public News getByID(long id) {
+        return newsDao.getByID(id);
+    }
+
+    @Override
+    public List<News> getNews() {
+        return newsDao.getNews();
+    }
+
+    @Override
+    public List<News> getAllNews() {
+        return newsDao.getAllNews();
     }
 }

@@ -201,7 +201,8 @@
                 type:"post",
                 data:{"title":$("#newsTitle").val(),"cover":$("#cover").val(),"word":$("#word").val(),"filename":filename},
                 success: function (data) {
-                    alert("上传成功");
+                    alert(data);
+//                    alert("上传成功");
                     reset();
                 }
             })
