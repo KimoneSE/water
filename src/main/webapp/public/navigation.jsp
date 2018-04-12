@@ -28,7 +28,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="../resources/jquery/3.2.1/jquery-3.2.1.min.js"></script>
+    <script src="<%=basePath%>resources/jquery/3.2.1/jquery-3.2.1.min.js"></script>
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="../resources/img/favicon.ico">
 
@@ -45,6 +45,10 @@
             <ul class="nav navbar-nav navbar-right" id="selectNav">
                 <li id="index"><a href="<%=basePath%>index.jsp"><i
                         class="fa fa-2x fa-tasks"></i><br>首页</a></li>
+
+                <li id="newsNav"><a href="<%=basePath%>getAllNews"><i
+                        class="fa fa-2x fa-wpforms"></i><br>新闻动态</a>
+                </li>
 
                 <li id="engagement"><a href="<%=basePath%>public/engagement.jsp"><i
                         class="fa fa-2x fa-handshake-o"></i><br>公众参与</a>

@@ -13,7 +13,7 @@
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
     String appid = "wx680e86c4068403dc";
-    String host = "www.ufengtech.xyz";
+    String host = "test.ufeng.top";
 %>
 <html>
 <head>

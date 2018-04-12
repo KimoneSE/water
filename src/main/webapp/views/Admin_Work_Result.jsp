@@ -297,6 +297,11 @@
         maxFilesNum: 10,
         showUpload: false,
         previewFileIcon: "",
+        layoutTemplates :{
+            actionDelete:'', //去除上传预览的缩略图中的删除图标
+            actionUpload:'',//去除上传预览缩略图中的上传图片；
+            actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+        },
         uploadExtraData: function (previewId, index) {
             var data={
                 "filename" : projectname, "projectName":$("#tags-project").val()
