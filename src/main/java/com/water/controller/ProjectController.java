@@ -1,7 +1,9 @@
 package com.water.controller;
 
 import com.water.entity.Project;
+import com.water.entity.ProjectUser;
 import com.water.service.ProjectService;
+import com.water.service.ProjectUserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private ProjectUserService projectUserService;
+
     /**
      * @param request
      * @return 项目id
@@ -38,6 +43,8 @@ public class ProjectController {
     public long publishProject(HttpServletRequest request) throws IOException {
         String head=request.getParameter("headline");
         String body=request.getParameter("body");
+        int isPrivate=Integer.parseInt(request.getParameter("isPrivate"));
+        String userList=request.getParameter("userAdded");
         Double lngMax=Double.parseDouble(request.getParameter("lngMax"));
         Double lngMin=Double.parseDouble(request.getParameter("lngMin"));
         Double latMax=Double.parseDouble(request.getParameter("latMax"));
@@ -67,13 +74,20 @@ public class ProjectController {
         project.setDescription(body);
         project.setState(0);
         project.setDate(date);
+        project.setIsPrivate(isPrivate);
         project.setLngMax(lngMax);
         project.setLngMin(lngMin);
         project.setLatMax(latMax);
         project.setLatMin(latMin);
 
         boolean success=projectService.saveProject(project);
-        if (!success){
+
+        boolean success2=true;
+        if(isPrivate==1){
+            success2=projectUserService.add(userList,id);
+        }
+
+        if (!success || !success2){
             return -1;
         }
         return id;
@@ -138,12 +152,14 @@ public class ProjectController {
      */
     @RequestMapping("/modifyProject")
     @ResponseBody
-    public boolean modify(HttpServletRequest request) throws IOException {
+    public int modify(HttpServletRequest request) throws IOException {
         long id=Long.parseLong(request.getParameter("id"));
         System.out.println(id);
         String head=request.getParameter("headline");
         String body=request.getParameter("body");
         System.out.println(body);
+        int isPrivate=Integer.parseInt(request.getParameter("isPrivate"));
+        String userList=request.getParameter("userAdded");
         Double lngMax=Double.parseDouble(request.getParameter("lngMax"));
         Double lngMin=Double.parseDouble(request.getParameter("lngMin"));
         Double latMax=Double.parseDouble(request.getParameter("latMax"));
@@ -155,6 +171,7 @@ public class ProjectController {
         project.setName(head);
         project.setDescription(body);
 //        project.setDate(date);
+        project.setIsPrivate(isPrivate);
         project.setLngMax(lngMax);
         project.setLngMin(lngMin);
         project.setLatMax(latMax);
@@ -162,7 +179,21 @@ public class ProjectController {
 
         boolean success=projectService.modifyProject(project);
 
-        return success;
+        boolean success2=true;
+        if(isPrivate==1){
+            success2=projectUserService.modify(userList,id);
+        }
+
+        if (!success){
+            return 2;
+        }
+        if (!success2){
+            return 3;
+        }
+        return 1;
+//        if (!success || !success2){
+//            return false;
+//        }
 //        return true;
     }
 
@@ -239,4 +270,24 @@ public class ProjectController {
         JSONObject jsonObject=JSONObject.fromObject(project);
         return jsonObject;
     }
+
+    /**
+     * @param request
+     * @param response
+     * @return 根据私有项目的projectID得到用户列表
+     * @throws Exception
+     */
+    @RequestMapping("/getUserList")
+    @ResponseBody
+    public void getUserList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Long projectID=Long.parseLong(request.getParameter("projectID"));
+        List<ProjectUser> list=projectUserService.findByProjectID(projectID);
+        String userList="";
+        for (int i=0;i<list.size();i++) {
+            userList=userList+list.get(i).getUserID()+"; ";
+        }
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(userList);
+    }
+
 }
