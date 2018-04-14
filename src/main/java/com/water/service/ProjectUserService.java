@@ -13,4 +13,6 @@ public interface ProjectUserService {
     public boolean modify(String userList,long projectID);
 
     public List<ProjectUser> findByProjectID(long projectID);
+
+    public boolean deleteByProjectID(long projectID);
 }

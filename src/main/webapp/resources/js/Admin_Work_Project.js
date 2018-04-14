@@ -83,7 +83,10 @@ function load(){
 
     $("#addUser").click(function () {
         // console.log("startAdd")
-        var phone = document.getElementById("phone").value+'; ';
+        var phone = document.getElementById("phone").value;
+        if (phone != "") {
+            phone = phone+'; ';
+        }
         var content = document.getElementById("userAdded");
         if (document.selection) {
             console.log("1")
@@ -236,17 +239,16 @@ function publish(){
                 },
                 // dataType:"json",
                 success:function (data) {
-                    // if(data==false){
-                    //     alert("修改失败！请重试！");
-                    // }
-                    // else{
-                    alert(data)
+                    if(data==false){
+                        alert("修改失败！请重试！");
+                    }
+                    else{
                         head[id]=headline;
                         content[id]=markupStr;
                         isPrivates[id]=isPrivate;
                         overlays[id]=overlay;
                         alert("修改成功！");
-                    // }
+                    }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest.responseText);
@@ -382,7 +384,7 @@ function del(id){
         dataType:"json",
         success:function (data){
             if(data==false){
-                alert("删除失败！请重试！");
+                alert("删除失败！项目已经有人申请！");
             }
             else{
                 var node=document.getElementById(id);

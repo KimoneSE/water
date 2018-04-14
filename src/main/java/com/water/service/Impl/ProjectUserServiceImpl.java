@@ -22,14 +22,18 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     public boolean add(String userList,long projectID) {
         boolean success=true;
         if(userList.contains(";")){
-            String[] list=userList.split("; ");
+            String[] list=userList.split(";");
+            String temp;
             for (int i=0;i<list.length;i++){
-                ProjectUser projectUser = new ProjectUser();
-                projectUser.setProjectID(projectID);
-                projectUser.setUserID(list[i]);
-                if (!projectUserDao.add(projectUser)) {
-                    success=false;
-                    break;
+                temp = list[i].trim();
+                if (temp.length()!=0){
+                    ProjectUser projectUser = new ProjectUser();
+                    projectUser.setProjectID(projectID);
+                    projectUser.setUserID(temp);
+                    if (!projectUserDao.add(projectUser)) {
+                        success=false;
+                        break;
+                    }
                 }
             }
         }
@@ -47,5 +51,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     @Override
     public List<ProjectUser> findByProjectID(long projectID) {
         return projectUserDao.findByProjectID(projectID);
+    }
+
+    @Override
+    public boolean deleteByProjectID(long projectID) {
+        return projectUserDao.deleteByProjctID(projectID);
     }
 }

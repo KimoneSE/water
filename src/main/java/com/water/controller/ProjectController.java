@@ -138,9 +138,10 @@ public class ProjectController {
     @RequestMapping("/deleteProject")
     @ResponseBody
     public boolean delete(HttpServletRequest request) throws IOException {
-        String id=request.getParameter("id");
-        boolean success=projectService.deleteProject(Long.parseLong(id));
-        return success;
+        Long id=Long.parseLong(request.getParameter("id"));
+        boolean success=projectService.deleteProject(id);
+        boolean success2=projectUserService.deleteByProjectID(id);
+        return success && success2;
 //        return true;
     }
 
@@ -152,7 +153,7 @@ public class ProjectController {
      */
     @RequestMapping("/modifyProject")
     @ResponseBody
-    public int modify(HttpServletRequest request) throws IOException {
+    public boolean modify(HttpServletRequest request) throws IOException {
         long id=Long.parseLong(request.getParameter("id"));
         System.out.println(id);
         String head=request.getParameter("headline");
@@ -184,17 +185,10 @@ public class ProjectController {
             success2=projectUserService.modify(userList,id);
         }
 
-        if (!success){
-            return 2;
+        if (!success || !success2){
+            return false;
         }
-        if (!success2){
-            return 3;
-        }
-        return 1;
-//        if (!success || !success2){
-//            return false;
-//        }
-//        return true;
+        return true;
     }
 
     /**
