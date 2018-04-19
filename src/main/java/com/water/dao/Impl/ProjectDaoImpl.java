@@ -67,12 +67,13 @@ public class ProjectDaoImpl implements ProjectDao {
         Transaction tx = session.beginTransaction();
         boolean flag = false;
         try {
-            String hql="update Project set name=:projectname , description=:body , lngMax=:lngMax ," +
+            String hql="update Project set name=:projectname , description=:body , isPrivate=:isPrivate , lngMax=:lngMax ," +
                     "lngMin=:lngMin , latMax=:latMax , latMin=:latMin where idProject =:projectID";//使用命名参数，推荐使用，易读。
             Query query=session.createQuery(hql);
             query.setString("projectname", project.getName());
             query.setString("body", project.getDescription());
             query.setLong("projectID",project.getIdProject());
+            query.setInteger("isPrivate",project.getIsPrivate());
             query.setDouble("lngMax",project.getLngMax());
             query.setDouble("lngMin",project.getLngMin());
             query.setDouble("latMax",project.getLatMax());

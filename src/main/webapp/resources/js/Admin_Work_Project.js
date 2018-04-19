@@ -1,6 +1,7 @@
 var head={};
 var content={};
 var map;
+var isPrivates={};
 var overlays={};
 var overlay;
 var userNameList=[];
@@ -20,6 +21,7 @@ function load(){
                 var id=objects[i].idProject;
                 var headline=objects[i].name;
                 var markupstr=objects[i].description;
+                var isPrivate=objects[i].isPrivate;
                 var lngMax=objects[i].lngMax;
                 var lngMin=objects[i].lngMin;
                 var latMax=objects[i].latMax;
@@ -36,6 +38,7 @@ function load(){
                         fillOpacity: 0.6,
                         strokeStyle: 'solid'});  //创建矩形
 
+                isPrivates[id]=isPrivate;
                 addOne(id,headline,markupstr);
             }
         }
@@ -80,7 +83,10 @@ function load(){
 
     $("#addUser").click(function () {
         // console.log("startAdd")
-        var phone = document.getElementById("phone").value+'; ';
+        var phone = document.getElementById("phone").value;
+        if (phone != "") {
+            phone = phone+'; ';
+        }
         var content = document.getElementById("userAdded");
         if (document.selection) {
             console.log("1")
@@ -109,7 +115,7 @@ function load(){
     })
 
     $("#phone").bind('input propertychange',function(){
-        console.log("searchUser")
+        // console.log("searchUser")
         var arr = [];
         var arr2 = [];
         var reg = new RegExp($("#phone").val());
@@ -199,6 +205,7 @@ var overlaycomplete = function(e){
 
 function publish(){
     var headline=document.getElementById("headline").value;
+    var userAdded=document.getElementById("userAdded").value;
     if(null===headline||""===headline){
         alert("标题不能为空！");
     }
@@ -206,6 +213,13 @@ function publish(){
         var markupStr = $('#summernote').summernote('code');
         var active=$("#scro1").find(".active");
         var id=active.eq(0).attr('id');
+        var isPrivate;
+        if ($("#private").is(":hidden")){
+            isPrivate=0;
+        }
+        else {
+            isPrivate=1;
+        }
         if(id!=="add"){
             var url="./modifyProject";
             $.ajax({
@@ -216,12 +230,14 @@ function publish(){
                     "id":id,
                     "headline":headline,
                     "body":markupStr,
+                    "isPrivate":isPrivate,
+                    "userAdded":userAdded,
                     "lngMax":overlay.Nu.Ge,
                     "lngMin":overlay.Nu.Le,
                     "latMax":overlay.Nu.Fe,
                     "latMin":overlay.Nu.Ke,
                 },
-                dataType:"json",
+                // dataType:"json",
                 success:function (data) {
                     if(data==false){
                         alert("修改失败！请重试！");
@@ -229,9 +245,16 @@ function publish(){
                     else{
                         head[id]=headline;
                         content[id]=markupStr;
+                        isPrivates[id]=isPrivate;
                         overlays[id]=overlay;
                         alert("修改成功！");
                     }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.responseText);
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
                 }
             })
         }
@@ -244,12 +267,14 @@ function publish(){
                 data:{
                     "headline":headline,
                     "body":markupStr,
+                    "isPrivate":isPrivate,
+                    "userAdded":userAdded,
                     "lngMax":overlay.Nu.Ge,
                     "lngMin":overlay.Nu.Le,
                     "latMax":overlay.Nu.Fe,
                     "latMin":overlay.Nu.Ke,
                 },
-                dataType:"json",
+                // dataType:"json",
                 success:function (data){
                     // head.push(headline);
                     // content.push(markupStr);
@@ -258,13 +283,11 @@ function publish(){
                     }
                     else{
                         addOne(data,headline,markupStr);
+                        isPrivates[data]=isPrivate;
                         overlays[data]=overlay;
                         alert("发布成功！");
                         deleteAll();
                     }
-                },
-                error:function () {
-                    alert("发布失败！可能是格式错误！")
                 }
             });
         }
@@ -272,10 +295,13 @@ function publish(){
 }
 
 function deleteAll(){
-    var markupStr = "";
     document.getElementById("headline").value= null;
-    $('#summernote').summernote('code', markupStr);
+    $('#summernote').summernote('code', "");
     $('#summernote').summernote('focus',true);
+    $("#optionsRadiosInline1").prop("checked",true);
+    $("#private").hide();
+    $("#userAdded").val(null);
+    $("#phone").val(null);
     map.removeOverlay(overlay);
 }
 
@@ -289,6 +315,10 @@ function show(id){
     if(id=="add"){
         document.getElementById("headline").value="";
         $('#summernote').summernote('code', "");
+        $("#optionsRadiosInline1").prop("checked",true);
+        $("#private").hide();
+        $("#userAdded").val(null);
+        $("#phone").val(null);
         initMap();
         cancel.innerHTML = "取消";
         cancel.setAttribute("onclick", "javascript:deleteAll();");
@@ -297,6 +327,33 @@ function show(id){
     else {
         document.getElementById("headline").value = head[id];
         $('#summernote').summernote('code', content[id]);
+        if (isPrivates[id]) {
+            $("#optionsRadiosInline2").prop("checked",true);
+            $("#private").show();
+            $("#phone").val(null);
+            $.ajax({
+                type:"POST",
+                url:"./getUserList",
+                async:true,
+                data:{
+                    "projectID":id,
+                },
+                // dataType:"json",
+                success:function (data){
+                    $("#userAdded").val(data);
+                },
+                error : function(XMLHttpRequest,textStatus) {
+                    alert(XMLHttpRequest.responseText);
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+        else {
+            $("#optionsRadiosInline1").prop("checked",true);
+            $("#private").hide();
+        }
 
         var rectangle = new BMap.Polygon([
             new BMap.Point(overlays[id].Nu.Le,overlays[id].Nu.Ke),
@@ -327,7 +384,7 @@ function del(id){
         dataType:"json",
         success:function (data){
             if(data==false){
-                alert("删除失败！请重试！");
+                alert("删除失败！项目已经有人申请！");
             }
             else{
                 var node=document.getElementById(id);
@@ -335,6 +392,7 @@ function del(id){
 
                 delete head[id];
                 delete content[id];
+                delete isPrivates[id];
                 delete overlays[id];
 
                 alert("删除成功！");

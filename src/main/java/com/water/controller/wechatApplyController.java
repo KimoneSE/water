@@ -119,8 +119,6 @@ public class wechatApplyController {
         address = user.getAddress();
         modelAndView.addObject("address",address);
         modelAndView.addObject("projectArray",p);
-        String applyURL = "http://test.ufeng.top/water/init/j"+userID;
-        session.setAttribute("applyURL",applyURL);
         return modelAndView;
     }
 

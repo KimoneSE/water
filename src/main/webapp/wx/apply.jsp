@@ -1,22 +1,12 @@
 <%@ page import="com.water.entity.Project" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Map"%>
-<%@ page import="com.water.util.JsSignUtil"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
-    ArrayList<Project> arrayList=(ArrayList)request.getAttribute("projectArray");
-    String url = (String)session.getAttribute("applyURL");
-    //String url = request.getScheme() + "://" + request.getServerName() + request.getRequestURI();
-    // 注意这里的坑
-    if (request.getQueryString() != null) {
-        url = url + "?" + request.getQueryString();
-    }
-    // URL要取#号之前！！！
-    Map<String, String> ret = JsSignUtil.sign(url.split("#")[0]);%>
+    ArrayList<Project> arrayList=(ArrayList)request.getAttribute("projectArray");%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +20,6 @@
     <script type="text/javascript" src="../resources/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-form.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=X6CxGSyvVtNop7RGgaVAGtyWzM4xpYiG"></script>
 
     <style type="text/css">
         body{
@@ -103,77 +91,7 @@
 //            window.close();
             window.location.href="../wx/confirmReciptInfo.html?name="+name+"&contact="+contact+"&add="+add;
         }
-
         function load(){
-            wx.config({
-                debug: false,
-                appId: '<%=ret.get("appId")%>',
-                timestamp:'<%=ret.get("timestamp")%>',
-                nonceStr:'<%=ret.get("nonceStr")%>',
-                signature:'<%=ret.get("signature")%>',
-                jsApiList : [ 'checkJsApi', 'openLocation', 'getLocation' ]
-            });
-
-            wx.error(function(res) {
-                alert('<%=ret%>');
-                alert("出错了：" + res.errMsg);
-            });
-
-            wx.ready(function() {
-                wx.getLocation({
-                    type : 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                    success : function(res) {
-                        var latitude = res.latitude;
-                        var longitude =res.longitude;
-                        var concrete_address
-                        var bd_latitude
-                        var bd_longitude
-                        // $("#river_place").html("经度"+longitude+"<br>纬度"+latitude);
-                        var url = "http://api.map.baidu.com/geoconv/v1/?coords="+longitude+","+latitude+"&from=1&to=5&ak=5Ogc23UsF0nGuRqTeN0yeYk7eXRp66eg";
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            async: false,
-                            // headers: {'Access-Control-Allow-Origin': '*'},
-                            dataType: 'jsonp',
-                            crossDomain: true,
-                            success: function (data) {
-                                // alert(data.result[0].y+"," +
-                                //     data.result[0].x);
-                                bd_latitude = data.result[0].y;
-                                bd_longitude = data.result[0].x;
-                                // alert(bd_longitude+"," +
-                                //     bd_latitude);
-                                var point = new BMap.Point(bd_longitude, bd_latitude);
-                                var gc = new BMap.Geocoder();
-                                gc.getLocation(point, function(rs){
-                                    var addComp = rs.addressComponents;
-                                    concrete_address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-                                    // alert(concrete_address);
-                                    $("#longitude").val(bd_longitude);
-                                    $("#latitude").val(bd_latitude);
-                                    $("#river_place").text(concrete_address);
-                                });
-                                // $.cookie('ret3', '1', {path: '/'});
-                                // $.cookie('longitude', longitude, {path: '/'});
-                                // $.cookie('latitude', latitude, {path: '/'});
-                                // $.cookie('concrete_address', concrete_address, {path: '/'});
-                            },
-                            error : function(XMLHttpRequest, textStatus, errorThrown) {
-                                alert(XMLHttpRequest.responseText);
-                                alert(XMLHttpRequest.status);
-                                alert(XMLHttpRequest.readyState);
-                                alert(textStatus); // parser error;
-                            }
-                        });
-
-                    },
-                    fail : function(error) {
-                        AlertUtil.error("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
-                    }
-                });
-            });
-
             var url = window.location.href;
             var param = split(url);
             var name = document.getElementById("name");
@@ -185,12 +103,12 @@
                 contact.innerHTML=$.cookie('tel');
                 add.innerHTML = $.cookie('add2');
             }
-            // var useCook1 = $.cookie('ret3');
-            // if (useCook1 == '1') {
-            //     $("#longitude").val($.cookie('longitude'));
-            //     $("#latitude").val($.cookie('latitude'));
-            //     $("#river_place").text($.cookie('concrete_address'));
-            // }
+            var useCook1 = $.cookie('ret3');
+            if (useCook1 == '1') {
+                $("#longitude").val($.cookie('longitude'));
+                $("#latitude").val($.cookie('latitude'));
+                $("#river_place").text($.cookie('concrete_address'));
+            }
             else if (param != null && param.length == 3) {
                 name.innerHTML = decodeURI(param[0]);
                 contact.innerHTML = param[1];
@@ -220,17 +138,17 @@
     <a href="javascript:;" class="weui-btn weui-btn_default" id="chooseProject"><span id="projectName">选择项目</span></a>
 </div>
 
-<div class="weui-cells weui-cells_vcode" id="chooseRiver" href="javascript:;">
+<div class="weui-cells weui-cells_vcode" id="chooseRiver" onclick="onClickWaterAddr()" href="javascript:;">
     <div class="weui-cell">
         <div class="weui-cell__hd">
             <label class="weui-label">水域地址</label>
         </div>
         <div class="weui-cell__bd">
-            <label class="weui-input" id="river_place" name="river_place" value="">请输入水域地址</label>
+            <label class="weui-input" id="river_place" name="river_place" value="">请选择水域地址</label>
         </div>
-        <%--<div class="weui-cell__ft" img>--%>
-            <%--<img src="../resources/img/rightArrow2.png" style="width:10px;margin-left:5px;margin-right: 5px;">--%>
-        <%--</div>--%>
+        <div class="weui-cell__ft" img>
+            <img src="../resources/img/rightArrow2.png" style="width:10px;margin-left:5px;margin-right: 5px;">
+        </div>
     </div>
 </div>
 
@@ -322,9 +240,9 @@
                 var label = project[result].label;
                 $("#projectName").text(label);
                 <%for(int i=0;i<arrayList.size();i++){%>
-                    if('<%=arrayList.get(i).getName()%>' == label){
-                        $("#projectID").val('<%=arrayList.get(i).getIdProject()%>');
-                    }
+                if('<%=arrayList.get(i).getName()%>' == label){
+                    $("#projectID").val('<%=arrayList.get(i).getIdProject()%>');
+                }
                 <%}%>
                 set(label);
             }
