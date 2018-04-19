@@ -92,14 +92,17 @@ public class ApplyController {
             Sample sample = new Sample();
             sample.setApplyID(apply.getIdApply());
             sample.setState(-1);
-            String max = sampleService.getMaxSampleID();
+
+            String projectID = apply.getProject().getIdProject()+"";
+
+            String max = sampleService.getMaxSampleID(projectID);
             int last4 = 0;
             if(max==null || max.equals("")) {
                 last4 = 1;
             } else {
                 last4 = Integer.valueOf(max.substring(max.length()-4))+1;
             }
-            String projectID = apply.getProject().getIdProject()+"";
+
             String tmp = last4+"";
             while(tmp.length()<4){
                 tmp = "0"+tmp;
