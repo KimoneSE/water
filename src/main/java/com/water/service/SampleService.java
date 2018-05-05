@@ -32,5 +32,5 @@ public interface SampleService {
 
     public List<Sample> getSamplesByProject(long projectID);
 
-    public String getMaxSampleID();
+    public String getMaxSampleID(String projectID);
 }

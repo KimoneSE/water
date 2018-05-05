@@ -59,5 +59,5 @@ public interface SampleDao {
 
     public List<Sample> findAll();
 
-    public String getMaxSampleID();
+    public String getMaxSampleID(String projectID);
 }

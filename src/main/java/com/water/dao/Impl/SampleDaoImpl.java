@@ -119,9 +119,9 @@ public class SampleDaoImpl implements SampleDao {
     }
 
     @Override
-    public String getMaxSampleID() {
+    public String getMaxSampleID(String projectID) {
         Session session = getCurrentSession();
-        Query query = session.createQuery("from Sample order by sampleID desc");
+        Query query = session.createQuery("from Sample where sampleID like '"+projectID+"%' order by sampleID desc");
         List list = query.list();
         if (list.size()!=0){
             Sample sample = (Sample) list.get(0);

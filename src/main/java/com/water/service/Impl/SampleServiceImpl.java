@@ -257,7 +257,7 @@ public class SampleServiceImpl implements SampleService{
     }
 
     @Override
-    public String getMaxSampleID() {
-        return sampleDao.getMaxSampleID();
+    public String getMaxSampleID(String projectID) {
+        return sampleDao.getMaxSampleID(projectID);
     }
 }
