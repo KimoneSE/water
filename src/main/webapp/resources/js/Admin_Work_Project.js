@@ -232,10 +232,10 @@ function publish(){
                     "body":markupStr,
                     "isPrivate":isPrivate,
                     "userAdded":userAdded,
-                    "lngMax":overlay.Nu.Ge,
-                    "lngMin":overlay.Nu.Le,
-                    "latMax":overlay.Nu.Fe,
-                    "latMin":overlay.Nu.Ke,
+                    "lngMax":overlay.Ou.Ge,
+                    "lngMin":overlay.Ou.Le,
+                    "latMax":overlay.Ou.Fe,
+                    "latMin":overlay.Ou.Ke,
                 },
                 // dataType:"json",
                 success:function (data) {
@@ -269,10 +269,10 @@ function publish(){
                     "body":markupStr,
                     "isPrivate":isPrivate,
                     "userAdded":userAdded,
-                    "lngMax":overlay.Nu.Ge,
-                    "lngMin":overlay.Nu.Le,
-                    "latMax":overlay.Nu.Fe,
-                    "latMin":overlay.Nu.Ke,
+                    "lngMax":overlay.Ou.Ge,
+                    "lngMin":overlay.Ou.Le,
+                    "latMax":overlay.Ou.Fe,
+                    "latMin":overlay.Ou.Ke,
                 },
                 // dataType:"json",
                 success:function (data){
@@ -356,10 +356,10 @@ function show(id){
         }
 
         var rectangle = new BMap.Polygon([
-            new BMap.Point(overlays[id].Nu.Le,overlays[id].Nu.Ke),
-            new BMap.Point(overlays[id].Nu.Ge,overlays[id].Nu.Ke),
-            new BMap.Point(overlays[id].Nu.Ge,overlays[id].Nu.Fe),
-            new BMap.Point(overlays[id].Nu.Le,overlays[id].Nu.Fe)
+            new BMap.Point(overlays[id].Ou.Le,overlays[id].Ou.Ke),
+            new BMap.Point(overlays[id].Ou.Ge,overlays[id].Ou.Ke),
+            new BMap.Point(overlays[id].Ou.Ge,overlays[id].Ou.Fe),
+            new BMap.Point(overlays[id].Ou.Le,overlays[id].Ou.Fe)
         ], {strokeColor:"#337AB7",
             fillColor:"#337AB7",
             strokeWeight:2,
