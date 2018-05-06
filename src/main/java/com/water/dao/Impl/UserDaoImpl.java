@@ -40,7 +40,9 @@ public class UserDaoImpl implements UserDao{
     }
 
     public void persist(User entity) {
-        getCurrentSession().persist(entity);
+        Session session = getCurrentSession();
+        session.persist(entity);
+        session.close();
     }
 
     public boolean save(User entity) {
@@ -103,9 +105,12 @@ public class UserDaoImpl implements UserDao{
         Session session = getCurrentSession();
         Query query = session.createQuery("from `User` where number="+number);
         if(query.list()==null||query.list().size() == 0){
+            session.close();
             return null;
         }else{
-            return (User)query.list().get(0);
+            User user = (User)query.list().get(0);
+            session.close();
+            return user;
         }
     }
 

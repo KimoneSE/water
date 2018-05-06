@@ -56,7 +56,9 @@ public class ResultDaoImpl implements ResultDao {
     }
 
     public void persist(Result entity) {
-        getCurrentSession().persist(entity);
+        Session session = getCurrentSession();
+        session.persist(entity);
+        session.close();
     }
 
     public boolean save(Result entity) {

@@ -123,11 +123,11 @@ public class SampleDaoImpl implements SampleDao {
         Session session = getCurrentSession();
         Query query = session.createQuery("from Sample where sampleID like '"+projectID+"%' order by sampleID desc");
         List list = query.list();
+        session.close();
         if (list.size()!=0){
             Sample sample = (Sample) list.get(0);
             return sample.getSample_id();
         }
-
         return null;
     }
 

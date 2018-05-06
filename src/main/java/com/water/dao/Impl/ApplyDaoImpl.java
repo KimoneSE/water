@@ -96,7 +96,9 @@ public class ApplyDaoImpl implements ApplyDao {
     }
 
     public void persist(Apply entity) {
-        getCurrentSession().persist(entity);
+        Session session = getCurrentSession();
+        session.persist(entity);
+        session.close();
     }
 
     public boolean updateState(long id, int state){
@@ -207,14 +209,18 @@ public class ApplyDaoImpl implements ApplyDao {
     public Apply getApplyByID(long id) {
         Session session = getCurrentSession();
         Query query = session.createQuery("from Apply where idApply="+id);
-        return (Apply) query.list().get(0);
+        Apply apply = (Apply) query.list().get(0);
+        session.close();
+        return apply;
     }
 
     @Override
     public List<Apply> getApplicationsByProID(long projectID) {
         Session session = getCurrentSession();
         Query query = session.createQuery("from Apply where idProject="+projectID);
-        return query.list();
+        List<Apply> list = query.list();
+        session.close();
+        return list;
     }
 
 }

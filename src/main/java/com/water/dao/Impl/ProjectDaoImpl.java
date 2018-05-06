@@ -59,7 +59,9 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     public void persist(Project entity) {
-        getCurrentSession().persist(entity);
+        Session session = getCurrentSession();
+        session.persist(entity);
+        session.close();
     }
 
     public boolean modifyProject(Project project){

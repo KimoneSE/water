@@ -82,7 +82,9 @@ public class UploadDaoImpl implements UploadDao {
     }
 
     public void persist(Sample entity) {
-        getCurrentSession().persist(entity);
+        Session session = getCurrentSession();
+        session.persist(entity);
+        session.close();
     }
 
     public boolean save(Sample entity) {
