@@ -16,8 +16,12 @@ import java.util.UUID;
 public class JsSignUtil {
 
     public static Map<String, String> sign(String url) throws Exception{
-        String accessToken = WeChatUtil.getAccessToken();
-        String jsapi_ticket = WeChatUtil.getJsApiTicket(accessToken);
+//        String accessToken = WeChatUtil.getAccessToken();
+//        String jsapi_ticket = WeChatUtil.getJsApiTicket(accessToken);
+
+        Singleton singleton = Singleton.getInstance();
+//        String accessToken = singleton.getAccess_token();
+        String jsapi_ticket = singleton.getJsApiTicket();
 
         Map<String, String> ret = new HashMap<String, String>();
         String nonce_str = create_nonce_str();
